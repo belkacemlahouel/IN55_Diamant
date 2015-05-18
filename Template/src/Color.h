@@ -1,6 +1,8 @@
 #ifndef COLOR
 #define COLOR
 
+#include "Object3D.h"
+
 const GLfloat COLOR_BLACK[3]        = {0.0f, 0.0f, 0.0f};
 const GLfloat COLOR_BLUE[3]         = {0.0f, 0.0f, 1.0f};
 const GLfloat COLOR_CYAN[3]         = {0.0f, 1.0f, 1.0f};
