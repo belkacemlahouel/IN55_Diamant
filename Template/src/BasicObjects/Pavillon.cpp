@@ -6,7 +6,7 @@ Pavillon::Pavillon()
 
 }
 
-Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity)
+Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3])
 {
     int i;
     //nb of points at the second level in pavillon.
@@ -15,11 +15,17 @@ Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complex
     //to begin I just construct the peak and the first level
     int size = 3*(nbPtLvl1+1);
     GLfloat vertices[size];
+    GLushort indices[size/3];
+    GLfloat colors[size];
 
     //peak
+    indices[0];
     vertices[0] = 0.0f;
     vertices[1] = 0.0f;
     vertices[2] = 0.0f;
+    colors[0]    = color[0];
+    colors[1]  = color[1];
+    colors[2]  = color[2];
 
     for(i=1; i<=nbPtLvl1;++i)
     {
@@ -31,13 +37,26 @@ Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complex
         //position on z-axis
         vertices[cell+2] = heigthFirstLvl;
 
+        indices[i]=i;
+        colors[cell]    = color[0];
+        colors[cell+1]  = color[1];
+        colors[cell+2]  = color[2];
     }
+
+    pavillonVertices = vertices;
+    pavillonIndices = indices;
+    colorsArray = colors;
+
+    verticesArraySize = sizeof(pavillonVertices)/sizeof(GLfloat);
+    indicesArraySize = sizeof(pavillonIndices)/sizeof(GLushort);
 }
 
 
 Pavillon::~Pavillon()
 {
-
+    delete pavillonVertices;
+    delete pavillonIndices;
+    delete colorsArray;
 }
 
 /** TODO:
@@ -46,9 +65,9 @@ Pavillon::~Pavillon()
 void Pavillon::initVBO()
 {
     /* VBOs generation & binding */
-   /** glGenBuffers(1, &VertexVBOID);
+    glGenBuffers(1, &VertexVBOID);
     glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
-    glBufferData(GL_ARRAY_BUFFER, verticesArraySize*sizeof(GLfloat), verticesArray, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, verticesArraySize*sizeof(GLfloat), pavillonVertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &ColorVBOID);
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
@@ -56,38 +75,37 @@ void Pavillon::initVBO()
 
     glGenBuffers(1, &IndicesVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesArraySize*sizeof(GLushort), CubeIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesArraySize*sizeof(GLushort), pavillonIndices, GL_STATIC_DRAW);
 
-    hasInitiatedVBO = true;*/
+    hasInitiatedVBO = true;
 }
 
 /** TODO : Recall initVBO when data changes ?
- * + Adapt the function to pavillon
 */
 void Pavillon::drawShape(const char* shader_name)
 {
     /* Enable attributes arrays */
-    /** GLint positionLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "position");
+    GLint positionLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "position");
     GLint colorLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "color");
 
     glEnableVertexAttribArray(positionLocation);
-    glEnableVertexAttribArray(colorLocation);*/
+    glEnableVertexAttribArray(colorLocation);
 
-    /* Draw the cube */
-    /** if(!hasInitiatedVBO)
-        this->initVBO();*/
+    /* Draw the pavillon */
+    if(!hasInitiatedVBO)
+        this->initVBO();
 
-    /* Draw the cube */
-    /** glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
+    /* Draw the pavillon */
+    glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
     glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
-    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);*/
+    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
-    /** glDisableVertexAttribArray(positionLocation);
-    glDisableVertexAttribArray(colorLocation);*/
+    glDisableVertexAttribArray(positionLocation);
+    glDisableVertexAttribArray(colorLocation);
 }

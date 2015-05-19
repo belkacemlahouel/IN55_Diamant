@@ -3,6 +3,7 @@
 #include "Shapes/Basis.h"
 #include "BasicObjects/Cube.h"
 #include "Color.h"
+#include "BasicObjects/Pavillon.h"
 
 #include <iostream>
 
@@ -16,7 +17,8 @@ const GLfloat g_AngleSpeed = 10.0f;
 
 /* Camera variables */
 Basis* g_Basis;
-Cube* g_Cube;
+//Cube* g_Cube;
+Pavillon* g_Cube;
 
 
 TP01::TP01()
@@ -24,7 +26,8 @@ TP01::TP01()
 	setWindowTitle(trUtf8("IN55-TP01"));
 
     g_Basis = new Basis(10.0);
-    g_Cube = new Cube(9.0, COLOR_SPRINGGREEN);
+    //g_Cube = new Cube(9.0, COLOR_SPRINGGREEN);
+    g_Cube = new Pavillon(10.0, 10.0, 5.0, 8, COLOR_SPRINGGREEN);
 }
 TP01::~TP01()
 {

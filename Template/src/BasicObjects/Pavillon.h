@@ -8,11 +8,11 @@
 class Pavillon : public Object3D
 {
     private :
+        GLfloat *pavillonVertices;
+        GLushort *pavillonIndices;
+        GLfloat *colorsArray;
         GLushort verticesArraySize;
         GLushort indicesArraySize;
-
-        GLfloat verticesArray[8*3];
-        GLfloat colorsArray[8*3];
 
         GLuint VertexVBOID;
         GLuint ColorVBOID;
@@ -22,7 +22,7 @@ class Pavillon : public Object3D
 
     public:
         Pavillon();
-        Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity);
+        Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3]);
         ~Pavillon();
     protected:
         void initVBO();
