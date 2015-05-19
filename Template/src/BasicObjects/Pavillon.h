@@ -1,7 +1,6 @@
 #ifndef PAVILLON_H
 #define PAVILLON_H
 
-#include "BasicObjects/pavillon.h"
 #include "Object3D.h"
 #include <math.h>
 
@@ -11,6 +10,7 @@ class Pavillon : public Object3D
         GLfloat *pavillonVertices;
         GLushort *pavillonIndices;
         GLfloat *colorsArray;
+
         GLushort verticesArraySize;
         GLushort indicesArraySize;
 
@@ -24,6 +24,7 @@ class Pavillon : public Object3D
         Pavillon();
         Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3]);
         ~Pavillon();
+
     protected:
         void initVBO();
         void drawShape(const char *shader_name);

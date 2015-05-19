@@ -1,5 +1,6 @@
 #include "Pavillon.h"
 
+#include <iostream>
 
 Pavillon::Pavillon()
 {
@@ -8,60 +9,64 @@ Pavillon::Pavillon()
 
 Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3])
 {
-    int i;
     //nb of points at the second level in pavillon.
     int nbPtLvl1 = complexity/2;
 
     //to begin I just construct the peak and the first level
     int size = 3*(nbPtLvl1+1);
-    GLfloat vertices[size];
-    GLushort indices[size/3];
-    GLfloat colors[size];
+
+    pavillonVertices = new GLfloat[size];
+    colorsArray = new GLfloat[size];
+    pavillonIndices = new GLushort[size/3];
 
     //peak
-    indices[0];
-    vertices[0] = 0.0f;
-    vertices[1] = 0.0f;
-    vertices[2] = 0.0f;
-    colors[0]    = color[0];
-    colors[1]  = color[1];
-    colors[2]  = color[2];
+    pavillonVertices[0] = 0.0f;
+    pavillonVertices[1] = 0.0f;
+    pavillonVertices[2] = 0.0f;
 
-    for(i=1; i<=nbPtLvl1;++i)
+    colorsArray[0]  = color[0];
+    colorsArray[1]  = color[1];
+    colorsArray[2]  = color[2];
+
+    pavillonIndices[0] = 0;
+
+    int cell;
+    for(int i=1; i<=nbPtLvl1; i++)
     {
-        int cell = i*3;
-        //position on x-axis
-        vertices[cell] = radius * cos(i*(2*M_PI/nbPtLvl1));
-        //position on y-axis
-        vertices[cell+1] = radius * sin(i*(2*M_PI/nbPtLvl1));
-        //position on z-axis
-        vertices[cell+2] = heigthFirstLvl;
+        cell = i*3;
 
-        indices[i]=i;
-        colors[cell]    = color[0];
-        colors[cell+1]  = color[1];
-        colors[cell+2]  = color[2];
+        //position on x-axis
+        pavillonVertices[cell] = radius * cos(i*(2*M_PI/nbPtLvl1));
+        //position on y-axis
+        pavillonVertices[cell+1] = radius * sin(i*(2*M_PI/nbPtLvl1));
+        //position on z-axis
+        pavillonVertices[cell+2] = heigthFirstLvl;
+
+        colorsArray[cell]    = color[0];
+        colorsArray[cell+1]  = color[1];
+        colorsArray[cell+2]  = color[2];
+
+        pavillonIndices[i] = i;
     }
 
-    pavillonVertices = vertices;
-    pavillonIndices = indices;
-    colorsArray = colors;
+    hasInitiatedVBO = false;
 
-    verticesArraySize = sizeof(pavillonVertices)/sizeof(GLfloat);
-    indicesArraySize = sizeof(pavillonIndices)/sizeof(GLushort);
+    verticesArraySize = size;
+    indicesArraySize = size/3;
 }
 
 
 Pavillon::~Pavillon()
 {
-    delete pavillonVertices;
-    delete pavillonIndices;
-    delete colorsArray;
+    delete [] pavillonVertices;
+    delete [] colorsArray;
+    delete [] pavillonIndices;
+
+    glDeleteBuffers(1, &VertexVBOID);
+    glDeleteBuffers(1, &ColorVBOID);
+    glDeleteBuffers(1, &IndicesVBOID);
 }
 
-/** TODO:
- * adapt to pavillon
- * */
 void Pavillon::initVBO()
 {
     /* VBOs generation & binding */
@@ -80,8 +85,6 @@ void Pavillon::initVBO()
     hasInitiatedVBO = true;
 }
 
-/** TODO : Recall initVBO when data changes ?
-*/
 void Pavillon::drawShape(const char* shader_name)
 {
     /* Enable attributes arrays */
@@ -103,7 +106,7 @@ void Pavillon::drawShape(const char* shader_name)
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
-    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLE_FAN, indicesArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);

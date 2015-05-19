@@ -18,7 +18,7 @@ const GLfloat g_AngleSpeed = 10.0f;
 /* Camera variables */
 Basis* g_Basis;
 //Cube* g_Cube;
-Pavillon* g_Cube;
+Pavillon* g_Pavillon;
 
 
 TP01::TP01()
@@ -27,12 +27,12 @@ TP01::TP01()
 
     g_Basis = new Basis(10.0);
     //g_Cube = new Cube(9.0, COLOR_SPRINGGREEN);
-    g_Cube = new Pavillon(10.0, 10.0, 5.0, 8, COLOR_SPRINGGREEN);
+    g_Pavillon = new Pavillon(10.0, 10.0, 5.0, 8, COLOR_SPRINGGREEN);
 }
 TP01::~TP01()
 {
     delete g_Basis;
-    delete g_Cube;
+    delete g_Pavillon;
 }
 
 bool TP01::initializeObjects()
@@ -61,14 +61,13 @@ void TP01::render()
     /* Initialisation de la caméra */
     lookAt(0, 5, 30, 0, 0, 0);
 
-
     /* Rendu des objets */
 	pushMatrix();
         rotate(angle1, 0, 1, 0);
         rotate(angle2, 1, 0, 0);
 
         g_Basis->draw();
-        g_Cube->draw();
+        g_Pavillon->draw();
 	popMatrix();
 }
 
