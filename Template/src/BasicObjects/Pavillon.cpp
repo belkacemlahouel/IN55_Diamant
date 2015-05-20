@@ -53,7 +53,8 @@ Pavillon::Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32
     verticesArraySize = size;
     indicesArraySize = size/3+1;
 
-    //createSecondLvl(nbPtLvl1, radius, height, color);
+    /*-------------Create the last level--------------------*/
+    createSecondLvl(nbPtLvl1, radius, height, color);
 }
 
 /**
@@ -66,7 +67,20 @@ Pavillon::Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32
  */
 void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3])
 {
-        /*-------------Create the last level--------------------*/
+        buildQuadrilateral(nbPtLvl1, radius, height, color);
+}
+
+
+/**
+ * Create the quadrilaterals in the second level.
+ * @brief createSecondLvl
+ * @param nbPtLvl1
+ * @param radius
+ * @param height
+ * @param color
+ */
+void Pavillon::buildQuadrilateral(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3])
+{
         int32 size = nbPtLvl1*9;
         pavillonLastLvlVertices = new GLfloat[size];
         colorsLastLvlArray = new GLfloat[size];
@@ -75,7 +89,7 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
         int32 indice = 0;
         int32 oldIndice = 0;
         int32 cell = j;
-        while(j<=nbPtLvl1)
+        while(j<nbPtLvl1)
         {
             //position on x-axis of the new point
             pavillonLastLvlVertices[cell] = radius * cos(j*(2*M_PI/nbPtLvl1));
@@ -94,6 +108,7 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
             /* Catch vertice from first level to create triangles */
             /* First point */
             cell+=3;
+            cout << "old i first : "<<oldIndice;
             pavillonLastLvlVertices[cell] = pavillonVertices[oldIndice];
             pavillonLastLvlVertices[cell+1] = pavillonVertices[oldIndice+1];
             pavillonLastLvlVertices[cell+2] = pavillonVertices[oldIndice+2];
@@ -122,6 +137,7 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
             ++j;
         }
 }
+
 
 Pavillon::~Pavillon()
 {
