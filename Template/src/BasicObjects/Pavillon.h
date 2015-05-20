@@ -15,16 +15,25 @@ class Pavillon : public Object3D
         GLushort *pavillonIndices;
         GLfloat *colorsArray;
         /* Array for the last level*/
-        GLfloat *pavillonLastLvlVertices;
-        GLushort *pavillonLastLvlIndices;
+        GLfloat *pavillonQuadLastLvlVertices;
+        GLfloat *pavillonTrianglesLastLvlVertices;
+        GLushort *indicesLastLvlTrianglesIndices;
+        GLushort *indicesLastLvlQuadIndices;
         GLfloat *colorsLastLvlArray;
 
         GLushort verticesArraySize;
         GLushort indicesArraySize;
+        /* Size of the array of vertices for the last lvl*/
+        GLushort verticesQuadLastLvlArraySize;
+        GLushort verticesTrianglesLastLvlArraySize;
 
         GLuint VertexVBOID;
         GLuint ColorVBOID;
         GLuint IndicesVBOID;
+        /* VBO for the second level */
+        GLuint VertexQuadVBOID;
+        GLuint ColorQuadVBOID;
+        GLuint IndicesQuadVBOID;
 
         bool hasInitiatedVBO;
 

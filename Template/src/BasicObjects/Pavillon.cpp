@@ -67,76 +67,85 @@ Pavillon::Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32
  */
 void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3])
 {
-        buildQuadrilateral(nbPtLvl1, radius, height, color);
+    int32 size = nbPtLvl1*6;
+    int32 iterations, i;
+    int32 start;
+    int32 cell, cellFirstLvl, indice;
+    pavillonQuadLastLvlVertices = new GLfloat[size];
+    pavillonTrianglesLastLvlVertices = new GLfloat[size];
+    colorsLastLvlArray = new GLfloat[size];
+    verticesQuadLastLvlArraySize = size;
+    verticesTrianglesLastLvlArraySize = size;
+
+    /* Create points for the little triangles and the color array*/
+    for(i=0; i<nbPtLvl1; ++i)
+    {
+        cell = i*3;
+        //position on x-axis of the new point
+        pavillonTrianglesLastLvlVertices[cell] = radius * cos(i*(2*M_PI/nbPtLvl1));
+        //position on y-axis of the new point
+        pavillonTrianglesLastLvlVertices[cell+1] = radius * sin(i*(2*M_PI/nbPtLvl1));
+        //position on z-axis of the new point
+        pavillonTrianglesLastLvlVertices[cell+2] = height;
+
+        colorsLastLvlArray[cell]    = color[0];
+        colorsLastLvlArray[cell+1]  = color[1];
+        colorsLastLvlArray[cell+2]  = color[2];
+    }
+
+    /* Create points for the quadrilaterals*/
+    for(int32 j=0; j<nbPtLvl1; ++j)
+    {
+        /* delay (in angle) of points is made by add j*(2*M_PI/nbPtLvl1)/2 */
+        cell = j*3;
+        //position on x-axis of the new point
+        pavillonQuadLastLvlVertices[cell] = radius * cos(j*(2*M_PI/nbPtLvl1)+j*(2*M_PI/nbPtLvl1)/2);
+        //position on y-axis of the new point
+        pavillonQuadLastLvlVertices[cell+1] = radius * sin(j*(2*M_PI/nbPtLvl1)+j*(2*M_PI/nbPtLvl1)/2);
+        //position on z-axis of the new point
+        pavillonQuadLastLvlVertices[cell+2] = height;
+    }
+
+    /* Catch the points of the first level*/
+    iterations = nbPtLvl1*2;
+    cellFirstLvl=-1;
+    for(int32 k=nbPtLvl1; k<iterations; ++k)
+    {
+        cell = k*3;
+        ++cellFirstLvl;
+        //position on x-axis of the new point
+        pavillonQuadLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
+        //position on y-axis of the new point
+        ++cellFirstLvl;
+        pavillonQuadLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
+        //position on z-axis of the new point
+        ++cellFirstLvl;
+        pavillonQuadLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
+
+        colorsLastLvlArray[cell] = color[0];
+        colorsLastLvlArray[cell+1] = color[1];
+        colorsLastLvlArray[cell+2] = color[2];
+    }
+
+    /* Create the tables of indices */
+    size = nbPtLvl1*3;
+    indicesLastLvlTrianglesIndices = new GLushort[size*2];
+    indicesLastLvlQuadIndices = new GLushort[size];
+
+    for(i=0;i<nbPtLvl1;++i)
+    {
+        cell=i*3;
+        indicesLastLvlQuadIndices[cell]=i;
+        indice = nbPtLvl1+i*2;
+        indicesLastLvlQuadIndices[cell+1]=indice;
+        indicesLastLvlQuadIndices[cell+2]=indice+1;
+    }
 }
 
 
-/**
- * Create the quadrilaterals in the second level.
- * @brief createSecondLvl
- * @param nbPtLvl1
- * @param radius
- * @param height
- * @param color
- */
-void Pavillon::buildQuadrilateral(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3])
-{
-        int32 size = nbPtLvl1*9;
-        pavillonLastLvlVertices = new GLfloat[size];
-        colorsLastLvlArray = new GLfloat[size];
-        pavillonLastLvlIndices = new GLushort[(size/3)];
-        int32 j = 0;
-        int32 indice = 0;
-        int32 oldIndice = 0;
-        int32 cell = j;
-        while(j<nbPtLvl1)
-        {
-            //position on x-axis of the new point
-            pavillonLastLvlVertices[cell] = radius * cos(j*(2*M_PI/nbPtLvl1));
-            //position on y-axis of the new point
-            pavillonLastLvlVertices[cell+1] = radius * sin(j*(2*M_PI/nbPtLvl1));
-            //position on z-axis of the new point
-            pavillonLastLvlVertices[cell+2] = height;
-
-            colorsLastLvlArray[cell]    = color[0];
-            colorsLastLvlArray[cell+1]  = color[1];
-            colorsLastLvlArray[cell+2]  = color[2];
-
-            pavillonLastLvlIndices[indice] = indice;
-            ++indice;
-
-            /* Catch vertice from first level to create triangles */
-            /* First point */
-            cell+=3;
-            cout << "old i first : "<<oldIndice;
-            pavillonLastLvlVertices[cell] = pavillonVertices[oldIndice];
-            pavillonLastLvlVertices[cell+1] = pavillonVertices[oldIndice+1];
-            pavillonLastLvlVertices[cell+2] = pavillonVertices[oldIndice+2];
-
-            colorsLastLvlArray[cell]    = color[0];
-            colorsLastLvlArray[cell+1]  = color[1];
-            colorsLastLvlArray[cell+2]  = color[2];
-
-            pavillonLastLvlIndices[indice] = indice;
-            ++indice;
-            oldIndice+=3;
-            /* second point */
-            cell+=3;
-            pavillonLastLvlVertices[cell] = pavillonVertices[oldIndice];
-            pavillonLastLvlVertices[cell+1] = pavillonVertices[oldIndice+1];
-            pavillonLastLvlVertices[cell+2] = pavillonVertices[oldIndice+2];
-
-            colorsLastLvlArray[cell]    = color[0];
-            colorsLastLvlArray[cell+1]  = color[1];
-            colorsLastLvlArray[cell+2]  = color[2];
-
-            pavillonLastLvlIndices[indice] = indice;
-            ++indice;
-            oldIndice+=3;
-
-            ++j;
-        }
-}
 
 
 Pavillon::~Pavillon()
@@ -145,9 +154,11 @@ Pavillon::~Pavillon()
     delete [] colorsArray;
     delete [] pavillonIndices;
 
-    delete [] pavillonLastLvlVertices;
+    delete [] pavillonQuadLastLvlVertices;
+    delete [] pavillonTrianglesLastLvlVertices;
     delete [] colorsLastLvlArray;
-    delete [] pavillonLastLvlIndices;
+    delete [] indicesLastLvlTrianglesIndices;
+    delete [] indicesLastLvlQuadIndices;
 
     glDeleteBuffers(1, &VertexVBOID);
     glDeleteBuffers(1, &ColorVBOID);
@@ -168,6 +179,19 @@ void Pavillon::initVBO()
     glGenBuffers(1, &IndicesVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesArraySize*sizeof(GLushort), pavillonIndices, GL_STATIC_DRAW);
+
+    /* VBOs generation & binding for quad of the second level*/
+    glGenBuffers(1, &VertexQuadVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, VertexQuadVBOID);
+    glBufferData(GL_ARRAY_BUFFER, verticesQuadLastLvlArraySize*sizeof(GLfloat), pavillonQuadLastLvlVertices, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &ColorQuadVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, ColorQuadVBOID);
+    glBufferData(GL_ARRAY_BUFFER, verticesQuadLastLvlArraySize*sizeof(GLfloat), colorsLastLvlArray, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &IndicesQuadVBOID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesQuadVBOID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (verticesQuadLastLvlArraySize/3)*sizeof(GLushort), indicesLastLvlQuadIndices, GL_STATIC_DRAW);
 
     hasInitiatedVBO = true;
 }
@@ -194,6 +218,16 @@ void Pavillon::drawShape(const char* shader_name)
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glDrawElements(GL_TRIANGLE_FAN, indicesArraySize, GL_UNSIGNED_SHORT, 0);
+
+    /* Draw the quadrilaterals of the "pavillon" */
+    glBindBuffer(GL_ARRAY_BUFFER, VertexQuadVBOID);
+    glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, ColorQuadVBOID);
+    glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesQuadVBOID);
+    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
