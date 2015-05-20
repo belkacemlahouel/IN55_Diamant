@@ -2,6 +2,7 @@
 #define PAVILLON_H
 
 #include "Object3D.h"
+#include "Types.h"
 #include <math.h>
 
 class Pavillon : public Object3D
@@ -22,7 +23,7 @@ class Pavillon : public Object3D
 
     public:
         Pavillon();
-        Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3]);
+        Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32 complexity, const GLfloat color[3]);
         ~Pavillon();
 
     protected:

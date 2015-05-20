@@ -18,7 +18,7 @@ class Diamond : public Object3D
 
     public:
         Diamond();
-        Diamond(float pavillon, float crown, float rondiste, float table, float radius, float complexity, const GLfloat color[3], float alpha, float lvlPavillon, float lvlCrown);
+        Diamond(float32 pavillon, float32 crown, float32 rondiste, float32 table, float32 radius, int32 complexity, const GLfloat color[3], float32 alpha, float32 lvlPavillon, float32 lvlCrown);
         ~Diamond();
 };
 

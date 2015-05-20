@@ -7,17 +7,17 @@ Pavillon::Pavillon()
 
 }
 
-Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complexity, const GLfloat color[3])
+Pavillon::Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32 complexity, const GLfloat color[3])
 {
     //nb of points at the second level in pavillon.
-    int nbPtLvl1 = complexity/2;
+    int32 nbPtLvl1 = complexity/2;
 
     //to begin I just construct the peak and the first level
-    int size = 3*(nbPtLvl1+1);
+    int32 size = 3*(nbPtLvl1+1);
 
     pavillonVertices = new GLfloat[size];
     colorsArray = new GLfloat[size];
-    pavillonIndices = new GLushort[size/3];
+    pavillonIndices = new GLushort[(size/3)+1];
 
     //peak
     pavillonVertices[0] = 0.0f;
@@ -30,7 +30,7 @@ Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complex
 
     pavillonIndices[0] = 0;
 
-    int cell;
+    int32 cell;
     for(int i=1; i<=nbPtLvl1; i++)
     {
         cell = i*3;
@@ -48,11 +48,11 @@ Pavillon::Pavillon(float radius, float heigth, float heigthFirstLvl, int complex
 
         pavillonIndices[i] = i;
     }
-
+    pavillonIndices[nbPtLvl1+1]=1;
     hasInitiatedVBO = false;
 
     verticesArraySize = size;
-    indicesArraySize = size/3;
+    indicesArraySize = size/3+1;
 }
 
 
