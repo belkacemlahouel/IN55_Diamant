@@ -36,9 +36,9 @@ Pavillon::Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32
         cell = i*3;
 
         //position on x-axis
-        pavillonVertices[cell] = radius * cos(i*(2*M_PI/nbPtLvl1));
+        pavillonVertices[cell] = (radius/2) * cos(i*(2*M_PI/nbPtLvl1));
         //position on y-axis
-        pavillonVertices[cell+1] = radius * sin(i*(2*M_PI/nbPtLvl1));
+        pavillonVertices[cell+1] = (radius/2) * sin(i*(2*M_PI/nbPtLvl1));
         //position on z-axis
         pavillonVertices[cell+2] = heigthFirstLvl;
 
