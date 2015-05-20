@@ -1,13 +1,12 @@
 #include "Pavillon.h"
 
-#include <iostream>
 
 Pavillon::Pavillon()
 {
 
 }
 
-Pavillon::Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32 complexity, const GLfloat color[3])
+Pavillon::Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32 complexity, const GLfloat color[3])
 {
     //nb of points at the second level in pavillon.
     int32 nbPtLvl1 = complexity/2;
@@ -40,7 +39,7 @@ Pavillon::Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32
         //position on y-axis
         pavillonVertices[cell+1] = (radius/2) * sin(i*(2*M_PI/nbPtLvl1));
         //position on z-axis
-        pavillonVertices[cell+2] = heigthFirstLvl;
+        pavillonVertices[cell+2] = heightFirstLvl;
 
         colorsArray[cell]    = color[0];
         colorsArray[cell+1]  = color[1];
@@ -53,14 +52,86 @@ Pavillon::Pavillon(float32 radius, float32 heigth, float32 heigthFirstLvl, int32
 
     verticesArraySize = size;
     indicesArraySize = size/3+1;
+
+    //createSecondLvl(nbPtLvl1, radius, height, color);
 }
 
+/**
+ * Function used to initialize the different tables for the second level.
+ * @brief createSecondLvl
+ * @param nbPtLvl1
+ * @param radius
+ * @param height
+ * @param color
+ */
+void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3])
+{
+        /*-------------Create the last level--------------------*/
+        int32 size = nbPtLvl1*9;
+        pavillonLastLvlVertices = new GLfloat[size];
+        colorsLastLvlArray = new GLfloat[size];
+        pavillonLastLvlIndices = new GLushort[(size/3)];
+        int32 j = 0;
+        int32 indice = 0;
+        int32 oldIndice = 0;
+        int32 cell = j;
+        while(j<=nbPtLvl1)
+        {
+            //position on x-axis of the new point
+            pavillonLastLvlVertices[cell] = radius * cos(j*(2*M_PI/nbPtLvl1));
+            //position on y-axis of the new point
+            pavillonLastLvlVertices[cell+1] = radius * sin(j*(2*M_PI/nbPtLvl1));
+            //position on z-axis of the new point
+            pavillonLastLvlVertices[cell+2] = height;
+
+            colorsLastLvlArray[cell]    = color[0];
+            colorsLastLvlArray[cell+1]  = color[1];
+            colorsLastLvlArray[cell+2]  = color[2];
+
+            pavillonLastLvlIndices[indice] = indice;
+            ++indice;
+
+            /* Catch vertice from first level to create triangles */
+            /* First point */
+            cell+=3;
+            pavillonLastLvlVertices[cell] = pavillonVertices[oldIndice];
+            pavillonLastLvlVertices[cell+1] = pavillonVertices[oldIndice+1];
+            pavillonLastLvlVertices[cell+2] = pavillonVertices[oldIndice+2];
+
+            colorsLastLvlArray[cell]    = color[0];
+            colorsLastLvlArray[cell+1]  = color[1];
+            colorsLastLvlArray[cell+2]  = color[2];
+
+            pavillonLastLvlIndices[indice] = indice;
+            ++indice;
+            oldIndice+=3;
+            /* second point */
+            cell+=3;
+            pavillonLastLvlVertices[cell] = pavillonVertices[oldIndice];
+            pavillonLastLvlVertices[cell+1] = pavillonVertices[oldIndice+1];
+            pavillonLastLvlVertices[cell+2] = pavillonVertices[oldIndice+2];
+
+            colorsLastLvlArray[cell]    = color[0];
+            colorsLastLvlArray[cell+1]  = color[1];
+            colorsLastLvlArray[cell+2]  = color[2];
+
+            pavillonLastLvlIndices[indice] = indice;
+            ++indice;
+            oldIndice+=3;
+
+            ++j;
+        }
+}
 
 Pavillon::~Pavillon()
 {
     delete [] pavillonVertices;
     delete [] colorsArray;
     delete [] pavillonIndices;
+
+    delete [] pavillonLastLvlVertices;
+    delete [] colorsLastLvlArray;
+    delete [] pavillonLastLvlIndices;
 
     glDeleteBuffers(1, &VertexVBOID);
     glDeleteBuffers(1, &ColorVBOID);
