@@ -26,6 +26,7 @@ class Pavillon : public Object3D
         /* Size of the array of vertices for the last lvl*/
         GLushort verticesQuadLastLvlArraySize;
         GLushort verticesTrianglesLastLvlArraySize;
+        GLushort indicesLastLvlArraySize;
 
         GLuint VertexVBOID;
         GLuint ColorVBOID;

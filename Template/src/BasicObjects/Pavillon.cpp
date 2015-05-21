@@ -134,12 +134,13 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
     size = nbPtLvl1*3;
     indicesLastLvlTrianglesIndices = new GLushort[size*2];
     indicesLastLvlQuadIndices = new GLushort[size];
+    indicesLastLvlArraySize = size;
 
     for(i=0;i<nbPtLvl1;++i)
     {
         cell=i*3;
         indicesLastLvlQuadIndices[cell]=i;
-        indice = nbPtLvl1+i*2;
+        indice = nbPtLvl1+i;
         indicesLastLvlQuadIndices[cell+1]=indice;
         indicesLastLvlQuadIndices[cell+2]=indice+1;
     }
@@ -191,7 +192,7 @@ void Pavillon::initVBO()
 
     glGenBuffers(1, &IndicesQuadVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesQuadVBOID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (verticesQuadLastLvlArraySize/3)*sizeof(GLushort), indicesLastLvlQuadIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesLastLvlArraySize*sizeof(GLushort), indicesLastLvlQuadIndices, GL_STATIC_DRAW);
 
     hasInitiatedVBO = true;
 }
