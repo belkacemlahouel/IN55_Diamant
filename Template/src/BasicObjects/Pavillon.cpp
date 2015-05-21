@@ -37,9 +37,9 @@ Pavillon::Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32
         //position on x-axis
         pavillonVertices[cell] = (radius/2) * cos(i*(2*M_PI/nbPtLvl1));
         //position on y-axis
-        pavillonVertices[cell+1] = (radius/2) * sin(i*(2*M_PI/nbPtLvl1));
+        pavillonVertices[cell+1] = heightFirstLvl;
         //position on z-axis
-        pavillonVertices[cell+2] = heightFirstLvl;
+        pavillonVertices[cell+2] = (radius/2) * sin(i*(2*M_PI/nbPtLvl1));
 
         colorsArray[cell]    = color[0];
         colorsArray[cell+1]  = color[1];
@@ -84,9 +84,9 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
         //position on x-axis of the new point
         pavillonTrianglesLastLvlVertices[cell] = radius * cos(i*(2*M_PI/nbPtLvl1));
         //position on y-axis of the new point
-        pavillonTrianglesLastLvlVertices[cell+1] = radius * sin(i*(2*M_PI/nbPtLvl1));
+        pavillonTrianglesLastLvlVertices[cell+1] = height;
         //position on z-axis of the new point
-        pavillonTrianglesLastLvlVertices[cell+2] = height;
+        pavillonTrianglesLastLvlVertices[cell+2] = radius * sin(i*(2*M_PI/nbPtLvl1));
 
         colorsLastLvlArray[cell]    = color[0];
         colorsLastLvlArray[cell+1]  = color[1];
@@ -101,14 +101,15 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
         //position on x-axis of the new point
         pavillonQuadLastLvlVertices[cell] = radius * cos(j*(2*M_PI/nbPtLvl1)+j*(2*M_PI/nbPtLvl1)/2);
         //position on y-axis of the new point
-        pavillonQuadLastLvlVertices[cell+1] = radius * sin(j*(2*M_PI/nbPtLvl1)+j*(2*M_PI/nbPtLvl1)/2);
+        pavillonQuadLastLvlVertices[cell+1] = height;
         //position on z-axis of the new point
-        pavillonQuadLastLvlVertices[cell+2] = height;
+        pavillonQuadLastLvlVertices[cell+2] = radius * sin(j*(2*M_PI/nbPtLvl1)+j*(2*M_PI/nbPtLvl1)/2);
     }
 
     /* Catch the points of the first level*/
     iterations = nbPtLvl1*2;
-    cellFirstLvl=-1;
+    cellFirstLvl=2;
+
     for(int32 k=nbPtLvl1; k<iterations; ++k)
     {
         cell = k*3;
@@ -116,18 +117,24 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
         //position on x-axis of the new point
         pavillonQuadLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
         pavillonTrianglesLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
+
         //position on y-axis of the new point
         ++cellFirstLvl;
         pavillonQuadLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
         pavillonTrianglesLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
+
         //position on z-axis of the new point
         ++cellFirstLvl;
         pavillonQuadLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
         pavillonTrianglesLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
 
-        colorsLastLvlArray[cell] = color[0];
+        /*colorsLastLvlArray[cell] = color[0];
         colorsLastLvlArray[cell+1] = color[1];
-        colorsLastLvlArray[cell+2] = color[2];
+        colorsLastLvlArray[cell+2] = color[2];*/
+        colorsLastLvlArray[cell] = 0.5;
+        colorsLastLvlArray[cell+1] = 0.3;
+        colorsLastLvlArray[cell+2] = 0.0;
+
     }
 
     /* Create the tables of indices */
@@ -140,9 +147,21 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  
     {
         cell=i*3;
         indicesLastLvlQuadIndices[cell]=i;
+        cout << i << "-";
         indice = nbPtLvl1+i;
         indicesLastLvlQuadIndices[cell+1]=indice;
-        indicesLastLvlQuadIndices[cell+2]=indice+1;
+        cout << indice << "-";
+        /* If indice+1 is superior to nbPtLvl1*2, it means that we gonna go out from the vertices table, we must continue at its beginning */
+        if((indice+1) >= (nbPtLvl1*2))
+        {
+            indicesLastLvlQuadIndices[cell+2]=nbPtLvl1;
+            cout << nbPtLvl1;
+        }
+        else
+        {
+            indicesLastLvlQuadIndices[cell+2]=indice+1;
+            cout << indice+1 << "-";
+        }
     }
 }
 
