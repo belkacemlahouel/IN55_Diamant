@@ -280,6 +280,7 @@ GlFramework::useShader( const char* shader_name )
 
             return true;
         }
+        std::cout << strstr( m_ShaderNames[id].c_str(), shader_name ) << std::endl;
     }
 
     m_CurrentShader = -1;

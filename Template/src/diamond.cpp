@@ -14,10 +14,9 @@ Diamond::Diamond(float32 pavillon, float32 crown, float32 rondiste, float32 tabl
         ++complexity;
     }
 
-    this->pavillon = new Pavillon(radius, pavillon, lvlPavillon, complexity, color);
+    this->pavillon = new Pavillon(radius, pavillon, lvlPavillon, complexity, rondiste, color);
 }
 Diamond::~Diamond()
 {
     delete this->pavillon;
 }
-

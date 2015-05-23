@@ -1,4 +1,5 @@
 ﻿#include "Object3D.h"
+#include <iostream>
 
 AbstractFramework* Object3D::m_Framework = NULL;
 
@@ -14,17 +15,15 @@ void Object3D::setFramework( AbstractFramework* fw )
 
 void Object3D::draw()
 {
-    if (m_Framework->useShader("defaultDiffuseShader"))
-    {
-        m_Framework->computeAncillaryMatrices();
-        GLint var_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MVP");
-        m_Framework->transmitMVP(var_id);
+    m_Framework->computeAncillaryMatrices();
+    GLint var_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MVP");
+    m_Framework->transmitMVP(var_id);
 
-        drawShape("defaultDiffuseShader");
-    }
+    drawShape();
 }
 void Object3D::draw(const char* shader_name)
 {
+    std::cout << m_Framework->getCurrentShaderId() << std::endl;
     if (m_Framework->useShader(shader_name))
     {
         m_Framework->computeAncillaryMatrices();
@@ -32,5 +31,6 @@ void Object3D::draw(const char* shader_name)
         m_Framework->transmitMVP(var_id);
 
         drawShape(shader_name);
+        std::cout << m_Framework->getCurrentShaderId() << std::endl;
     }
 }

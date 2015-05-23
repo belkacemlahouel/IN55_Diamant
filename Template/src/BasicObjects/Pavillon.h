@@ -35,18 +35,21 @@ class Pavillon : public Object3D
         GLuint VertexQuadVBOID;
         GLuint ColorQuadVBOID;
         GLuint IndicesQuadVBOID;
+        GLuint VertexTrianglesVBOID;
+        GLuint ColorTrianglesVBOID;
+        GLuint IndicesTrianglesVBOID;
 
         bool hasInitiatedVBO;
 
     public:
         Pavillon();
-        Pavillon(float32 radius, float32 height, float32 heightFirstLvl, int32 complexity, const GLfloat color[3]);
+        Pavillon(float32 radius, float32 totalHeight, float32 firstLevelHeight, int32 complexity, float32 rondiste, const GLfloat color[3]);
         ~Pavillon();
 
     protected:
         void initVBO();
         void drawShape(const char *shader_name);
-        void createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3]);
+        void createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, float32 deltaHeight, const GLfloat color[3]);
         void buildQuadrilateral(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3]);
 };
 
