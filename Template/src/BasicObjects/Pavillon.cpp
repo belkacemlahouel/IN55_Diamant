@@ -167,12 +167,12 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, f
 
     /* Create the tables of indices */
     size = nbPtLvl1*3;
-    indicesLastLvlTrianglesIndices = new GLushort[size];
+    indicesLastLvlTrianglesIndices = new GLushort[(size+3)*2];
     indicesLastLvlQuadIndices = new GLushort[size];
     indicesQuadLastLvlArraySize = size;
-    indicesTrianglesLastLvlArraySize = size+3;
+    indicesTrianglesLastLvlArraySize = (size+3)*2;
 
-    /* Tests */
+    /* Create indices for the little triangles */
     for (i=0; i<nbPtLvl1; ++i)
     {
         cell = i*3;
@@ -180,6 +180,23 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, f
         indicesLastLvlTrianglesIndices[cell+1]=nbPtLvl1+i;
         indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+i;
     }
+
+    for (i=0; i<nbPtLvl1; ++i)
+    {
+        cell = nbPtLvl1*3 + i*3;
+        indicesLastLvlTrianglesIndices[cell]=i;
+        indicesLastLvlTrianglesIndices[cell+1]=nbPtLvl1+i;
+        if(i!=0)
+        {
+            indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+(i-1);
+        }
+        else
+        {
+            indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+(nbPtLvl1-1);
+        }
+    }
+
+    /* Build the table of indices fo the upper triangles of the quadrilaterals */
 
     for(i=0;i<nbPtLvl1;++i)
     {
