@@ -169,12 +169,17 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, f
     size = nbPtLvl1*3;
     indicesLastLvlTrianglesIndices = new GLushort[size];
     indicesLastLvlQuadIndices = new GLushort[size];
-    indicesLastLvlArraySize = size;
+    indicesQuadLastLvlArraySize = size;
+    indicesTrianglesLastLvlArraySize = size+3;
 
     /* Tests */
-    indicesLastLvlTrianglesIndices[0]=0;
-    indicesLastLvlTrianglesIndices[1]=nbPtLvl1;
-    indicesLastLvlTrianglesIndices[2]=nbPtLvl1*2; //seems like there is a problem when we catch the vertex in quad.
+    for (i=0; i<nbPtLvl1; ++i)
+    {
+        cell = i*3;
+        indicesLastLvlTrianglesIndices[cell]=i;
+        indicesLastLvlTrianglesIndices[cell+1]=nbPtLvl1+i;
+        indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+i;
+    }
 
     for(i=0;i<nbPtLvl1;++i)
     {
@@ -249,7 +254,7 @@ void Pavillon::initVBO()
 
     glGenBuffers(1, &IndicesQuadVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesQuadVBOID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesLastLvlArraySize*sizeof(GLushort), indicesLastLvlQuadIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesQuadLastLvlArraySize*sizeof(GLushort), indicesLastLvlQuadIndices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &VertexTrianglesVBOID);
     glBindBuffer(GL_ARRAY_BUFFER, VertexTrianglesVBOID);
@@ -261,7 +266,7 @@ void Pavillon::initVBO()
 
     glGenBuffers(1, &IndicesTrianglesVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesTrianglesVBOID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(GLushort), indicesLastLvlTrianglesIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesTrianglesLastLvlArraySize*sizeof(GLushort), indicesLastLvlTrianglesIndices, GL_STATIC_DRAW);
 
     hasInitiatedVBO = true;
 }
@@ -297,7 +302,7 @@ void Pavillon::drawShape(const char* shader_name)
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesQuadVBOID);
-    glDrawElements(GL_TRIANGLES, indicesLastLvlArraySize, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, indicesQuadLastLvlArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Draw the triangles of the "pavillon" */
     glBindBuffer(GL_ARRAY_BUFFER, VertexTrianglesVBOID);
@@ -307,7 +312,7 @@ void Pavillon::drawShape(const char* shader_name)
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);*/
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesTrianglesVBOID);
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, indicesTrianglesLastLvlArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
