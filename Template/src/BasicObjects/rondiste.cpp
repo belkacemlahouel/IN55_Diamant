@@ -7,7 +7,7 @@ Rondiste::Rondiste()
 
 Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeight, int32 complexity, const GLfloat color[])
 {
-   /* int32 cell;
+    int32 cell;
     int32 nbPoint = complexity * 3;
     int32 size = nbPoint*3;
     int32 iterations = size/9;
@@ -44,7 +44,7 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
         colorsArray[cell]    = color[0];
         colorsArray[cell+1]  = color[1];
         colorsArray[cell+2]  = color[2];
-    }*/
+    }
 }
 
 
@@ -58,6 +58,10 @@ Rondiste::~Rondiste()
     glDeleteBuffers(1, &ColorVBOID);
     glDeleteBuffers(1, &IndicesVBOID);
 }
+
+
+
+
 
 
 
