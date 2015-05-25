@@ -3,6 +3,7 @@
 #include "Shapes/Basis.h"
 #include "BasicObjects/Cube.h"
 #include "BasicObjects/Pavillon.h"
+#include "BasicObjects/rondiste.h"
 #include "Color.h"
 
 #include <iostream>
@@ -17,16 +18,19 @@ const GLfloat g_AngleSpeed = 15.0f;
 
 /* Camera variables */
 Pavillon* g_Pavillon;
+Rondiste* g_Rondiste;
 
 
 TP01::TP01()
 {
     setWindowTitle(trUtf8("IN55-TP01"));
     g_Pavillon = new Pavillon(10.0, 10.0, 5.0, 12, 2.0, COLOR_SPRINGGREEN);
+    g_Rondiste = new Rondiste(10.0, 10.0,2.0, 12, COLOR_SPRINGGREEN);
 }
 TP01::~TP01()
 {
     delete g_Pavillon;
+    delete g_Rondiste;
 }
 
 bool TP01::initializeObjects()
@@ -54,6 +58,7 @@ void TP01::render()
         rotate(angle2, 1, 0, 0);
 
         g_Pavillon->draw();
+        g_Rondiste->draw();
 	popMatrix();
 }
 
