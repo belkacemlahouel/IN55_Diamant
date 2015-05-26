@@ -17,6 +17,7 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     float32 anglePhase1, anglePhase2;
 
     verticesArray = new GLfloat[size];
+    verticesArraySize = size;
     colorsArray = new GLfloat[size];
 
     for(i=0; i<iterations; ++i)
@@ -49,17 +50,20 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     /* Initialize the array of indices */
     indicesArraySize = 6*complexity;
     indicesArray = new GLushort[indicesArraySize];
+    //iterations = ;
     i = 0;
-    while(i<nbPoint)
+    while(i+5<indicesArraySize)
     {
         indicesArray[i]=i;
         indicesArray[i+1]=i+1;
         indicesArray[i+2]=i+2;
         indicesArray[i+3]=i+1;
         indicesArray[i+4]=i+2;
-        i+=3;
         indicesArray[i+5]=i;
+        // cout << i+5 << endl;
+        i+=3;
     }
+    //cout << "Size : " <<indicesArraySize << endl;
 }
 
 
@@ -114,8 +118,8 @@ void Rondiste::drawShape(const char *shader_name)
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    /*glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
-    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);*/
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
+    glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
