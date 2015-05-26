@@ -13,7 +13,7 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     int32 iterations = size/9;
     float32 halfHeight = rondisteHeight/2;
 
-    float32 angle = 2*M_PI/(complexity*2);
+    float32 angle = 2*M_PI/complexity;
     float32 anglePhase1, anglePhase2;
 
     verticesArray = new GLfloat[size];
@@ -24,8 +24,11 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     {
         cell = i*9;
 
-        anglePhase1 = (i-0.25)*angle;
-        anglePhase2 = (i-0.5)*angle;
+        /*anglePhase1 = (i-0.25)*angle;
+        anglePhase2 = (i-0.5)*angle;*/
+
+        anglePhase2 = (i-2*0.5)*angle;
+        anglePhase1 = (i)*angle;
 
         //position of the first point
         verticesArray[cell] = radius * cos(anglePhase2);
@@ -59,11 +62,9 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
         indicesArray[i+2]=i+2;
         indicesArray[i+3]=i+1;
         indicesArray[i+4]=i+2;
-        indicesArray[i+5]=i;
-        // cout << i+5 << endl;
+        indicesArray[i+5]=i+3;
         i+=3;
     }
-    //cout << "Size : " <<indicesArraySize << endl;
 }
 
 
