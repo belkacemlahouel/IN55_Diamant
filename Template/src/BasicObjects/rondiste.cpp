@@ -7,6 +7,9 @@ Rondiste::Rondiste()
 
 Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeight, int32 complexity, const GLfloat color[])
 {
+    /* VBO has not been initialized already */
+    this->hasInitiatedVBO = false;
+
     int32 cell, i;
     int32 nbPoint = complexity * 3;
     int32 size = nbPoint*3;

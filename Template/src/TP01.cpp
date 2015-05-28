@@ -24,16 +24,16 @@ Diamond* g_diamond;
 
 TP01::TP01()
 {
-    setWindowTitle(trUtf8("IN55-TP01"));
-    float32 pavillon = 10.0;
-    float32 crown = 4.0;
-    float32 rondiste = 2.0;
-    float32 table = 3.0;
-    float32 radius = 10.0;
+    setWindowTitle(trUtf8("IN55-DiamondProject"));
+    float32 pavillon = 5.0;
+    float32 crown = 2.0;
+    float32 rondiste = 1.0;
+    float32 table = 1.5;
+    float32 radius = 5.0;
     int32 complexity = 12;
     float32 alpha = 1.0;
-    float32 lvlPavillon = 5.0;
-    float32 lvlCrown = 2.0;
+    float32 lvlPavillon = 2.5;
+    float32 lvlCrown = 1.0;
 
     g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, COLOR_SPRINGGREEN, alpha, lvlPavillon, lvlCrown);
 }

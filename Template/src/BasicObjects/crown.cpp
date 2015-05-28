@@ -8,7 +8,150 @@ Crown::Crown()
 
 Crown::Crown(float32 radius, float32 crownHeight, float32 rondisteHeight, float32 lvlCrownHeight, int32 complexity, const GLfloat color[])
 {
+    /* VBO has not been initialized already */
+    this->hasInitiatedVBO = false;
 
+    //nb of points at the second level in the crown.
+    int32 nbPtLvl = complexity/2;
+/**
+    int32 size = nbPtLvl1*6;
+    int32 iterations, i;
+    int32 start;
+    int32 cell, cellFirstLvl, indice;
+    GLfloat* verticeSaver = new GLfloat[nbPtLvl1*3];
+
+    pavillonQuadLastLvlVertices = new GLfloat[size];
+    pavillonTrianglesLastLvlVertices = new GLfloat[size+nbPtLvl1*3];
+    colorsLastLvlArray = new GLfloat[size];
+
+    verticesQuadLastLvlArraySize = size;
+    verticesTrianglesLastLvlArraySize = nbPtLvl1*9;
+*/
+    /* Create points for the little triangles, the upper traingles of the quadrilaterals and the color array*/
+/**    float32 angle = 2*M_PI/nbPtLvl1;
+    float32 quadAngle, trianglesAngle;
+
+
+    for(i=0; i<nbPtLvl1; ++i)
+    {
+        cell = i*3;
+        start = start+i*3;
+
+        quadAngle = (i+0.5)*angle;
+        //trianglesAngle = quadAngle - 0.5*angle;
+        trianglesAngle = i*(2*M_PI/nbPtLvl1);
+
+        //position on x-axis of the new point
+        pavillonQuadLastLvlVertices[cell] = radius * cos(quadAngle);
+        pavillonTrianglesLastLvlVertices[cell] = radius * cos(trianglesAngle);
+        verticeSaver[cell] = pavillonQuadLastLvlVertices[cell];
+        cout << pavillonQuadLastLvlVertices[cell] << " / ";
+
+        //position on y-axis of the new point
+        pavillonQuadLastLvlVertices[cell+1] = height;
+        pavillonTrianglesLastLvlVertices[cell+1] = height-deltaHeight;
+        verticeSaver[cell+1] = height;
+        cout << pavillonQuadLastLvlVertices[cell+1] << " / ";
+
+        //position on z-axis of the new point
+        pavillonQuadLastLvlVertices[cell+2] = radius * sin(quadAngle);
+        pavillonTrianglesLastLvlVertices[cell+2] = radius * sin(trianglesAngle);
+        verticeSaver[cell+2] = pavillonQuadLastLvlVertices[cell+2];
+        cout << pavillonQuadLastLvlVertices[cell+2]<<endl;
+
+        colorsLastLvlArray[cell]    = color[0];
+        colorsLastLvlArray[cell+1]  = color[1];
+        colorsLastLvlArray[cell+2]  = color[2];
+    }
+*/
+    /* Catch the points of the first level*/
+/**    iterations = nbPtLvl1*2;
+    cellFirstLvl=2;
+
+    for(int32 k=nbPtLvl1; k<iterations; ++k)
+    {
+        cell = k*3;
+
+        //position on x-axis of the new point
+        ++cellFirstLvl;
+        pavillonQuadLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell] = pavillonVertices[cellFirstLvl];
+
+        //position on y-axis of the new point
+        ++cellFirstLvl;
+        pavillonQuadLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell+1] = pavillonVertices[cellFirstLvl];
+
+        //position on z-axis of the new point
+        ++cellFirstLvl;
+        pavillonQuadLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
+        pavillonTrianglesLastLvlVertices[cell+2] = pavillonVertices[cellFirstLvl];
+
+        colorsLastLvlArray[cell] = color[0];
+        colorsLastLvlArray[cell+1] = color[1];
+        colorsLastLvlArray[cell+2] = color[2];
+    }
+*/
+    /* Put vertice of the qudrialterals in the table of vertice of the triangles. */
+/**    int32 num=0;
+    for(int32 k=nbPtLvl1*6; k<nbPtLvl1*9; ++k)
+    {
+        pavillonTrianglesLastLvlVertices[k]=verticeSaver[num];
+        ++num;
+    }
+*/
+    /* Create the tables of indices */
+/**    size = nbPtLvl1*3;
+    indicesLastLvlTrianglesIndices = new GLushort[(size+3)*2];
+    indicesLastLvlQuadIndices = new GLushort[size];
+    indicesQuadLastLvlArraySize = size;
+    indicesTrianglesLastLvlArraySize = (size+3)*2;
+*/
+    /* Create indices for the little triangles */
+/**    for (i=0; i<nbPtLvl1; ++i)
+    {
+        cell = i*3;
+        indicesLastLvlTrianglesIndices[cell]=i;
+        indicesLastLvlTrianglesIndices[cell+1]=nbPtLvl1+i;
+        indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+i;
+    }
+
+    for (i=0; i<nbPtLvl1; ++i)
+    {
+        cell = nbPtLvl1*3 + i*3;
+        indicesLastLvlTrianglesIndices[cell]=i;
+        indicesLastLvlTrianglesIndices[cell+1]=nbPtLvl1+i;
+        if(i!=0)
+        {
+            indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+(i-1);
+        }
+        else
+        {
+            indicesLastLvlTrianglesIndices[cell+2]=nbPtLvl1*2+(nbPtLvl1-1);
+        }
+    }
+*/
+    /* Build the table of indices fo the upper triangles of the quadrilaterals */
+
+ /**   for(i=0;i<nbPtLvl1;++i)
+    {
+        cell=i*3;
+        indicesLastLvlQuadIndices[cell]=i;
+
+        indice = nbPtLvl1+i;
+        indicesLastLvlQuadIndices[cell+1]=indice;
+/*
+        /* If indice+1 is superior to nbPtLvl1*2, it means that we gonna go out from the vertices table,
+         * we must continue at its beginning */
+/**        if((indice+1) >= (nbPtLvl1*2))
+        {
+            indicesLastLvlQuadIndices[cell+2]=nbPtLvl1;
+        }
+        else
+        {
+            indicesLastLvlQuadIndices[cell+2]=indice+1;
+        }
+    }*/
 }
 
 
