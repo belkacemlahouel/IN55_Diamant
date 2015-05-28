@@ -1,0 +1,15 @@
+INPUT(
+./obj\Cube.o
+./obj\main.o
+./obj\TP01.o
+./obj\Basis.o
+./obj\GlFramework.o
+./obj\GlWindow.o
+./obj\LF_String.o
+./obj\Object3D.o
+./obj\RandomNumberGenerator.o
+./obj\Pavillon.o
+./obj\diamond.o
+./obj\rondiste.o
+./obj\crown.o
+);
