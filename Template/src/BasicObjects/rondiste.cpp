@@ -27,8 +27,10 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
         /*anglePhase1 = (i-0.25)*angle;
         anglePhase2 = (i-0.5)*angle;*/
 
-        anglePhase2 = (i-2*0.5)*angle;
-        anglePhase1 = (i)*angle;
+        /*anglePhase2 = (i-2*0.5)*angle;
+        anglePhase1 = (i)*angle;*/
+        anglePhase2 = (i-0.5)*angle*2;
+        anglePhase1 = (i)*angle*2;
 
         //position of the first point
         verticesArray[cell] = radius * cos(anglePhase2);
@@ -53,17 +55,23 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     /* Initialize the array of indices */
     indicesArraySize = 6*complexity;
     indicesArray = new GLushort[indicesArraySize];
-    //iterations = ;
+
     i = 0;
-    while(i+5<indicesArraySize)
+    cell = 0;
+    while(cell<indicesArraySize)
     {
-        indicesArray[i]=i;
-        indicesArray[i+1]=i+1;
-        indicesArray[i+2]=i+2;
-        indicesArray[i+3]=i+1;
-        indicesArray[i+4]=i+2;
-        indicesArray[i+5]=i+3;
+        indicesArray[cell]=i;
+        indicesArray[cell+1]=i+1;
+        indicesArray[cell+2]=i+2;
+        indicesArray[cell+3]=i+1;
+        indicesArray[cell+4]=i+2;
+        indicesArray[cell+5]=i+3;
+        cell+=6;
         i+=3;
+    }
+    indicesArraySize=indicesArraySize-3;
+    for(i=0; i<indicesArraySize;++i){
+        cout << indicesArray[i] <<endl;
     }
 }
 
