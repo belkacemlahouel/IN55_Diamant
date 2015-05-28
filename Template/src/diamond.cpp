@@ -19,4 +19,5 @@ Diamond::Diamond(float32 pavillon, float32 crown, float32 rondiste, float32 tabl
 Diamond::~Diamond()
 {
     delete this->pavillon;
+    delete this->rondiste;
 }

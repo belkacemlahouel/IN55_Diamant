@@ -29,7 +29,8 @@ HEADERS += \
     ../Common/Vectors.h \
     src/Color.h \
     src/BasicObjects/Pavillon.h \
-    src/diamond.h
+    src/diamond.h \
+    src/BasicObjects/rondiste.h
 
 SOURCES += \
     src/BasicObjects/Cube.cpp \
@@ -42,4 +43,5 @@ SOURCES += \
     ../Common/Object3D.cpp \
     ../Common/RandomNumberGenerator.cpp \
     src/BasicObjects/Pavillon.cpp \
-    src/diamond.cpp
+    src/diamond.cpp \
+    src/BasicObjects/rondiste.cpp
