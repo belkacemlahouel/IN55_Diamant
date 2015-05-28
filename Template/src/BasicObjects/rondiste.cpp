@@ -24,11 +24,6 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     {
         cell = i*9;
 
-        /*anglePhase1 = (i-0.25)*angle;
-        anglePhase2 = (i-0.5)*angle;*/
-
-        /*anglePhase2 = (i-2*0.5)*angle;
-        anglePhase1 = (i)*angle;*/
         anglePhase2 = (i-0.5)*angle*2;
         anglePhase1 = (i)*angle*2;
 
@@ -69,10 +64,9 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
         cell+=6;
         i+=3;
     }
+
+    /* Correction of a wrong face. */
     indicesArraySize=indicesArraySize-3;
-    for(i=0; i<indicesArraySize;++i){
-        cout << indicesArray[i] <<endl;
-    }
 }
 
 
