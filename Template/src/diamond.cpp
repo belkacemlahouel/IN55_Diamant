@@ -17,7 +17,7 @@ Diamond::Diamond(float32 pavillon, float32 crown, float32 rondiste, float32 tabl
 
     this->pavillon = new Pavillon(radius, pavillon, lvlPavillon, complexity, rondiste, color);
     this->rondiste = new Rondiste(radius, pavillon, rondiste, complexity, color);
-    this->crown = new Crown(radius, crown, rondiste, lvlCrown, complexity, color);
+    this->crown = new Crown(radius, table, crown, rondiste, pavillon, lvlCrown, complexity, color);
 }
 Diamond::~Diamond()
 {
