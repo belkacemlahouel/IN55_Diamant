@@ -2,8 +2,8 @@
 
 #include "Shapes/Basis.h"
 #include "BasicObjects/Cube.h"
-#include "BasicObjects/Pavillon.h"
-#include "BasicObjects/rondiste.h"
+#include "Types.h"
+#include "diamond.h"
 #include "Color.h"
 
 #include <iostream>
@@ -17,20 +17,29 @@ GLfloat angle2 = 0;
 const GLfloat g_AngleSpeed = 15.0f;
 
 /* Camera variables */
-Pavillon* g_Pavillon;
-Rondiste* g_Rondiste;
+/*Pavillon* g_Pavillon;
+Rondiste* g_Rondiste;*/
+Diamond* g_diamond;
 
 
 TP01::TP01()
 {
     setWindowTitle(trUtf8("IN55-TP01"));
-    g_Pavillon = new Pavillon(10.0, 10.0, 5.0, 12, 2.0, COLOR_SPRINGGREEN);
-    g_Rondiste = new Rondiste(10.0, 10.0,2.0, 12, COLOR_SPRINGGREEN);
+    float32 pavillon = 10.0;
+    float32 crown = 4.0;
+    float32 rondiste = 2.0;
+    float32 table = 3.0;
+    float32 radius = 10.0;
+    int32 complexity = 12;
+    float32 alpha = 1.0;
+    float32 lvlPavillon = 5.0;
+    float32 lvlCrown = 2.0;
+
+    g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, COLOR_SPRINGGREEN, alpha, lvlPavillon, lvlCrown);
 }
 TP01::~TP01()
 {
-    delete g_Pavillon;
-    delete g_Rondiste;
+    delete g_diamond;
 }
 
 bool TP01::initializeObjects()
@@ -57,8 +66,7 @@ void TP01::render()
         rotate(angle1, 0, 1, 0);
         rotate(angle2, 1, 0, 0);
 
-        g_Pavillon->draw();
-        g_Rondiste->draw();
+        g_diamond->draw();
 	popMatrix();
 }
 
