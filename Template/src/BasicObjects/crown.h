@@ -14,20 +14,21 @@ class Crown : public Object3D
         GLfloat *verticesPrincipalFacesUpArray;
         GLfloat *verticesLittleFacesUpArray;
         GLushort *indicesPrincipalArray;
-        GLushort *indicesLittleFacesArray;
+        //GLushort *indicesLittleFacesUpArray;
         GLfloat *colorsPrincipalArray;
-        GLfloat *colorsLittleFacesArray;
 
         GLushort verticesPrincipalArraySize;
-        GLushort verticesLittleFacesArraySize;
+        //GLushort verticesLittleFacesArraySize;
         GLushort indicesPrincipalArraySize;
-        GLushort indicesLittleFacesArraySize;
         GLushort colorsPrincipalArraySize;
-        GLushort colorsLittleFacesArraySize;
 
-        GLuint VertexVBOID;
-        GLuint ColorVBOID;
-        GLuint IndicesVBOID;
+        GLuint VertexPrincipalFacesVBOID;
+        GLuint ColorPrincipalFacesVBOID;
+        GLuint IndicesPrincipalFacesVBOID;
+
+        GLuint VertexUpperTrianglesVBOID;
+        GLuint ColorUpperTrianglesVBOID;
+        GLuint IndicesUpperTrianglesVBOID;
 
         bool  hasInitiatedVBO;
     public:

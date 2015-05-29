@@ -16,42 +16,66 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     int32 nbPoint = nbFaces * 3;
     int32 size = nbPoint*3;
     int32 iterations = size/9;
-    //float32 halfHeight = 2.0;
     float32 angle = 2*M_PI/(nbFaces*2);
     float32 anglePhase1, anglePhase2;
-    float32 radiusIntermediateLvl = radius*2/3;
-    //cout << "Radius : " << radiusIntermediateLvl << " Angle :"<<angle;
     float32 height = pavillonHeight+lvlCrownHeight;
 
     verticesPrincipalFacesUpArray = new GLfloat[size];
     verticesPrincipalArraySize = size;
+    verticesLittleFacesUpArray = new GLfloat[size];
+    //verticesLittleFacesArraySize = size;
     colorsPrincipalArray = new GLfloat[size];
 
+    /* Creation of the big quadrilaterals and the array of color */
     for(i=0; i<iterations; ++i)
     {
         cell = i*9;
 
-        anglePhase2 = (i-0.5)*angle*2;
-        anglePhase1 = (i)*angle*2;
+        anglePhase2 = (i-0.25)*angle*2;
+        anglePhase1 = (i+0.25)*angle*2;
 
         //position of the first point
-        verticesPrincipalFacesUpArray[cell] = radiusIntermediateLvl * cos(anglePhase2);
+        verticesPrincipalFacesUpArray[cell] = radius * cos(anglePhase2);
         verticesPrincipalFacesUpArray[cell+1] = height;
-        verticesPrincipalFacesUpArray[cell+2] = radiusIntermediateLvl * sin(anglePhase2);
-        //cout <<verticesPrincipalFacesUpArray[cell]<<"&"<<verticesPrincipalFacesUpArray[cell+2]<<endl;
+        verticesPrincipalFacesUpArray[cell+2] = radius * sin(anglePhase2);
+
         //position of the second point
         verticesPrincipalFacesUpArray[cell+3] = radius * cos(anglePhase1);
         verticesPrincipalFacesUpArray[cell+4] = pavillonHeight;
         verticesPrincipalFacesUpArray[cell+5] = radius * sin(anglePhase1);
 
         //position of the third point
-        verticesPrincipalFacesUpArray[cell+6] = radius * cos(anglePhase1);
+        verticesPrincipalFacesUpArray[cell+6] = table * cos(anglePhase1);
         verticesPrincipalFacesUpArray[cell+7] = pavillonHeight + crownHeight;
-        verticesPrincipalFacesUpArray[cell+8] = radius * sin(anglePhase1);
+        verticesPrincipalFacesUpArray[cell+8] = table * sin(anglePhase1);
 
         colorsPrincipalArray[cell]    = color[0];
         colorsPrincipalArray[cell+1]  = color[1];
         colorsPrincipalArray[cell+2]  = color[2];
+    }
+
+    /* Creation of the upper triangles*/
+    for(i=0; i<iterations; ++i)
+    {
+        cell = i*9;
+
+        anglePhase2 = (i-0.25)*angle*2;
+        anglePhase1 = (i+0.25)*angle*2;
+
+        //position of the first point
+        verticesLittleFacesUpArray[cell] = table * cos(anglePhase1);
+        verticesLittleFacesUpArray[cell+1] = pavillonHeight + crownHeight;
+        verticesLittleFacesUpArray[cell+2] = table * sin(anglePhase1);
+
+        //position of the second point
+        verticesLittleFacesUpArray[cell+3] = radius * cos(anglePhase2);
+        verticesLittleFacesUpArray[cell+4] = height;
+        verticesLittleFacesUpArray[cell+5] = radius * sin(anglePhase2);
+
+        //position of the third point
+        verticesLittleFacesUpArray[cell+6] = table * cos(anglePhase2);
+        verticesLittleFacesUpArray[cell+7] = pavillonHeight + crownHeight;
+        verticesLittleFacesUpArray[cell+8] = table * sin(anglePhase2);
     }
 
     /* Initialize the array of indices */
@@ -59,6 +83,7 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     indicesPrincipalArraySize = nbFaces*6;
     indicesPrincipalArray = new GLushort[indicesPrincipalArraySize];
 
+    /* Initialize indices of the big quadrilaterals*/
     i = 0;
     cell = 0;
     while(cell<indicesPrincipalArraySize)
@@ -73,8 +98,29 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         i+=3;
     }
 
-    /* Correction of a wrong face. */
+    /* Correction of a wrong indice. */
     indicesPrincipalArray[indicesPrincipalArraySize-1]=0;
+
+
+
+    /* Initialize indices of the big quadrilaterals*/
+    /*indicesLittleFacesUpArray = new GLushort[indicesPrincipalArraySize];
+    i = 0;
+    cell = 0;
+    while(cell<indicesPrincipalArraySize)
+    {
+        indicesLittleFacesUpArray[cell]=i;
+        indicesLittleFacesUpArray[cell+1]=i+1;
+        indicesLittleFacesUpArray[cell+2]=i+2;
+        indicesLittleFacesUpArray[cell+3]=i+1;
+        indicesLittleFacesUpArray[cell+4]=i+2;
+        indicesLittleFacesUpArray[cell+5]=i+3;
+        cell+=6;
+        i+=3;
+    }*/
+
+    /* Correction of a wrong indice. */
+    //indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
 }
 
 
@@ -84,14 +130,17 @@ Crown::~Crown()
     delete [] verticesLittleFacesUpArray;
 
     delete [] indicesPrincipalArray;
-    delete [] indicesLittleFacesArray;
+    //delete [] indicesLittleFacesUpArray;
 
     delete [] colorsPrincipalArray;
-    delete [] colorsLittleFacesArray;
 
-    glDeleteBuffers(1, &VertexVBOID);
-    glDeleteBuffers(1, &ColorVBOID);
-    glDeleteBuffers(1, &IndicesVBOID);
+    glDeleteBuffers(1, &VertexPrincipalFacesVBOID);
+    glDeleteBuffers(1, &ColorPrincipalFacesVBOID);
+    glDeleteBuffers(1, &IndicesPrincipalFacesVBOID);
+
+    glDeleteBuffers(1, &VertexUpperTrianglesVBOID);
+    glDeleteBuffers(1, &ColorUpperTrianglesVBOID);
+    glDeleteBuffers(1, &IndicesUpperTrianglesVBOID);
 }
 
 
@@ -101,17 +150,30 @@ Crown::~Crown()
  */
 void Crown::initVBO()
 {
-    /* VBOs generation & binding for quad of the second level*/
-    glGenBuffers(1, &VertexVBOID);
-    glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
+    /* VBOs generation & binding for the principal faces (big quadrilaterals)*/
+    glGenBuffers(1, &VertexPrincipalFacesVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, VertexPrincipalFacesVBOID);
     glBufferData(GL_ARRAY_BUFFER, verticesPrincipalArraySize*sizeof(GLfloat), verticesPrincipalFacesUpArray, GL_STATIC_DRAW);
 
-    glGenBuffers(1, &ColorVBOID);
-    glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
+    glGenBuffers(1, &ColorPrincipalFacesVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, ColorPrincipalFacesVBOID);
     glBufferData(GL_ARRAY_BUFFER, colorsPrincipalArraySize*sizeof(GLfloat), colorsPrincipalArray, GL_STATIC_DRAW);
 
-    glGenBuffers(1, &IndicesVBOID);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
+    glGenBuffers(1, &IndicesPrincipalFacesVBOID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesPrincipalFacesVBOID);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesPrincipalArraySize*sizeof(GLushort), indicesPrincipalArray, GL_STATIC_DRAW);
+
+    /* VBOs generation & binding for the upper triangles*/
+    glGenBuffers(1, &VertexUpperTrianglesVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, VertexUpperTrianglesVBOID);
+    glBufferData(GL_ARRAY_BUFFER, verticesPrincipalArraySize*sizeof(GLfloat), verticesLittleFacesUpArray, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &ColorUpperTrianglesVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, ColorUpperTrianglesVBOID);
+    glBufferData(GL_ARRAY_BUFFER, colorsPrincipalArraySize*sizeof(GLfloat), colorsPrincipalArray, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &IndicesUpperTrianglesVBOID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesUpperTrianglesVBOID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesPrincipalArraySize*sizeof(GLushort), indicesPrincipalArray, GL_STATIC_DRAW);
 
     hasInitiatedVBO = true;
@@ -137,13 +199,23 @@ void Crown::drawShape(const char *shader_name)
         this->initVBO();
 
     /* Draw the principal faces of the crown */
-    glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, VertexPrincipalFacesVBOID);
     glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, ColorPrincipalFacesVBOID);
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesPrincipalFacesVBOID);
+    glDrawElements(GL_TRIANGLES, indicesPrincipalArraySize, GL_UNSIGNED_SHORT, 0);
+
+    /* Draw the upper triangles of the crown */
+    glBindBuffer(GL_ARRAY_BUFFER, VertexUpperTrianglesVBOID);
+    glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, ColorUpperTrianglesVBOID);
+    glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesUpperTrianglesVBOID);
     glDrawElements(GL_TRIANGLES, indicesPrincipalArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
