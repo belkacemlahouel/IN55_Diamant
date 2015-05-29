@@ -11,158 +11,70 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     /* VBO has not been initialized already */
     this->hasInitiatedVBO = false;
 
-    //nb of points at the second level in the crown.
-    int32 nbPtLvl = complexity/2;
-
-    int32 size = nbPtLvl*6;
-    int32 iterations, i, start, cell, indice, tmpAngle;
-    int32 height = pavillonHeight+rondisteHeight+crownHeight;
-    GLfloat* verticeSaver = new GLfloat[nbPtLvl*3];
+    int32 cell, i;
+    int32 nbFaces = complexity/4;
+    int32 nbPoint = nbFaces * 3;
+    int32 size = nbPoint*3;
+    int32 iterations = size/9;
+    //float32 halfHeight = 2.0;
+    float32 angle = 2*M_PI/(nbFaces*2);
+    float32 anglePhase1, anglePhase2;
+    float32 radiusIntermediateLvl = radius*2/3;
+    //cout << "Radius : " << radiusIntermediateLvl << " Angle :"<<angle;
+    float32 height = pavillonHeight+lvlCrownHeight;
 
     verticesPrincipalFacesUpArray = new GLfloat[size];
-    verticesLittleFacesUpArray = new GLfloat[size+nbPtLvl*3];
-
-    colorsPrincipalArray = new GLfloat[size];
-    colorsLittleFacesArray = new GLfloat[size+nbPtLvl*3];
-
     verticesPrincipalArraySize = size;
-    verticesLittleFacesArraySize = nbPtLvl*9;
+    colorsPrincipalArray = new GLfloat[size];
 
-    /* Create points for the little triangles, the upper triangles of the quadrilaterals and the color array*/
-    float32 angle = 2*M_PI/nbPtLvl;
-    float32 principalAngle, trianglesAngle;
-
-
-    for(i=0; i<nbPtLvl; ++i)
+    for(i=0; i<iterations; ++i)
     {
-        cell = i*3;
-        start = start+i*3;
+        cell = i*9;
 
-        principalAngle = (i+0.5)*angle;
-        //trianglesAngle = quadAngle - 0.5*angle;
-        trianglesAngle = i*(2*M_PI/nbPtLvl);
+        anglePhase2 = (i-0.5)*angle*2;
+        anglePhase1 = (i)*angle*2;
 
-        //position on x-axis of the new point
-        verticesPrincipalFacesUpArray[cell] = table * cos(principalAngle);
-        verticesLittleFacesUpArray[cell] = table * cos(trianglesAngle);
-        verticeSaver[cell] = verticesPrincipalFacesUpArray[cell];
-        //cout << verticesPrincipalFacesUpArray[cell] << " / ";
-
-        //position on y-axis of the new point
+        //position of the first point
+        verticesPrincipalFacesUpArray[cell] = radiusIntermediateLvl * cos(anglePhase2);
         verticesPrincipalFacesUpArray[cell+1] = height;
-        verticesLittleFacesUpArray[cell+1] = height;
-        verticeSaver[cell+1] = height;
-        //cout << verticesPrincipalFacesUpArray[cell+1] << " / ";
+        verticesPrincipalFacesUpArray[cell+2] = radiusIntermediateLvl * sin(anglePhase2);
+        //cout <<verticesPrincipalFacesUpArray[cell]<<"&"<<verticesPrincipalFacesUpArray[cell+2]<<endl;
+        //position of the second point
+        verticesPrincipalFacesUpArray[cell+3] = radius * cos(anglePhase1);
+        verticesPrincipalFacesUpArray[cell+4] = pavillonHeight;
+        verticesPrincipalFacesUpArray[cell+5] = radius * sin(anglePhase1);
 
-        //position on z-axis of the new point
-        verticesPrincipalFacesUpArray[cell+2] = table * sin(principalAngle);
-        verticesLittleFacesUpArray[cell+2] = table * sin(trianglesAngle);
-        verticeSaver[cell+2] = verticesPrincipalFacesUpArray[cell+2];
-        //cout << verticesPrincipalFacesUpArray[cell+2]<<endl;
+        //position of the third point
+        verticesPrincipalFacesUpArray[cell+6] = radius * cos(anglePhase1);
+        verticesPrincipalFacesUpArray[cell+7] = pavillonHeight + crownHeight;
+        verticesPrincipalFacesUpArray[cell+8] = radius * sin(anglePhase1);
 
         colorsPrincipalArray[cell]    = color[0];
         colorsPrincipalArray[cell+1]  = color[1];
         colorsPrincipalArray[cell+2]  = color[2];
     }
 
-    /* Creates the points of the first level*/
-    iterations = nbPtLvl*2;
-    float32 halfRadius = radius*0.5f;
-    height = pavillonHeight+rondisteHeight+lvlCrownHeight;
+    /* Initialize the array of indices */
+    //Each faces have 2 triangles of 3 points.
+    indicesPrincipalArraySize = nbFaces*6;
+    indicesPrincipalArray = new GLushort[indicesPrincipalArraySize];
 
-    for(int32 k=nbPtLvl; k<iterations; ++k)
+    i = 0;
+    cell = 0;
+    while(cell<indicesPrincipalArraySize)
     {
-        cell = k*3;
-        tmpAngle = (k-1)*angle;
-
-        //position on x-axis of the new point
-        verticesPrincipalFacesUpArray[cell] = halfRadius * cos(tmpAngle);
-        verticesLittleFacesUpArray[cell] = halfRadius * cos(tmpAngle);
-
-        //position on y-axis of the new point
-        verticesPrincipalFacesUpArray[cell+1] = height;
-        verticesLittleFacesUpArray[cell+1] = height;
-
-        //position on z-axis of the new point
-        verticesPrincipalFacesUpArray[cell+2] = halfRadius * sin(tmpAngle);
-        verticesLittleFacesUpArray[cell+2] = halfRadius * sin(tmpAngle);
-
-        colorsPrincipalArray[cell] = color[0];
-        colorsPrincipalArray[cell+1] = color[1];
-        colorsPrincipalArray[cell+2] = color[2];
+        indicesPrincipalArray[cell]=i;
+        indicesPrincipalArray[cell+1]=i+1;
+        indicesPrincipalArray[cell+2]=i+2;
+        indicesPrincipalArray[cell+3]=i+1;
+        indicesPrincipalArray[cell+4]=i+2;
+        indicesPrincipalArray[cell+5]=i+3;
+        cell+=6;
+        i+=3;
     }
 
-    /* Put vertices of the principal faces in the table of vertice of the triangles. */
-    int32 num=0;
-    for(int32 k=nbPtLvl*6; k<nbPtLvl*9; ++k)
-    {
-        verticesLittleFacesUpArray[k]=verticeSaver[num];
-        ++num;
-    }
-
-    /* Create the tables of indices */
-    size = nbPtLvl*3;
-    indicesLittleFacesArray = new GLushort[(size+3)*2];
-    indicesPrincipalArray = new GLushort[size];
-    indicesPrincipalArraySize = size;
-    //indicesPrincipalArraySize = 6;
-    indicesLittleFacesArraySize = (size+3)*2;
-
-    /* Create indices for the little triangles */
-    for (i=0; i<nbPtLvl; ++i)
-    {
-        cell = i*3;
-        indicesLittleFacesArray[cell]=i;
-        indicesLittleFacesArray[cell+1]=nbPtLvl+i;
-        indicesLittleFacesArray[cell+2]=nbPtLvl*2+i;
-    }
-
-    for (i=0; i<nbPtLvl; ++i)
-    {
-        cell = nbPtLvl*3 + i*3;
-        indicesLittleFacesArray[cell]=i;
-        indicesLittleFacesArray[cell+1]=nbPtLvl+i;
-        if(i!=0)
-        {
-            indicesLittleFacesArray[cell+2]=nbPtLvl*2+(i-1);
-        }
-        else
-        {
-            indicesLittleFacesArray[cell+2]=nbPtLvl*2+(nbPtLvl-1);
-        }
-    }
-
-    /* Build the table of indices fo the upper triangles of the quadrilaterals */
-
-    for(i=0;i<nbPtLvl;++i)
-    {
-        cell=i*3;
-        //indicesPrincipalArray[cell]=i;
-
-        if(i==0){
-            indicesPrincipalArray[cell]=complexity/2-1;
-        }else{
-            indicesPrincipalArray[cell]=i-1;
-        }
-        cout << indicesPrincipalArray[cell] <<"-";
-
-        indice = nbPtLvl+i;
-        indicesPrincipalArray[cell+1]=indice;
-        cout << indicesPrincipalArray[cell+1] <<"-";
-        /* If indice+1 is superior to nbPtLvl1*2, it means that we gonna go out from the vertices table,
-         * we must continue at its beginning */
-        if((indice+1) >= (nbPtLvl*2))
-        {
-            indicesPrincipalArray[cell+2]=nbPtLvl;
-        }
-        else
-        {
-            indicesPrincipalArray[cell+2]=indice+1;
-            //indicesPrincipalArray[cell+2]=indice;
-        }
-        cout << indicesPrincipalArray[cell+2] << endl;
-
-    }
+    /* Correction of a wrong face. */
+    indicesPrincipalArray[indicesPrincipalArraySize-1]=0;
 }
 
 
