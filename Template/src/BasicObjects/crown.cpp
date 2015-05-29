@@ -105,6 +105,7 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     indicesLittleFacesArray = new GLushort[(size+3)*2];
     indicesPrincipalArray = new GLushort[size];
     indicesPrincipalArraySize = size;
+    //indicesPrincipalArraySize = 6;
     indicesLittleFacesArraySize = (size+3)*2;
 
     /* Create indices for the little triangles */
@@ -136,11 +137,18 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     for(i=0;i<nbPtLvl;++i)
     {
         cell=i*3;
-        indicesPrincipalArray[cell]=i;
+        //indicesPrincipalArray[cell]=i;
+
+        if(i==0){
+            indicesPrincipalArray[cell]=complexity/2-1;
+        }else{
+            indicesPrincipalArray[cell]=i-1;
+        }
+        cout << indicesPrincipalArray[cell] <<"-";
 
         indice = nbPtLvl+i;
         indicesPrincipalArray[cell+1]=indice;
-
+        cout << indicesPrincipalArray[cell+1] <<"-";
         /* If indice+1 is superior to nbPtLvl1*2, it means that we gonna go out from the vertices table,
          * we must continue at its beginning */
         if((indice+1) >= (nbPtLvl*2))
@@ -150,7 +158,10 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         else
         {
             indicesPrincipalArray[cell+2]=indice+1;
+            //indicesPrincipalArray[cell+2]=indice;
         }
+        cout << indicesPrincipalArray[cell+2] << endl;
+
     }
 }
 
@@ -221,7 +232,7 @@ void Crown::drawShape(const char *shader_name)
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
-    glDrawElements(GL_TRIANGLE_FAN, indicesPrincipalArraySize, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, indicesPrincipalArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);

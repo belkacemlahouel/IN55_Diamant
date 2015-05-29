@@ -6,6 +6,8 @@
 #include <iostream>
 #include <math.h>
 
+using namespace std;
+
 class Crown : public Object3D
 {
     private :

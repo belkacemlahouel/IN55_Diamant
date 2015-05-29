@@ -28,7 +28,7 @@ TP01::TP01()
     float32 pavillon = 5.0;
     float32 crown = 2.0;
     float32 rondiste = 1.0;
-    float32 table = 1.5;
+    float32 table = 2.0;
     float32 radius = 5.0;
     int32 complexity = 12;
     float32 alpha = 1.0;
