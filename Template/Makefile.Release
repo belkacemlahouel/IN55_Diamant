@@ -321,7 +321,8 @@ obj/TP01.o: src/TP01.cpp ../Common/Shapes/Basis.h \
 		src/diamond.h \
 		src/Color.h \
 		src/BasicObjects/pavillon.h \
-		src/BasicObjects/rondiste.h
+		src/BasicObjects/rondiste.h \
+		src/BasicObjects/crown.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj\TP01.o src\TP01.cpp
 
 obj/Basis.o: ../Common/Shapes/Basis.cpp ../Common/Shapes/Basis.h \
@@ -614,7 +615,8 @@ obj/diamond.o: src/diamond.cpp src/diamond.h \
 		../glew-mingw/include/GL/glew.h \
 		../Common/Types.h \
 		src/BasicObjects/pavillon.h \
-		src/BasicObjects/rondiste.h
+		src/BasicObjects/rondiste.h \
+		src/BasicObjects/crown.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj\diamond.o src\diamond.cpp
 
 obj/rondiste.o: src/BasicObjects/rondiste.cpp src/BasicObjects/rondiste.h \

@@ -25,6 +25,7 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     verticesLittleFacesUpArray = new GLfloat[size];
     //verticesLittleFacesArraySize = size;
     colorsPrincipalArray = new GLfloat[size];
+    colorsPrincipalArraySize = size/3;
 
     /* Creation of the big quadrilaterals and the array of color */
     for(i=0; i<iterations; ++i)
@@ -104,9 +105,10 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
 
 
     /* Initialize indices of the big quadrilaterals*/
-    /*indicesLittleFacesUpArray = new GLushort[indicesPrincipalArraySize];
+    indicesLittleFacesUpArray = new GLushort[indicesPrincipalArraySize];
     i = 0;
     cell = 0;
+    //TODO : must interchange some indices
     while(cell<indicesPrincipalArraySize)
     {
         indicesLittleFacesUpArray[cell]=i;
@@ -117,10 +119,10 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         indicesLittleFacesUpArray[cell+5]=i+3;
         cell+=6;
         i+=3;
-    }*/
+    }
 
     /* Correction of a wrong indice. */
-    //indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
+    indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
 }
 
 

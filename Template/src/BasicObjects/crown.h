@@ -14,7 +14,7 @@ class Crown : public Object3D
         GLfloat *verticesPrincipalFacesUpArray;
         GLfloat *verticesLittleFacesUpArray;
         GLushort *indicesPrincipalArray;
-        //GLushort *indicesLittleFacesUpArray;
+        GLushort *indicesLittleFacesUpArray;
         GLfloat *colorsPrincipalArray;
 
         GLushort verticesPrincipalArraySize;
