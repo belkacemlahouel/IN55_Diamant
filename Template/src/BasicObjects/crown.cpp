@@ -60,8 +60,8 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     {
         cell = i*9;
 
-        anglePhase2 = (i-0.25)*angle*2;
-        anglePhase1 = (i+0.25)*angle*2;
+        anglePhase2 = (i+0.25)*angle*2;
+        anglePhase1 = (i-0.25)*angle*2;
 
         //position of the first point
         verticesLittleFacesUpArray[cell] = table * cos(anglePhase1);
@@ -95,6 +95,7 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         indicesPrincipalArray[cell+3]=i+1;
         indicesPrincipalArray[cell+4]=i+2;
         indicesPrincipalArray[cell+5]=i+3;
+
         cell+=6;
         i+=3;
     }
@@ -116,13 +117,21 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         indicesLittleFacesUpArray[cell+2]=i+2;
         indicesLittleFacesUpArray[cell+3]=i+1;
         indicesLittleFacesUpArray[cell+4]=i+2;
-        indicesLittleFacesUpArray[cell+5]=i+3;
+        if(i+3 < nbPoint){
+            indicesLittleFacesUpArray[cell+5]=i+3;
+        }else{
+            indicesLittleFacesUpArray[cell+5]=0;
+        }
+
         cell+=6;
         i+=3;
     }
-
+    cout<<endl;
+    for(i=0; i<indicesPrincipalArraySize;++i){
+        cout <<indicesLittleFacesUpArray[i]<<"-";
+    }
     /* Correction of a wrong indice. */
-    indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
+    //indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
 }
 
 
@@ -132,7 +141,7 @@ Crown::~Crown()
     delete [] verticesLittleFacesUpArray;
 
     delete [] indicesPrincipalArray;
-    //delete [] indicesLittleFacesUpArray;
+    delete [] indicesLittleFacesUpArray;
 
     delete [] colorsPrincipalArray;
 
@@ -176,7 +185,7 @@ void Crown::initVBO()
 
     glGenBuffers(1, &IndicesUpperTrianglesVBOID);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesUpperTrianglesVBOID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesPrincipalArraySize*sizeof(GLushort), indicesPrincipalArray, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesPrincipalArraySize*sizeof(GLushort), indicesLittleFacesUpArray, GL_STATIC_DRAW);
 
     hasInitiatedVBO = true;
 }
