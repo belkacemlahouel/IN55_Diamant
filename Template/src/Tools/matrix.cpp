@@ -59,12 +59,14 @@ void  Matrix::setElement(int32 line, int32 column, GLfloat value)
  */
 GLfloat* Matrix::productMatVec(GLfloat* vector)
 {
-    GLfloat result[4];
+    GLfloat* result = new GLfloat[4];
 
     for(int32 i=0; i<4; ++i)
     {
-        result[i] = matrix[i][0]*vector[0] + matrix[i][1]*vector[1] + matrix[i][2]*vector[2] + matrix[i][4]*vector[4];
+        result[i] = matrix[i][0]*vector[0] + matrix[i][1]*vector[1] + matrix[i][2]*vector[2] + matrix[i][3]*vector[3] + matrix[i][4]*vector[4];
     }
+
+    return result;
 }
 
 

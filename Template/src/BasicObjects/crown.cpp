@@ -140,27 +140,29 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
 
     /* Rotation of the vertices of upper triangles around y-axis. */
     GLfloat* point = new GLfloat[4];
-    rotationY->createRotationMatrixY(0);
+    rotationY->createRotationMatrixY(angle);
 
     cout << endl <<endl;
     rotationY->printMatrix();
     i=0;
-    /*while(i<verticesPrincipalArraySize)
-    {*/
+
+
+    while(i<verticesPrincipalArraySize)
+    {
         /*initialization of the point's coordinates. */
-        /*point[0]=verticesLittleFacesUpArray[i];
+        point[0]=verticesLittleFacesUpArray[i];
         point[1]=verticesLittleFacesUpArray[i+1];
         point[2]=verticesLittleFacesUpArray[i+2];
         point[3]=1;
 
         point = rotationY->productMatVec(point);
-
+        //cout << endl << point[0] << "," << point[1] << "," << point[2] << endl;
         verticesLittleFacesUpArray[i] = point[0];
         verticesLittleFacesUpArray[i+1] = point[1];
         verticesLittleFacesUpArray[i+2] = point[2];
 
         i+=3;
-    }*/
+    }
 }
 
 
