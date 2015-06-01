@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include "Object3D.h"
+#include <math.h>
 #include <iostream>
 
 using namespace std;
@@ -17,6 +18,7 @@ class Matrix
         void printMatrix();
         void setElement(int32 line, int32 column, GLfloat value);
         GLfloat* productMatVec(GLfloat* vector);
+        void createRotationMatrixY(float32 angle);
 };
 
 #endif // MATRIX_H

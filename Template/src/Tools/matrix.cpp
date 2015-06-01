@@ -66,3 +66,20 @@ GLfloat* Matrix::productMatVec(GLfloat* vector)
         result[i] = matrix[i][0]*vector[0] + matrix[i][1]*vector[1] + matrix[i][2]*vector[2] + matrix[i][4]*vector[4];
     }
 }
+
+
+/**
+ * @brief Matrix::createRotationMatrixY
+ * Create a rotation matrix of angle "angle" around the y-axis.
+ * @param angle
+ */
+void Matrix::createRotationMatrixY(float32 angle)
+{
+    float32 cosinus = cos(angle);
+    float32 sinus = sin(angle);
+
+    this->matrix[0][0] = cosinus;
+    this->matrix[0][2] = sinus;
+    this->matrix[2][0] = -sinus;
+    this->matrix[2][2] = cosinus;
+}

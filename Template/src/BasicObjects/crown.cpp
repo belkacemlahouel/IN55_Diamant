@@ -11,6 +11,8 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     /* VBO has not been initialized already */
     this->hasInitiatedVBO = false;
 
+    /* Used to rotate the upper triangles around y-axis. */
+    Matrix* rotationY = new Matrix();
     int32 cell, i;
     int32 nbFaces = complexity/4;
     int32 nbPoint = nbFaces * 3;
@@ -113,7 +115,6 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     cell = 0;
     int32 coef = nbFaces - 2;
 
-    //TODO : must interchange some indices
     while(cell<indicesPrincipalArraySize)
     {
         //indicesLittleFacesUpArray[cell]=i;
@@ -132,12 +133,34 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
         cell+=6;
         i+=3;
     }
-    cout<<endl;
+
     for(i=0; i<indicesPrincipalArraySize;++i){
         cout <<indicesLittleFacesUpArray[i]<<"-";
     }
-    /* Correction of a wrong indice. */
-    //indicesLittleFacesUpArray[indicesPrincipalArraySize-1]=0;
+
+    /* Rotation of the vertices of upper triangles around y-axis. */
+    GLfloat* point = new GLfloat[4];
+    rotationY->createRotationMatrixY(0);
+
+    cout << endl <<endl;
+    rotationY->printMatrix();
+    i=0;
+    /*while(i<verticesPrincipalArraySize)
+    {*/
+        /*initialization of the point's coordinates. */
+        /*point[0]=verticesLittleFacesUpArray[i];
+        point[1]=verticesLittleFacesUpArray[i+1];
+        point[2]=verticesLittleFacesUpArray[i+2];
+        point[3]=1;
+
+        point = rotationY->productMatVec(point);
+
+        verticesLittleFacesUpArray[i] = point[0];
+        verticesLittleFacesUpArray[i+1] = point[1];
+        verticesLittleFacesUpArray[i+2] = point[2];
+
+        i+=3;
+    }*/
 }
 
 
