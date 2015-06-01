@@ -8,18 +8,26 @@
 
 using namespace std;
 
-class Table
+class Table : public Object3D
 {
     private:
-        GLfloat *vertices;
-        GLushort *indices;
-        GLushort *colors;
+        GLfloat *verticesArray;
+        GLushort *indicesArray;
+        GLfloat *colorsArray;
+
+        GLushort verticesArraySize;
+        GLushort indicesArraySize;
+        GLushort colorsArraySize;
+
+        GLuint VerticesVBOID;
+        GLuint ColorsVBOID;
+        GLuint IndicesVBOID;
 
         bool  hasInitiatedVBO;
 
     public:
         Table();
-        Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon);
+        Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon, int32 complexity, const GLfloat color[3]);
         ~Table();
 
     protected :
