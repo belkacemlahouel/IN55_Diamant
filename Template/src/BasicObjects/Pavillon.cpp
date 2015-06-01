@@ -92,10 +92,9 @@ void Pavillon::createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, f
     verticesQuadLastLvlArraySize = size;
     verticesTrianglesLastLvlArraySize = nbPtLvl1*9;
 
-    /* Create points for the little triangles, the upper traingles of the quadrilaterals and the color array*/
+    /* Create points for the little triangles, the upper triangles of the quadrilaterals and the color array*/
     float32 angle = 2*M_PI/nbPtLvl1;
     float32 quadAngle, trianglesAngle;
-    //start = nbPtLvl1*6;
 
     for(i=0; i<nbPtLvl1; ++i)
     {
