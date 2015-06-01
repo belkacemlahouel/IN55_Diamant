@@ -36,15 +36,7 @@ Table::Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon, i
     for(i=0; i<nbPoints;++i)
     {
         cell = i*3;
-
-        if(i%2 != 1)
-        {
-            anglePhase = (i-0.25)*angle*2;
-        }
-        else
-        {
-            anglePhase = (i+0.25)*angle*2;
-        }
+        anglePhase = (i+0.5)*angle*2;
 
         //x, y and z-positions of the point i
         verticesArray[cell] = radiusTable * cos(anglePhase);
