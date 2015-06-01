@@ -6,6 +6,7 @@
 #include "Object3D.h"
 #include "BasicObjects/pavillon.h"
 #include "BasicObjects/rondiste.h"
+#include "BasicObjects/table.h"
 #include "BasicObjects/crown.h"
 #include <iostream>
 #include <cmath>
@@ -30,6 +31,7 @@ class Diamond : public Object3D
         Pavillon* pavillon;
         Rondiste* rondiste;
         Crown* crown;
+        Table* table;
 
     public:
         Diamond();
