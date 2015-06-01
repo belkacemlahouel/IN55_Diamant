@@ -326,7 +326,8 @@ obj/TP01.o: src/TP01.cpp ../Common/Shapes/Basis.h \
 		src/Color.h \
 		src/BasicObjects/pavillon.h \
 		src/BasicObjects/rondiste.h \
-		src/BasicObjects/crown.h
+		src/BasicObjects/crown.h \
+		src/Tools/matrix.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj\TP01.o src\TP01.cpp
 
 obj/Basis.o: ../Common/Shapes/Basis.cpp ../Common/Shapes/Basis.h \
@@ -620,7 +621,8 @@ obj/diamond.o: src/diamond.cpp src/diamond.h \
 		../Common/Types.h \
 		src/BasicObjects/pavillon.h \
 		src/BasicObjects/rondiste.h \
-		src/BasicObjects/crown.h
+		src/BasicObjects/crown.h \
+		src/Tools/matrix.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj\diamond.o src\diamond.cpp
 
 obj/rondiste.o: src/BasicObjects/rondiste.cpp src/BasicObjects/rondiste.h \
@@ -634,7 +636,8 @@ obj/crown.o: src/BasicObjects/crown.cpp src/BasicObjects/crown.h \
 		../Common/Object3D.h \
 		../Common/AbstractFramework.h \
 		../glew-mingw/include/GL/glew.h \
-		../Common/Types.h
+		../Common/Types.h \
+		src/Tools/matrix.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj\crown.o src\BasicObjects\crown.cpp
 
 obj/matrix.o: src/Tools/matrix.cpp src/Tools/matrix.h \

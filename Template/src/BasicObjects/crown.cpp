@@ -142,8 +142,8 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     GLfloat* point = new GLfloat[4];
     rotationY->createRotationMatrixY(angle);
 
-    cout << endl <<endl;
-    rotationY->printMatrix();
+    //cout << endl <<endl;
+    //rotationY->printMatrix();
     i=0;
 
 
