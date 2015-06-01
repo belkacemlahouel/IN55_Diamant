@@ -12,4 +12,5 @@ INPUT(
 ./obj\diamond.o
 ./obj\rondiste.o
 ./obj\crown.o
+./obj\matrix.o
 );

@@ -60,8 +60,10 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     {
         cell = i*9;
 
-        anglePhase2 = (i+0.25)*angle*2;
+        /*anglePhase1 = (i+0.25)*angle*2;
+        anglePhase2 = (i-0.25)*angle*2;*/
         anglePhase1 = (i-0.25)*angle*2;
+        anglePhase2 = (i+0.25)*angle*2;
 
         //position of the first point
         verticesLittleFacesUpArray[cell] = table * cos(anglePhase1);
@@ -109,14 +111,18 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     indicesLittleFacesUpArray = new GLushort[indicesPrincipalArraySize];
     i = 0;
     cell = 0;
+    int32 coef = nbFaces - 2;
+
     //TODO : must interchange some indices
     while(cell<indicesPrincipalArraySize)
     {
+        //indicesLittleFacesUpArray[cell]=i;
         indicesLittleFacesUpArray[cell]=i;
         indicesLittleFacesUpArray[cell+1]=i+1;
         indicesLittleFacesUpArray[cell+2]=i+2;
         indicesLittleFacesUpArray[cell+3]=i+1;
         indicesLittleFacesUpArray[cell+4]=i+2;
+
         if(i+3 < nbPoint){
             indicesLittleFacesUpArray[cell+5]=i+3;
         }else{

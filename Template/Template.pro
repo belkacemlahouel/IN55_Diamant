@@ -31,7 +31,8 @@ HEADERS += \
     src/BasicObjects/Pavillon.h \
     src/diamond.h \
     src/BasicObjects/rondiste.h \
-    src/BasicObjects/crown.h
+    src/BasicObjects/crown.h \
+    src/Tools/matrix.h
 
 SOURCES += \
     src/BasicObjects/Cube.cpp \
@@ -46,4 +47,5 @@ SOURCES += \
     src/BasicObjects/Pavillon.cpp \
     src/diamond.cpp \
     src/BasicObjects/rondiste.cpp \
-    src/BasicObjects/crown.cpp
+    src/BasicObjects/crown.cpp \
+    src/Tools/matrix.cpp
