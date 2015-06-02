@@ -187,18 +187,25 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
     int32 size = nbPoint*3;
     float32 angleRondiste = 2*M_PI/complexity;
     float32 anglePhase1, anglePhase2;
+    float32 halfHeight = rondisteHeight/2;
     int32 i, cell;
 
     verticesTrianglesDownArray = new GLfloat[size];
     verticesTrianglesDownArraySize = size;
+
+    indicesLittleFacesDownArraySize = nbPoint;
+    indicesLittleFacesDownArray = new GLushort[indicesLittleFacesDownArraySize];
+
     colorsTrianglesDownArray = new GLfloat[size];
 
+    /* Create vertices */
+    //TODO : delay on point with same i
     for(i=0; i< nbFaces; ++i){
-        cell = i*9;
+        cell = i*18;
 
         anglePhase2 = (i-0.5)*angleRondiste*2;  //angle of hole in the rondiste
         anglePhase1 = (i)*angleRondiste*2;  //angle of high point of the rondiste
-/**
+
         //position of the first point
         verticesTrianglesDownArray[cell] = radius * cos(anglePhase2);
         verticesTrianglesDownArray[cell+1] = pavillonHeight;
@@ -206,18 +213,18 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
 
         //position of the second point
         verticesTrianglesDownArray[cell+3] = radius * cos(anglePhase1);
-        verticesTrianglesDownArray[cell+4] = pavillonHeight - halfHeight;
+        verticesTrianglesDownArray[cell+4] = pavillonHeight + halfHeight;
         verticesTrianglesDownArray[cell+5] = radius * sin(anglePhase1);
 
         //position of the third point
-        verticesTrianglesDownArray[cell+6] = radius * cos(anglePhase1);
-        verticesTrianglesDownArray[cell+7] = pavillonHeight + halfHeight;
-        verticesTrianglesDownArray[cell+8] = radius * sin(anglePhase1);
+        verticesTrianglesDownArray[cell+6] = radius * cos(anglePhase2);
+        verticesTrianglesDownArray[cell+7] = pavillonHeight + lvlCrownHeight;
+        verticesTrianglesDownArray[cell+8] = radius * sin(anglePhase2);
 
         //position of the fourth point
-        verticesTrianglesDownArray[cell+9] = radius * cos(anglePhase1);
-        verticesTrianglesDownArray[cell+10] = pavillonHeight + halfHeight;
-        verticesTrianglesDownArray[cell+11] = radius * sin(anglePhase1);
+        verticesTrianglesDownArray[cell+9] = radius * cos(anglePhase2);
+        verticesTrianglesDownArray[cell+10] = pavillonHeight;
+        verticesTrianglesDownArray[cell+11] = radius * sin(anglePhase2);
 
         //position of the fifth point
         verticesTrianglesDownArray[cell+12] = radius * cos(anglePhase1);
@@ -225,11 +232,12 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         verticesTrianglesDownArray[cell+14] = radius * sin(anglePhase1);
 
         //position of the sixth point
-        verticesTrianglesDownArray[cell+15] = radius * cos(anglePhase1);
-        verticesTrianglesDownArray[cell+16] = pavillonHeight + halfHeight;
-        verticesTrianglesDownArray[cell+17] = radius * sin(anglePhase1);*/
+        verticesTrianglesDownArray[cell+15] = radius * cos(anglePhase2);
+        verticesTrianglesDownArray[cell+16] = pavillonHeight;
+        verticesTrianglesDownArray[cell+17] = radius * sin(anglePhase2);
     }
 
+    /* Initialize colors array */
     for(i=0; i<nbPoint; ++i)
     {
         cell = i*3;
@@ -237,6 +245,13 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         colorsTrianglesDownArray[cell]    = color[0];
         colorsTrianglesDownArray[cell+1]  = color[1];
         colorsTrianglesDownArray[cell+2]  = color[2];
+    }
+
+    /* Initialize indices array */
+    //TODO : change indices and its size to use TRIANGLES in place of TRIANGLES_LINE
+    for(i=0; i<indicesLittleFacesDownArraySize; ++i)
+    {
+        indicesLittleFacesDownArray[i] = i;
     }
 }
 

@@ -17,12 +17,14 @@ class Crown : public Object3D
         GLfloat *verticesTrianglesDownArray;
         GLushort *indicesPrincipalArray;
         GLushort *indicesLittleFacesUpArray;
+        GLushort *indicesLittleFacesDownArray;
         GLfloat *colorsPrincipalArray;
         GLfloat *colorsTrianglesDownArray;
 
         GLushort verticesPrincipalArraySize;
         GLushort verticesTrianglesDownArraySize;
         GLushort indicesPrincipalArraySize;
+        GLushort indicesLittleFacesDownArraySize;
         GLushort colorsPrincipalArraySize;
 
         GLuint VertexPrincipalFacesVBOID;
