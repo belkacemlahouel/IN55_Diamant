@@ -259,11 +259,14 @@ Crown::~Crown()
 {
     delete [] verticesPrincipalFacesUpArray;
     delete [] verticesLittleFacesUpArray;
+    delete [] verticesTrianglesDownArray;
 
     delete [] indicesPrincipalArray;
     delete [] indicesLittleFacesUpArray;
+    delete [] indicesLittleFacesDownArray;
 
     delete [] colorsPrincipalArray;
+    delete [] colorsTrianglesDownArray;
 
     glDeleteBuffers(1, &VertexPrincipalFacesVBOID);
     glDeleteBuffers(1, &ColorPrincipalFacesVBOID);
