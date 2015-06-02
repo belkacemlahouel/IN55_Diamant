@@ -13,4 +13,5 @@ INPUT(
 ./obj\rondiste.o
 ./obj\crown.o
 ./obj\matrix.o
+./obj\table.o
 );
