@@ -44,6 +44,11 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
         verticesArray[cell+6] = radius * cos(anglePhase1);
         verticesArray[cell+7] = pavillonHeight + halfHeight;
         verticesArray[cell+8] = radius * sin(anglePhase1);
+    }
+
+    for(i=0; i<nbPoint; ++i)
+    {
+        cell = i*3;
 
         colorsArray[cell]    = color[0];
         colorsArray[cell+1]  = color[1];

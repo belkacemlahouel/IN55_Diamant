@@ -14,12 +14,14 @@ class Crown : public Object3D
     private :
         GLfloat *verticesPrincipalFacesUpArray;
         GLfloat *verticesLittleFacesUpArray;
+        GLfloat *verticesTrianglesDownArray;
         GLushort *indicesPrincipalArray;
         GLushort *indicesLittleFacesUpArray;
         GLfloat *colorsPrincipalArray;
+        GLfloat *colorsTrianglesDownArray;
 
         GLushort verticesPrincipalArraySize;
-        //GLushort verticesLittleFacesArraySize;
+        GLushort verticesTrianglesDownArraySize;
         GLushort indicesPrincipalArraySize;
         GLushort colorsPrincipalArraySize;
 
@@ -36,6 +38,7 @@ class Crown : public Object3D
         Crown();
         Crown(float32 radius, float32 table, float32 crownHeight, float32 rondisteHeight, float32 pavillonHeight, float32 lvlCrownHeight, int32 complexity, const GLfloat color[3]);
         ~Crown();
+        void createDownTriangles(float32 radius, float32 table, float32 crownHeight, float32 rondisteHeight, float32 pavillonHeight, float32 lvlCrownHeight, int32 complexity, const GLfloat color[3]);
 
     protected :
         void initVBO();
