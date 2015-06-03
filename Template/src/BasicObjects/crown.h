@@ -35,6 +35,10 @@ class Crown : public Object3D
         GLuint ColorUpperTrianglesVBOID;
         GLuint IndicesUpperTrianglesVBOID;
 
+        GLuint VertexDownTrianglesVBOID;
+        GLuint ColorDownTrianglesVBOID;
+        GLuint IndicesDownTrianglesVBOID;
+
         bool  hasInitiatedVBO;
     public:
         Crown();
