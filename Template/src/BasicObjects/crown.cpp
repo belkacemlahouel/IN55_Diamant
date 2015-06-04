@@ -278,12 +278,14 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         indicesLittleFacesDownArray[cell+11] = i+5;
 
         cell+=12;
-        i+=5;
+        i+=6;
     }
     indicesLittleFacesDownArray[cell-1] = 0;
 
     /* -------------------Verifications-------------------------- */
     cout << endl <<"Indices" << endl;
+    //indicesLittleFacesDownArraySize = 15;
+
     for(i=0; i<indicesLittleFacesDownArraySize;++i)
     {
         cout << indicesLittleFacesDownArray[i]<< "-";
@@ -297,7 +299,6 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
             cout <<endl << verticesTrianglesDownArray[i]<< "/";
         }
     }
-    //indicesLittleFacesDownArraySize = 24;
 }
 
 Crown::~Crown()
