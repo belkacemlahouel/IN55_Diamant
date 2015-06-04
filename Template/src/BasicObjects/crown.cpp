@@ -205,7 +205,8 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
     while( j< nbFaces){
         cell = j*18;
 
-        anglePhase2 = (i-0.5)*angleRondiste*2;  //angle of hole in the rondiste
+        //anglePhase2 = (i-0.5)*angleRondiste*2;  //angle of hole in the rondiste
+        anglePhase2 = (i+0.5)*angleRondiste*2;
         anglePhase1 = (i)*angleRondiste*2;  //angle of high point of the rondiste
         //position of the first point
         verticesTrianglesDownArray[cell] = radius * cos(anglePhase2);
@@ -218,7 +219,7 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         verticesTrianglesDownArray[cell+4] = pavillonHeight + halfHeight;
         verticesTrianglesDownArray[cell+5] = radius * sin(anglePhase1);
 
-        ++i;
+        //++i;
         anglePhase2 = (i-0.5)*angleRondiste*2;  //angle of hole in the rondiste
         //position of the third point
         verticesTrianglesDownArray[cell+6] = radius * cos(anglePhase2);
@@ -230,20 +231,22 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         verticesTrianglesDownArray[cell+10] = pavillonHeight;
         verticesTrianglesDownArray[cell+11] = radius * sin(anglePhase2);
 
-        ++i;
+        //++i;
+        --i;
         anglePhase1 = (i)*angleRondiste*2;  //angle of high point of the rondiste
         //position of the fifth point
         verticesTrianglesDownArray[cell+12] = radius * cos(anglePhase1);
         verticesTrianglesDownArray[cell+13] = pavillonHeight + halfHeight;
         verticesTrianglesDownArray[cell+14] = radius * sin(anglePhase1);
 
-        ++i;
+        //++i;
+        //--i;
         anglePhase2 = (i-0.5)*angleRondiste*2;  //angle of hole in the rondiste
         //position of the sixth point
         verticesTrianglesDownArray[cell+15] = radius * cos(anglePhase2);
         verticesTrianglesDownArray[cell+16] = pavillonHeight;
         verticesTrianglesDownArray[cell+17] = radius * sin(anglePhase2);
-
+--i;
         ++j;
     }
 
@@ -260,7 +263,7 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
     /* Initialize indices array */
     i=0;
     cell=0;
-    cout <<"Indices" << endl;
+
     while(cell<indicesLittleFacesDownArraySize)
     {
         indicesLittleFacesDownArray[cell] = i;
@@ -279,6 +282,12 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
         cell+=12;
         i+=5;
     }
+        cout << endl <<"Indices" << endl;
+    for(i=0; i<indicesLittleFacesDownArraySize;++i)
+    {
+        cout << indicesLittleFacesDownArray[i]<< "-";
+    }
+    //indicesLittleFacesDownArraySize = 12;
 }
 
 Crown::~Crown()
