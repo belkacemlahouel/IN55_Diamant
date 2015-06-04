@@ -30,8 +30,10 @@ TP01::TP01()
     float32 rondiste = 1.0;
     float32 table = 2.0;
     float32 radius = 5.0;
-    int32 complexity = 12;
+    //Complexity is the number of triangles in the rondiste.
+    int32 complexity = 16;
     float32 alpha = 1.0;
+    //Height of the first level of point in the different part of the diamond.
     float32 lvlPavillon = 2.5;
     float32 lvlCrown = 1.0;
 
