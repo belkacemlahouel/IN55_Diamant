@@ -28,9 +28,6 @@
 class Diamond : public Object3D
 {
     private:
-        GLfloat alpha;
-        bool hasSetAlpha;
-        
         Pavillon* pavillon;
         Rondiste* rondiste;
         Crown* crown;

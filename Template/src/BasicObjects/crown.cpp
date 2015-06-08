@@ -166,6 +166,8 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
 
     /* Create the little triangles down crown. */
     createDownTriangles(radius, table, crownHeight, rondisteHeight, pavillonHeight, lvlCrownHeight, complexity, color);
+
+    this->ComputeNormals();
 }
 
 /**
@@ -299,6 +301,11 @@ void Crown::createDownTriangles(float32 radius, float32 table, float32 crownHeig
             cout <<endl << verticesTrianglesDownArray[i]<< "/";
         }
     }
+}
+
+void Crown::computeNormals()
+{
+
 }
 
 Crown::~Crown()

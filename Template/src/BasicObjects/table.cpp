@@ -52,6 +52,8 @@ Table::Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon, i
     {
         indicesArray[i] = i;
     }
+
+    this->computeNormals();
 }
 
 
@@ -112,4 +114,9 @@ void Table::drawShape(const char *shader_name)
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
     glDisableVertexAttribArray(colorLocation);
+}
+
+void Table::computeNormals()
+{
+
 }

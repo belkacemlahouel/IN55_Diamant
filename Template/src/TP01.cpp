@@ -48,7 +48,7 @@ bool TP01::initializeObjects()
 {
     /* Grey background */
 	glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
-	glEnable( GL_DEPTH_TEST );
+    glEnable(GL_DEPTH_TEST);
 
     /* Shaders settings */
     createShader("release/Shaders/defaultDiffuseShader");

@@ -67,6 +67,8 @@ Pavillon::Pavillon(float32 radius, float32 totalHeight, float32 firstLevelHeight
     /*-------------Create the last level--------------------*/
     float32 deltaHeight = rondiste/2;
     createSecondLvl(nbPtLvl1, radius, totalHeight, deltaHeight, color);
+
+    this->computeNormals();
 }
 
 /**
@@ -333,4 +335,9 @@ void Pavillon::drawShape(const char* shader_name)
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
     glDisableVertexAttribArray(colorLocation);
+}
+
+void Pavillon::computeNormals()
+{
+
 }

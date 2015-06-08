@@ -12,6 +12,8 @@ INPUT(
 ./obj\diamond.o
 ./obj\rondiste.o
 ./obj\crown.o
-./obj\matrix.o
+./obj\lightsource.o
+./obj\material.o
 ./obj\table.o
+./obj\matrix.o
 );

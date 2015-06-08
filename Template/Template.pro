@@ -32,8 +32,10 @@ HEADERS += \
     src/diamond.h \
     src/BasicObjects/rondiste.h \
     src/BasicObjects/crown.h \
-    src/Tools/matrix.h \
-    src/BasicObjects/table.h
+    src/lightsource.h \
+    src/material.h \
+    src/BasicObjects/table.h \
+    src/Tools/matrix.h
 
 SOURCES += \
     src/BasicObjects/Cube.cpp \
@@ -49,5 +51,9 @@ SOURCES += \
     src/diamond.cpp \
     src/BasicObjects/rondiste.cpp \
     src/BasicObjects/crown.cpp \
-    src/Tools/matrix.cpp \
-    src/BasicObjects/table.cpp
+    src/lightsource.cpp \
+    src/material.cpp \
+    src/BasicObjects/table.cpp \
+    src/Tools/matrix.cpp
+
+DISTFILES +=

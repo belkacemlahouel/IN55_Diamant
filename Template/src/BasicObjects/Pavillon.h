@@ -52,6 +52,7 @@ class Pavillon : public Object3D
         void drawShape(const char *shader_name);
         void createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, float32 deltaHeight, const GLfloat color[3]);
         void buildQuadrilateral(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3]);
+        void computeNormals();
 };
 
 #endif // PAVILLON_H

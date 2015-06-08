@@ -49,6 +49,7 @@ class Crown : public Object3D
     protected :
         void initVBO();
         void drawShape(const char *shader_name);
+        void computeNormals();
 };
 
 #endif // CROWN_H

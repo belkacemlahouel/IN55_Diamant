@@ -33,6 +33,7 @@ class Table : public Object3D
     protected :
         void initVBO();
         void drawShape(const char *shader_name);
+        void computeNormals();
 };
 
 #endif // TABLE_H
