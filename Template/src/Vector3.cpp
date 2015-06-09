@@ -61,9 +61,31 @@ void Vector3::setZ(float newz)
 
 /***/
 
-void Vector3::print()
+void Vector3::print() const
 {
     printf("(%0.1f, %0.1f, %0.1f)", x, y, z);
+}
+
+/***/
+
+Vector3 Vector3::operator+(const Vector3& v) const
+{
+    return Vector3(x+v.x, y+v.y, z+v.z);
+}
+
+Vector3 Vector3::operator-(const Vector3& v) const
+{
+    return Vector3(x-v.x, y-v.y, z-v.z);
+}
+
+Vector3 Vector3::operator*(float s) const
+{
+    return Vector3(x*s, y*s, z*s);
+}
+
+Vector3 operator*(float s, const Vector3& v)
+{
+    return Vector3(v.getX()*s, v.getY()*s, v.getZ()*s);
 }
 
 /***/
