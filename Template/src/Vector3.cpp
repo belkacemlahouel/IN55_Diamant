@@ -159,3 +159,9 @@ float Vector3::dot(const Vector3& v1, const Vector3& v2)
     Vector3 ans(v1);
     return ans.dot(v2);
 }
+
+Vector3 Vector3::linearInterpolation(const Vector3& v1, const Vector3& v2, float t)
+{
+    return Vector3((1-t)*v1 + t*v2);
+}
+

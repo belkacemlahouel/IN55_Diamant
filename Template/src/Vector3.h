@@ -46,6 +46,8 @@ public:
 	static Vector3 scale(const Vector3& v, float s);
 	static Vector3 cross(const Vector3& v1, const Vector3& v2);
 	static float dot(const Vector3& v1, const Vector3& v2);
+
+	static Vector3 linearInterpolation(const Vector3& v1, const Vector3& v2, float t);
 };
 
 Vector3 operator*(float s, const Vector3& v);

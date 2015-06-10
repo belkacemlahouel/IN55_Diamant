@@ -207,6 +207,11 @@ void Quaternion::normalize()
     *this/=norm();
 }
 
+Quaternion Quaternion::normalized() const
+{
+    return Quaternion(*this/norm());
+}
+
 /***/
 
 Quaternion Quaternion::inverseNew() const
@@ -228,7 +233,9 @@ void Quaternion::invert()
 Quaternion Quaternion::slerp(const Quaternion& q1, const Quaternion& q2, float t)
 {
     float theta = angle(q1, q2);
-    return Quaternion((float) (sin(theta*(1-t))/sin(theta)) * q1 + (float) (sin(theta*t)/sin(theta)) * q2);
+    Quaternion ans((float) (sin(theta*(1-t))/sin(theta)) * q1 + (float) (sin(theta*t)/sin(theta)) * q2);
+    ans.normalize();
+    return ans;
 }
 
 float Quaternion::angle(const Quaternion& q1, const Quaternion& q2)
@@ -250,4 +257,14 @@ float* Quaternion::getRotationMatrix() const
     float* mat = matTab;
     return mat;
     // FIXME I work with french standards, you might transpose the result...
+}
+
+/***/
+
+Vector3 Quaternion::image(const Quaternion& q, const Vector3& p)
+{
+    Quaternion qp(p, 0.0f);
+    Quaternion qr(q.normalized());
+    Quaternion iqr(qr.inverseNew());
+    return (qr*qp*qr.inverseNew()).getV();
 }

@@ -57,6 +57,8 @@ public:
 
     float norm() const;
     float normSquared() const;
+
+    Quaternion normalized() const;
     void normalize();
 
     Quaternion inverseNew() const;
@@ -66,6 +68,8 @@ public:
     static float angle(const Quaternion& q1, const Quaternion& q2);
     
     float* getRotationMatrix() const;
+
+    static Vector3 image(const Quaternion& q, const Vector3& p);
 };
 
 Quaternion operator*(float s, const Quaternion& q);
