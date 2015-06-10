@@ -54,6 +54,18 @@ Vector3 Quaternion::getV() const
 
 /***/
 
+void Quaternion::setFromAxisAngle(float angle, const Vector3& axis)
+{
+    Quaternion q(sin(angle/2)*axis, cos(angle/2));
+    set(q);
+}
+
+void Quaternion::setFromAxisAngle(float angle, float ax, float ay, float az)
+{
+    Vector3 axis(ax, ay, az);
+    setFromAxisAngle(angle, axis);
+}
+
 void Quaternion::set(const Quaternion& q)
 {
     set(q.x, q.y, q.z, q.w);
@@ -228,84 +240,14 @@ float Quaternion::angle(const Quaternion& q1, const Quaternion& q2)
     // TODO check this function: return value interval?
 }
 
-/*
-void Quaternion::rotate(float _angle, glm::vec3& _axis)
+/***/
+
+float* Quaternion::getRotationMatrix() const
 {
-    Quaternion q = computeRotationQuaternion(_angle, _axis);
-    set(a*q.a - b*q.b - c*q.c - d*q.d,
-        b*q.a + a*q.b + d*q.c - c*q.d,
-        c*q.a + a*q.c + b*q.d - d*q.b,
-        d*q.a + a*q.d + c*q.b - b*q.c);
-
-    normalize();
+    float matTab[9] = {1-2*y*y-2*z*z, 2*x*y-2*w*z, 2*x*z+2*w*y,
+                            2*x*y+2*w*z, 1-2*x*x-2*z*z, 2*y*z-2*w*x,
+                            2*x*z-2*w*y, 2*y*z+2*w*x, 1-2*x*x-2*y*y};
+    float* mat = matTab;
+    return mat;
+    // FIXME I work with french standards, you might transpose the result...
 }
-
-Quaternion Quaternion::operator/(const Quaternion& q) const
-{
-    return (*this)*invert(q); // equivalent to Q1*invert(Q2)
-}
-
-Quaternion Quaternion::quat_rotate(float _angle, glm::vec3& _axis)
-{
-    glm::vec3 axisNorm = glm::normalize(_axis);
-    float sinAngle = sinf(_angle / 2.0f);
-    float cosAngle = cosf(_angle / 2.0f);
-
-    return Quaternion(cosAngle, sinAngle*axisNorm.x, sinAngle*axisNorm.y, sinAngle*axisNorm.z);
-
-}
-
-Quaternion Quaternion::computeRotationQuaternion(float _angle, glm::vec3& _axis)
-{
-    glm::vec3 axisNorm = glm::normalize(_axis);
-    float halfAngle = _angle / 2.0f;
-    float sinAngle = sinf(halfAngle);
-    return Quaternion(cosf(halfAngle), sinAngle*_axis.x, sinAngle*_axis.y, sinAngle*_axis.z);
-}
-
-Quaternion Quaternion::computeRotationQuaternion(float _rx, float _ry, float _rz)
-{
-    float halfrx = _rx / 2.0f;
-    float halfry = _ry / 2.0f;
-    float halfrz = _rz / 2.0f;
-
-    float cosrx = cosf(halfrx);
-    float sinrx = sinf(halfrx);
-    float cosry = cosf(halfry);
-    float sinry = sinf(halfry);
-    float cosrz = cosf(halfrz);
-    float sinrz = sinf(halfrz);
-
-    return Quaternion(cosrx*cosry*cosrz - sinrx*sinry*sinrz,
-        cosry*cosrz*sinrx + cosrx*sinry*sinrz,
-        cosrx*cosrz*sinry - cosry*sinrx*sinrz,
-        cosrx*cosry*sinrz + cosrz*sinrx*sinry);
-}
-
-void Quaternion::computeRotationQuaternion(float _angle, glm::vec3& _axis, Quaternion& _out)
-{
-    glm::vec3 axisNorm = glm::normalize(_axis);
-    float halfAngle = _angle / 2.0f;
-    float sinAngle = sin(halfAngle);
-    _out.set(cosf(halfAngle), sinAngle*_axis.x, sinAngle*_axis.y, sinAngle*_axis.z);
-}
-
-void Quaternion::computeRotationQuaternion(float _rx, float _ry, float _rz, Quaternion& _out)
-{
-    float halfrx = _rx / 2.0f;
-    float halfry = _ry / 2.0f;
-    float halfrz = _rz / 2.0f;
-
-    float cosrx = cosf(halfrx);
-    float sinrx = sinf(halfrx);
-    float cosry = cosf(halfry);
-    float sinry = sinf(halfry);
-    float cosrz = cosf(halfrz);
-    float sinrz = sinf(halfrz);
-
-    _out.set(cosrx*cosry*cosrz - sinrx*sinry*sinrz,
-        cosry*cosrz*sinrx + cosrx*sinry*sinrz,
-        cosrx*cosrz*sinry - cosry*sinrx*sinrz,
-        cosrx*cosry*sinrz + cosrz*sinrx*sinry);
-}
-*/
