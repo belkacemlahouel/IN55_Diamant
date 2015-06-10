@@ -152,19 +152,23 @@ void Quaternion::operator/=(float s)
     this->set((*this)/s);
 }
 
+Quaternion operator*(float s, const Quaternion& q)
+{
+    return Quaternion(q*s);
+}
 
 /***/
 
-float Quaternion::dot(const Quaternion& q)
+float Quaternion::dot(const Quaternion& q) const
 {
     return x*q.getX() + y*q.getY() + z*q.getZ() + w*q.getW();
 }
 
 /***/
 
-Quaternion Quaternion::conjugate(const Quaternion& q) const
+Quaternion Quaternion::conjugateNew() const
 {
-    return Quaternion(-q.x, -q.y, -q.z, q.w);
+    return Quaternion(-x, -y, -z, w);
 }
 
 void Quaternion::conjugue()
@@ -191,36 +195,40 @@ void Quaternion::normalize()
     *this/=norm();
 }
 
+/***/
 
-
-/*
-void Quaternion::normalize() {
-    float size = norm();
-    x /= size;
-    y /= size;
-    z /= size;
-    w /= size;
+Quaternion Quaternion::inverseNew() const
+{
+    return Quaternion(conjugateNew()/normSquared());
 }
-*/
-
-/*
-
 
 void Quaternion::invert()
 {
-    float norm = normSquared(*this);
-    a = a / norm;
-    b = b / norm;
-    c = c / norm;
-    d = d / norm;
+    float ns = normSquared();
+    x = -x/ns;
+    y = -y/ns;
+    z = -z/ns;
+    w = z/ns;
 }
 
-void Quaternion::normalize()
+/***/
+
+Quaternion Quaternion::slerp(const Quaternion& q1, const Quaternion& q2, float t)
 {
-    float norm = normSquared(*this);
-    set(a / norm, b / norm, c / norm, d / norm);
+    float theta = angle(q1, q2);
+    return Quaternion((float) (sin(theta*(1-t))/sin(theta)) * q1 + (float) (sin(theta*t)/sin(theta)) * q2);
 }
 
+float Quaternion::angle(const Quaternion& q1, const Quaternion& q2)
+{
+    float a = acos(q1.dot(q2));
+    if (a > M_PI)
+        a = M_PI*2 - a;
+    return a;
+    // TODO check this function: return value interval?
+}
+
+/*
 void Quaternion::rotate(float _angle, glm::vec3& _axis)
 {
     Quaternion q = computeRotationQuaternion(_angle, _axis);
@@ -235,24 +243,6 @@ void Quaternion::rotate(float _angle, glm::vec3& _axis)
 Quaternion Quaternion::operator/(const Quaternion& q) const
 {
     return (*this)*invert(q); // equivalent to Q1*invert(Q2)
-}
-
-float Quaternion::normSquared(const Quaternion& q)
-{
-    return q.a*q.a + q.b*q.b + q.c*q.c + q.d*q.d;
-}
-
-Quaternion Quaternion::invert(const Quaternion& q)
-{
-    float normSquared = Quaternion::normSquared(q);
-    return Quaternion(q.a / normSquared, -q.b / normSquared, -q.c / normSquared, -q.d / normSquared);
-}
-
-std::string Quaternion::toString(const Quaternion& q)
-{
-    std::stringstream str;
-    str << "[ " << q.a << " " << q.b << " " << q.c << " " << q.d << " ]";
-    return str.str();
 }
 
 Quaternion Quaternion::quat_rotate(float _angle, glm::vec3& _axis)
