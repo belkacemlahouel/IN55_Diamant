@@ -106,6 +106,34 @@ void Quaternion::print() const
     printf("(%0.1f, %0.1f, %0.1f, %0.1f)", x, y, z, w);
 }
 
+void Quaternion::print2() const
+{
+    char lettres[4] = {'\0', 'i', 'j', 'k'};
+    float q[4] = {w, x, y, z};
+    ostringstream chaine;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        if (q[i] != 0)
+        {
+            if (chaine.str() != "")
+            {
+                chaine << ((q[i] > 0) ? "+" : "");
+            }
+
+            chaine << q[i] << lettres[i];
+        }
+    }
+    
+    if (chaine.str() == "")
+    {
+        chaine << 0;
+    }
+
+    cout << chaine.str();
+}
+
+
 /***/
 
 Quaternion Quaternion::operator+(const Quaternion& q) const
@@ -249,14 +277,21 @@ float Quaternion::angle(const Quaternion& q1, const Quaternion& q2)
 
 /***/
 
-float* Quaternion::getRotationMatrix() const
+Matrix33 Quaternion::getRotationMatrix() const
 {
-    float matTab[9] = {1-2*y*y-2*z*z, 2*x*y-2*w*z, 2*x*z+2*w*y,
-                            2*x*y+2*w*z, 1-2*x*x-2*z*z, 2*y*z-2*w*x,
-                            2*x*z-2*w*y, 2*y*z+2*w*x, 1-2*x*x-2*y*y};
-    float* mat = matTab;
-    return mat;
-    // FIXME I work with french standards, you might transpose the result...
+    float matrix[9] = {1-2*y*y-2*z*z, 2*x*y-2*w*z, 2*x*z+2*w*y,
+                        2*x*y+2*w*z, 1-2*x*x-2*z*z, 2*y*z-2*w*x,
+                        2*x*z-2*w*y, 2*y*z+2*w*x, 1-2*x*x-2*y*y};
+
+    return Matrix33(matrix);
+
+    // FIXME I work with french standards, you might need to transpose the result...
+}
+
+void Quaternion::printRotationMatrix() const
+{
+    Matrix33 matrix = getRotationMatrix();
+    matrix.print();
 }
 
 /***/

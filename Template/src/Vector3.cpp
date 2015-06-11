@@ -90,74 +90,30 @@ Vector3 operator*(float s, const Vector3& v)
 
 /***/
 
-void Vector3::plus(const Vector3& v)
+Vector3 Vector3::cross(const Vector3& v) const
 {
-    x += v.getX();
-    y += v.getY();
-    z += v.getZ();
+    float _x, _y, _z;
+    _x = y*v.getZ() - z*v.getY();
+    _y = z*v.getX() - x*v.getZ();
+    _z = x*v.getY() - y*v.getX();
+    return Vector3(_x, _y, _z);
 }
 
-void Vector3::minus(const Vector3& v)
-{
-    x -= v.getX();
-    y -= v.getY();
-    z -= v.getZ();
-}
-
-void Vector3::scale(float s)
-{
-    x *= s;
-    y *= s;
-    z *= s;
-}
-
-Vector3 Vector3::cross(const Vector3& v)
-{
-    float x, y, z;
-    x = y*v.getZ() - z*v.getY();
-    y = x*v.getZ() - z*v.getX();
-    z = x*v.getY() - y*v.getX();
-    return Vector3(x, y, z);
-}
-
-float Vector3::dot(const Vector3& v)
+float Vector3::dot(const Vector3& v) const
 {
     return v.getX()*x + v.getY()*y + v.getZ()*z;
 }
 
 /***/
 
-Vector3 Vector3::plus(const Vector3& v1, const Vector3& v2)
-{
-    Vector3 ans(v1);
-    ans.plus(v2);
-    return ans;
-}
-
-Vector3 Vector3::minus(const Vector3& v1, const Vector3& v2)
-{
-    Vector3 ans(v1);
-    ans.minus(v2);
-    return ans;
-}
-
-Vector3 Vector3::scale(const Vector3& v1, float s)
-{
-    Vector3 ans(v1);
-    ans.scale(s);
-    return ans;
-}
-
 Vector3 Vector3::cross(const Vector3& v1, const Vector3& v2)
 {
-    Vector3 ans(v1);
-    return ans.cross(v2);
+    return v1.cross(v2);
 }
 
 float Vector3::dot(const Vector3& v1, const Vector3& v2)
 {
-    Vector3 ans(v1);
-    return ans.dot(v2);
+    return v1.dot(v2);
 }
 
 Vector3 Vector3::linearInterpolation(const Vector3& v1, const Vector3& v2, float t)

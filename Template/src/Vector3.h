@@ -34,16 +34,9 @@ public:
 	Vector3 operator-(const Vector3& v) const;
 	Vector3 operator*(float s) const;
 
-	void plus(const Vector3& v);
-	void minus(const Vector3& v);
-	void scale(float f);
+	Vector3 cross(const Vector3& v) const;
+	float dot(const Vector3& v) const;
 
-	Vector3 cross(const Vector3& v);
-	float dot(const Vector3& v);
-
-	static Vector3 plus(const Vector3& v1, const Vector3& v2);
-	static Vector3 minus(const Vector3& v1, const Vector3& v2);
-	static Vector3 scale(const Vector3& v, float s);
 	static Vector3 cross(const Vector3& v1, const Vector3& v2);
 	static float dot(const Vector3& v1, const Vector3& v2);
 

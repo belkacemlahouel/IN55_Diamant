@@ -6,6 +6,8 @@
 #include <iostream>
 #include <math.h>
 #include "Vector3.h"
+#include <sstream>
+#include "Matrix33.h"
 
 using namespace std;
 
@@ -37,6 +39,7 @@ public:
     void setW(float d);
 
     void print() const;
+    void print2() const;
 
     Quaternion operator+(const Quaternion& q) const;
     Quaternion operator-(const Quaternion& q) const;
@@ -67,7 +70,8 @@ public:
     static Quaternion slerp(const Quaternion& q1, const Quaternion& q2, float t);
     static float angle(const Quaternion& q1, const Quaternion& q2);
     
-    float* getRotationMatrix() const;
+    Matrix33 getRotationMatrix() const;
+    void printRotationMatrix() const;
 
     static Vector3 image(const Quaternion& q, const Vector3& p);
 };
