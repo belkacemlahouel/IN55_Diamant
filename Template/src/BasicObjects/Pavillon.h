@@ -12,14 +12,21 @@ class Pavillon : public Object3D
 {
     private :
         GLfloat *pavillonVertices;
+        GLfloat *pavillonNormals;
         GLushort *pavillonIndices;
         GLfloat *colorsArray;
+
         /* Array for the last level*/
         GLfloat *pavillonQuadLastLvlVertices;
         GLfloat *pavillonTrianglesLastLvlVertices;
-        GLushort *indicesLastLvlTrianglesIndices;
+
+        GLfloat *normalsQuadLastLvlVertices;
+        GLfloat *normalsTrianglesLastLvlVertices;
+
         GLushort *indicesLastLvlQuadIndices;
-        GLfloat *colorsLastLvlArray;
+        GLushort *indicesLastLvlTrianglesIndices;
+        GLfloat *colorsQuadLastLvlArray;
+        GLfloat *colorsTrianglesLastLvlArray;
 
         GLushort verticesArraySize;
         GLushort indicesArraySize;
@@ -32,13 +39,17 @@ class Pavillon : public Object3D
         GLuint VertexVBOID;
         GLuint ColorVBOID;
         GLuint IndicesVBOID;
+        GLuint NormalsVBOID;
         /* VBO for the second level */
         GLuint VertexQuadVBOID;
         GLuint ColorQuadVBOID;
         GLuint IndicesQuadVBOID;
+        GLuint NormalsQuadVBOID;
+
         GLuint VertexTrianglesVBOID;
         GLuint ColorTrianglesVBOID;
         GLuint IndicesTrianglesVBOID;
+        GLuint NormalsTrianglesVBOID;
 
         bool hasInitiatedVBO;
 
@@ -52,7 +63,6 @@ class Pavillon : public Object3D
         void drawShape(const char *shader_name);
         void createSecondLvl(int32 nbPtLvl1, float32 radius, float32 height, float32 deltaHeight, const GLfloat color[3]);
         void buildQuadrilateral(int32 nbPtLvl1, float32 radius, float32 height,  const GLfloat color[3]);
-        void computeNormals();
 };
 
 #endif // PAVILLON_H

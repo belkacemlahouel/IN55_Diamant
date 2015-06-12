@@ -10,18 +10,20 @@ class Object3D
         ~Object3D();
         static void setFramework(AbstractFramework*);
 
-    public:
         void draw();
         void draw(const char* shader_name);
-        GLfloat* ComputeSurfaceNormal (GLfloat p1[3], GLfloat p2[3], GLfloat p3[3]);
-
-    protected:
-        virtual void drawShape(const char* shader_name = NULL) = 0;
-        bool setAlpha(GLfloat alpha);
-
 
     protected:
         static AbstractFramework* m_Framework;
+
+        virtual void drawShape(const char* shader_name = NULL) = 0;
+
+        void computeNormals(GLfloat *normals, GLfloat *vertices, GLushort nbVertices, GLushort *indices, GLushort nbIndices, bool isTriangleFan = false);
+        bool setAlpha(GLfloat alpha);
+
+    private:
+        GLfloat* ComputeSurfaceNormal (GLfloat p1[3], GLfloat p2[3], GLfloat p3[3]);
+
 };
 
 #endif

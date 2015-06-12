@@ -118,7 +118,7 @@ GlFramework::~GlFramework()
 bool
 GlFramework::init()
 {
-    cout << "Init GLEW" << endl;
+    //cout << "Init GLEW" << endl;
 
     glewExperimental = GL_TRUE;
 

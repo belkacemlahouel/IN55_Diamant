@@ -6,7 +6,9 @@
 
 class LightSource
 {
-    public:
+    private:
+        GLfloat id;
+
         /*
          * Position si posDir.w = 1
          * Direction si posDir.w = 0
@@ -25,16 +27,18 @@ class LightSource
         GLfloat spotCutoff;
         GLfloat spotExponent;
 
+        AbstractFramework* m_Framework = NULL;
 
-        LightSource(GLfloat posDir[4],
+    public:
+        LightSource(AbstractFramework* fw, GLuint id,
+                    GLfloat posDir[4],
                     GLfloat ambient[4], GLfloat diffuse[4], GLfloat specular[4],
                     GLfloat constantAttenuation, GLfloat linearAttenuation, GLfloat quadraticAttenuation,
                     GLfloat spotDirection[3], GLfloat spotCutoff, GLfloat spotExponent);
-};
 
-typedef struct{
-     LightSource lights[2];
-}LightSources;
+        void submitLight();
+        void updateLight();
+};
 
 #endif // LIGHTSOURCE
 

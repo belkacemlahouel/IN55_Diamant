@@ -14,6 +14,7 @@ class Table : public Object3D
         GLfloat *verticesArray;
         GLushort *indicesArray;
         GLfloat *colorsArray;
+        GLfloat *normalsArray;
 
         GLushort verticesArraySize;
         GLushort indicesArraySize;
@@ -22,6 +23,7 @@ class Table : public Object3D
         GLuint VerticesVBOID;
         GLuint ColorsVBOID;
         GLuint IndicesVBOID;
+        GLuint NormalsVBOID;
 
         bool  hasInitiatedVBO;
 
@@ -33,7 +35,6 @@ class Table : public Object3D
     protected :
         void initVBO();
         void drawShape(const char *shader_name);
-        void computeNormals();
 };
 
 #endif // TABLE_H

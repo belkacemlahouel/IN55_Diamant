@@ -53,7 +53,7 @@ Table::Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon, i
         indicesArray[i] = i;
     }
 
-    this->computeNormals();
+    computeNormals(normalsArray, verticesArray, verticesArraySize, indicesArray, indicesArraySize);
 }
 
 
@@ -62,10 +62,12 @@ Table::~Table()
     delete [] verticesArray;
     delete [] indicesArray;
     delete [] colorsArray;
+    delete [] normalsArray;
 
     glDeleteBuffers(1, &VerticesVBOID);
     glDeleteBuffers(1, &ColorsVBOID);
     glDeleteBuffers(1, &IndicesVBOID);
+    glDeleteBuffers(1, &NormalsVBOID);
 }
 
 
@@ -84,6 +86,10 @@ void Table::initVBO()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesArraySize*sizeof(GLushort), indicesArray, GL_STATIC_DRAW);
 
+    glGenBuffers(1, &NormalsVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, NormalsVBOID);
+    glBufferData(GL_ARRAY_BUFFER, verticesArraySize*sizeof(GLfloat), normalsArray, GL_STATIC_DRAW);
+
     hasInitiatedVBO = true;
 }
 
@@ -93,9 +99,11 @@ void Table::drawShape(const char *shader_name)
     /* Enable attributes arrays */
     GLint positionLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "position");
     GLint colorLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "color");
+    GLint normalLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "normal");
 
     glEnableVertexAttribArray(positionLocation);
     glEnableVertexAttribArray(colorLocation);
+    glEnableVertexAttribArray(normalLocation);
 
     /* Initiate the VBO if it has not been done already */
     if(!hasInitiatedVBO)
@@ -108,15 +116,14 @@ void Table::drawShape(const char *shader_name)
     glBindBuffer(GL_ARRAY_BUFFER, ColorsVBOID);
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+    glBindBuffer(GL_ARRAY_BUFFER, NormalsVBOID);
+    glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glDrawElements(GL_TRIANGLE_FAN, indicesArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
     glDisableVertexAttribArray(colorLocation);
-}
-
-void Table::computeNormals()
-{
-
+    glDisableVertexAttribArray(normalLocation);
 }

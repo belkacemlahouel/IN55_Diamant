@@ -98,7 +98,7 @@ void Diamond::drawShape(const char *shader_name)
     /* Init some shader variables */
     if(!hasSetAlpha && this->setAlpha(this->alpha))
         this->hasSetAlpha = true;
-        
+
     pavillon->draw();
     rondiste->draw();
     crown->draw();

@@ -75,6 +75,8 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
 
     /* Correction of a wrong face. */
     indicesArraySize=indicesArraySize-3;
+
+    computeNormals(normalsArray, verticesArray, verticesArraySize, indicesArray, indicesArraySize);
 }
 
 
@@ -83,10 +85,12 @@ Rondiste::~Rondiste()
     delete [] verticesArray;
     delete [] colorsArray;
     delete [] indicesArray;
+    delete [] normalsArray;
 
     glDeleteBuffers(1, &VertexVBOID);
     glDeleteBuffers(1, &ColorVBOID);
     glDeleteBuffers(1, &IndicesVBOID);
+    glDeleteBuffers(1, &NormalsVBOID);
 }
 
 void Rondiste::initVBO()
@@ -104,6 +108,10 @@ void Rondiste::initVBO()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesArraySize*sizeof(GLushort), indicesArray, GL_STATIC_DRAW);
 
+    glGenBuffers(1, &NormalsVBOID);
+    glBindBuffer(GL_ARRAY_BUFFER, NormalsVBOID);
+    glBufferData(GL_ARRAY_BUFFER, verticesArraySize*sizeof(GLfloat), normalsArray, GL_STATIC_DRAW);
+
     hasInitiatedVBO = true;
 }
 
@@ -114,20 +122,25 @@ void Rondiste::drawShape(const char *shader_name)
     /* Enable attributes arrays */
     GLint positionLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "position");
     GLint colorLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "color");
+    GLint normalLocation = glGetAttribLocation(m_Framework->getCurrentShaderId(), "normal");
 
     glEnableVertexAttribArray(positionLocation);
     glEnableVertexAttribArray(colorLocation);
+    glEnableVertexAttribArray(normalLocation);
 
     /* Initiate the VBO if it has not been done already */
     if(!hasInitiatedVBO)
         this->initVBO();
 
-    /* Draw the pavillon */
+    /* Draw the principal faces of the crown */
     glBindBuffer(GL_ARRAY_BUFFER, VertexVBOID);
     glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, ColorVBOID);
     glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, NormalsVBOID);
+    glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesVBOID);
     glDrawElements(GL_TRIANGLES, indicesArraySize, GL_UNSIGNED_SHORT, 0);
@@ -135,5 +148,6 @@ void Rondiste::drawShape(const char *shader_name)
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);
     glDisableVertexAttribArray(colorLocation);
+    glDisableVertexAttribArray(normalLocation);
 }
 

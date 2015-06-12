@@ -6,13 +6,19 @@
 
 class Material
 {
-    public:
+    private:
         GLfloat *ambient;
         GLfloat *diffuse;
         GLfloat *specular;
         GLfloat shininess;
 
-        Material(GLfloat ambient[4], GLfloat diffuse[4], GLfloat specular[4], GLfloat shininess);
+        AbstractFramework* m_Framework = NULL;
+
+    public:
+
+        Material(AbstractFramework* fw, GLfloat ambient[4], GLfloat diffuse[4], GLfloat specular[4], GLfloat shininess);
+
+        void submitMaterial();
 };
 
 #endif // MATERIAL

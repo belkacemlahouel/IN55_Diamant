@@ -3,12 +3,27 @@
 
 
 #include "GlWindow.h"
+#include "Types.h"
+
+#include "lightsource.h"
+#include "material.h"
 
 
 class TP01 : public GlWindow
 {
+    private:
+        int16 shaderID;
+        boolean wireframeMode;
+
+        const GLfloat *color;
+        LightSource *light;
+        Material *material;
+
+        void createLight();
+        void createMaterial();
+
 	public:
-		TP01();
+        TP01(int16 shaderID, boolean wireframeMode);
         ~TP01();
 
 		/*!

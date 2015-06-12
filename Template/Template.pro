@@ -15,7 +15,6 @@ DESTDIR = release
 OBJECTS_DIR = obj
 
 HEADERS += \
-    src/BasicObjects/Cube.h \
     src/TP01.h \
     ../Common/Shapes/Basis.h \
     ../Common/AbstractFramework.h \
@@ -38,7 +37,6 @@ HEADERS += \
     src/Tools/matrix.h
 
 SOURCES += \
-    src/BasicObjects/Cube.cpp \
     src/main.cpp \
     src/TP01.cpp \
     ../Common/Shapes/Basis.cpp \

@@ -14,6 +14,7 @@ class Rondiste : public Object3D
         GLfloat *verticesArray;
         GLushort *indicesArray;
         GLfloat *colorsArray;
+        GLfloat *normalsArray;
 
         GLushort verticesArraySize;
         GLushort indicesArraySize;
@@ -22,6 +23,7 @@ class Rondiste : public Object3D
         GLuint VertexVBOID;
         GLuint ColorVBOID;
         GLuint IndicesVBOID;
+        GLuint NormalsVBOID;
 
         bool  hasInitiatedVBO;
 
@@ -33,7 +35,6 @@ class Rondiste : public Object3D
     protected :
         void initVBO();
         void drawShape(const char *shader_name);
-        void computeNormals();
 };
 
 #endif // RONDISTE

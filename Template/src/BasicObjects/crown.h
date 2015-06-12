@@ -15,6 +15,9 @@ class Crown : public Object3D
         GLfloat *verticesPrincipalFacesUpArray;
         GLfloat *verticesLittleFacesUpArray;
         GLfloat *verticesTrianglesDownArray;
+        GLfloat *normalsPrincipalFacesUpArray;
+        GLfloat *normalsLittleFacesUpArray;
+        GLfloat *normalsTrianglesDownArray;
         GLushort *indicesPrincipalArray;
         GLushort *indicesLittleFacesUpArray;
         GLushort *indicesLittleFacesDownArray;
@@ -30,14 +33,17 @@ class Crown : public Object3D
         GLuint VertexPrincipalFacesVBOID;
         GLuint ColorPrincipalFacesVBOID;
         GLuint IndicesPrincipalFacesVBOID;
+        GLuint NormalsPrincipalFacesVBOID;
 
         GLuint VertexUpperTrianglesVBOID;
         GLuint ColorUpperTrianglesVBOID;
         GLuint IndicesUpperTrianglesVBOID;
+        GLuint NormalsUpperTrianglesVBOID;
 
         GLuint VertexDownTrianglesVBOID;
         GLuint ColorDownTrianglesVBOID;
         GLuint IndicesDownTrianglesVBOID;
+        GLuint NormalsDownTrianglesVBOID;
 
         bool  hasInitiatedVBO;
     public:
@@ -49,7 +55,6 @@ class Crown : public Object3D
     protected :
         void initVBO();
         void drawShape(const char *shader_name);
-        void computeNormals();
 };
 
 #endif // CROWN_H

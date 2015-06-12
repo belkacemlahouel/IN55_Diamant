@@ -2,7 +2,6 @@
 
 #include "Shapes/Basis.h"
 #include "BasicObjects/Cube.h"
-#include "Types.h"
 #include "diamond.h"
 #include "Color.h"
 
@@ -17,13 +16,11 @@ GLfloat angle2 = 0;
 const GLfloat g_AngleSpeed = 15.0f;
 
 /* Camera variables */
-/*Pavillon* g_Pavillon;
-Rondiste* g_Rondiste;*/
 Diamond* g_diamond;
 
 
-TP01::TP01()
-{
+TP01::TP01(int16 shaderID = 0, boolean wireframeMode = false)
+{    
     setWindowTitle(trUtf8("IN55-DiamondProject"));
     float32 pavillon = 5.0;
     float32 crown = 2.0;
@@ -37,7 +34,11 @@ TP01::TP01()
     float32 lvlPavillon = 2.5;
     float32 lvlCrown = 1.0;
 
-    g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, COLOR_SPRINGGREEN, alpha, lvlPavillon, lvlCrown);
+    this->shaderID = shaderID;
+    this->wireframeMode = wireframeMode;
+
+    this->color = COLOR_SPRINGGREEN;
+    g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, this->color, alpha, lvlPavillon, lvlCrown);
 }
 TP01::~TP01()
 {
@@ -51,10 +52,24 @@ bool TP01::initializeObjects()
     glEnable(GL_DEPTH_TEST);
 
     /* Shaders settings */
-    createShader("release/Shaders/defaultDiffuseShader");
-    createShader("release/Shaders/defaultDiffuseRandomGradientShader");
+    if(this->shaderID == 1){
+        createShader("release/Shaders/defaultDiffuseRandomGradientShader");
+        useShader("defaultDiffuseRandomGradientShader");
+    }
+    else if(this->shaderID == 2){
+        createShader("release/Shaders/defaultDiffuseLightningShader");
+        useShader("defaultDiffuseLightningShader");
 
-    useShader("defaultDiffuseRandomGradientShader");
+        createMaterial();
+        createLight();
+    }
+    else {
+        createShader("release/Shaders/defaultDiffuseShader");
+        useShader("defaultDiffuseShader");
+    }
+
+    if(this->wireframeMode)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	return true;
 }
@@ -62,6 +77,9 @@ void TP01::render()
 {
     /* Initialisation de la caméra */
     lookAt(-20, 10, 0, 20, 0, 0);
+
+    if(this->shaderID == 2)
+        this->light->updateLight();
 
     /* Rendu des objets */
 	pushMatrix();
@@ -100,4 +118,37 @@ void TP01::keyPressEvent(QKeyEvent* event)
 			angle1 = angle2 = 0.0f;
 			break;
 	}
+}
+
+
+void TP01::createMaterial()
+{
+    GLfloat ambient[] = {0.0215, 0.1745, 0.0215, 1.0};
+    GLfloat diffuse[] = {0.07568, 0.61424, 0.07568, 1.0};
+    GLfloat specular[] = {0.633, 0.727811, 0.633, 1.0};
+    GLfloat shininess = 0.6;
+
+    this->material = new Material(this, ambient, diffuse, specular, shininess);
+}
+void TP01::createLight()
+{
+    GLuint id = 0;
+
+    GLfloat posDir[4] = {30.0, 30.0, 30.0, 0.0};
+
+    GLfloat ambient[4] = {0.0, 1.0, 1.0, 1.0};
+    GLfloat diffuse[4] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat specular[4] = {1.0, 1.0, 1.0, 1.0};
+
+    GLfloat constantAttenuation = 2.0;
+    GLfloat linearAttenuation = 1.0;
+    GLfloat quadraticAttenuation = 0.5;
+
+    GLfloat spotDirection[3] = {0.0, 0.0, 0.0};
+    GLfloat spotCutoff = 180;
+    GLfloat spotExponent = 0;
+
+    this->light = new LightSource(this, id, posDir, ambient, diffuse, specular,
+                                  constantAttenuation, linearAttenuation, quadraticAttenuation,
+                                  spotDirection, spotCutoff, spotExponent);
 }
