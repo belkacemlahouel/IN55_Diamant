@@ -59,6 +59,8 @@ void testQuaternion()
 
 	Quaternion q1(1.0f, 2.0f, 3.0f, 0.0f);
 	Quaternion q2(-8.0f, 9.0f, 10.0f, 5.0f);
+	Quaternion q3(0.0f, 0.0f, 0.0f, 1.0f);
+	Vector3 p(12.0f, 11.0f, 17.0f);
 
 	q1.print2(); cout << endl;
 	q2.print2(); cout << endl;
@@ -77,18 +79,23 @@ void testQuaternion()
 	
 	q2.printRotationMatrix(); cout << endl;
 
+	q3.print2(); cout << endl;
+	(Quaternion::image(q3, p)).print(); cout << endl;
+
 	cout << "Bye Quaternion!" << endl;
 }
 
 void testCamera()
 {
-	// TODO
+	cout << "Hello World!" << endl;
+	
+	Camera c;
 }
 
 int main(int argc, char** argv)
 {
-	testVector();
-	testQuaternion();
-	// testCamera();
+	// testVector();
+	// testQuaternion();
+	testCamera();
 	return 0;
 }

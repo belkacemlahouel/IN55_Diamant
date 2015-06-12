@@ -33,6 +33,11 @@ public:
 	Vector3 operator+(const Vector3& v) const;
 	Vector3 operator-(const Vector3& v) const;
 	Vector3 operator*(float s) const;
+	Vector3 operator/(float s) const;
+	void operator+=(const Vector3& v);
+	void operator-=(const Vector3& v);
+	void operator*=(float s);
+	void operator/=(float s);
 
 	Vector3 cross(const Vector3& v) const;
 	float dot(const Vector3& v) const;

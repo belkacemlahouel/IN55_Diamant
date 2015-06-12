@@ -7,9 +7,9 @@
 #include <math.h>
 #include "Vector3.h"
 #include <sstream>
-#include "Matrix33.h"
 
 #define MATRIX_SIZE 9
+#define MS 3
 
 using namespace std;
 

@@ -38,7 +38,7 @@ float Matrix33::get(int i, int j) const
 		i = j;
 		j = tmp;
 	}
-	return matrix[3*i+j];
+	return matrix[MS*i+j];
 }
 
 void Matrix33::set(float newMatrix[])
@@ -49,11 +49,11 @@ void Matrix33::set(float newMatrix[])
 
 void Matrix33::print() const
 {
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < MS; ++i)
     {
-        for (int j = 0; j < 3; ++j)
+        for (int j = 0; j < MS; ++j)
         {
-            cout << "\t" << get(i, j);
+            cout << "\t\t" << get(i, j);
         }
         cout << endl;
     }

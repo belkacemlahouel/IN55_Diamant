@@ -88,6 +88,31 @@ Vector3 operator*(float s, const Vector3& v)
     return Vector3(v.getX()*s, v.getY()*s, v.getZ()*s);
 }
 
+Vector3 Vector3::operator/(float s) const
+{
+    return (*this) * (1/s);
+}
+
+void Vector3::operator+=(const Vector3& v)
+{
+    *this = *this + v;
+}
+
+void Vector3::operator-=(const Vector3& v)
+{
+    *this = *this - v;
+}
+
+void Vector3::operator*=(float s)
+{
+    *this = (*this) * s;
+}
+
+void Vector3::operator/=(float s)
+{
+    *this = (*this) / s;
+}
+
 /***/
 
 Vector3 Vector3::cross(const Vector3& v) const
