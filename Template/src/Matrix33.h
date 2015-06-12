@@ -26,6 +26,7 @@ public:
 	~Matrix33();
 	void transpose();
 	float get(int i, int j) const;
+    float get(int i) const;
 	void set(float newMatrix[]);
 	void print() const;
 };

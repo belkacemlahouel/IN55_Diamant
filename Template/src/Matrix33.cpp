@@ -41,6 +41,11 @@ float Matrix33::get(int i, int j) const
 	return matrix[MS*i+j];
 }
 
+float Matrix33::get(int i) const
+{
+    return matrix[i];
+}
+
 void Matrix33::set(float newMatrix[])
 {
 	for (int i = 0; i < MATRIX_SIZE; ++i)

@@ -18,8 +18,8 @@ using namespace std;
 GLfloat angle1 = 0;
 GLfloat angle2 = 0;
 
-const GLfloat g_AngleSpeed = 15.0f;
-const GLfloat g_MoveSpeed = 10.0f;
+const GLfloat g_AngleSpeed = 0.5f*DEG2RAD;
+const GLfloat g_MoveSpeed = 2.0f;
 
 /* Camera variables */
 /*Pavillon* g_Pavillon;
@@ -73,7 +73,7 @@ bool TP01::initializeObjects()
     cout << "coco3" << endl;
 
     /* Shaders settings */
-    createShader("release/Shaders/defaultDiffuseShader");
+    // createShader("release/Shaders/defaultDiffuseShader");
     createShader("release/Shaders/defaultDiffuseRandomGradientShader");
 
     cout << "coco4" << endl;
@@ -99,13 +99,18 @@ void TP01::render()
 //    popMatrix();
 
 
-    // Implémentation de la caméra libre
+    // Utilisation de la caméra libre
     cout << "cocoX" << endl;
 
-    if(m_keyUp)     g_camera->translateY(g_MoveSpeed);
-    if(m_keyDown)   g_camera->translateY(-g_MoveSpeed);
-    if(m_keyRight)  g_camera->translateX(g_MoveSpeed);
-    if(m_keyLeft)   g_camera->translateX(-g_MoveSpeed);
+    if (m_keyUp)    g_camera->translateZ(g_MoveSpeed);
+    if (m_keyDown)  g_camera->translateZ(-g_MoveSpeed);
+    if (m_keyRight) g_camera->translateX(g_MoveSpeed);
+    if (m_keyLeft)  g_camera->translateX(-g_MoveSpeed);
+
+    if (m_IPlus)    g_camera->rotateX(g_AngleSpeed);
+    if (m_IMinus)   g_camera->rotateX(-g_AngleSpeed);
+    if (m_KPlus)    g_camera->rotateY(g_AngleSpeed);
+    if (m_KMinus)   g_camera->rotateY(-g_AngleSpeed);
 
     g_camera->buildViewMatrix();
     g_camera->buildProjectionMatrix();
@@ -119,6 +124,15 @@ void TP01::render()
     setProjMatrix(matProj);
 
     g_diamond->draw();
+
+    m_keyUp = false;
+    m_keyDown = false;
+    m_keyRight = false;
+    m_keyLeft = false;
+    m_IMinus = false;
+    m_IPlus = false;
+    m_KPlus = false;
+    m_KMinus = false;
 }
 
 void TP01::keyPressEvent(QKeyEvent* event)
@@ -143,6 +157,22 @@ void TP01::keyPressEvent(QKeyEvent* event)
 
         case Qt::Key_Down:
             m_keyDown = true;
+            break;
+
+        case Qt::Key_Z:
+            m_IPlus = true;
+            break;
+
+        case Qt::Key_S:
+            m_IMinus = true;
+            break;
+
+        case Qt::Key_D:
+            m_KPlus = true;
+            break;
+
+        case Qt::Key_Q:
+            m_KMinus = true;
             break;
 
 		case Qt::Key_R:

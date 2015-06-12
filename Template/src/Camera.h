@@ -49,7 +49,7 @@ public:
     Matrix44 getViewMatrix() const;
     Matrix44 getProjectionMatrix() const;
 
-    GLMatrix getViewGLMatrix() const;
+    GLMatrix getViewGLMatrix();
     GLMatrix getProjectionGLMatrix() const;
 
     void buildViewMatrix();

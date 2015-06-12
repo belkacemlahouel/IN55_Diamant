@@ -103,7 +103,7 @@ void Quaternion::setW(float d)
 
 void Quaternion::print() const
 {
-    printf("(%0.1f, %0.1f, %0.1f, %0.1f)", x, y, z, w);
+    printf("(<%0.1f, %0.1f, %0.1f>, %0.1f)", x, y, z, w);
 }
 
 void Quaternion::print2() const

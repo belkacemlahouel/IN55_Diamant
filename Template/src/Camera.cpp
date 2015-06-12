@@ -1,13 +1,13 @@
 #include "Camera.h"
 
-Camera::Camera() : fieldOfView(70.0f), farPlan(20.0f), nearPlan(5.0f), aspectRatio(0.75f)
+Camera::Camera() : fieldOfView(70.0f*DEG2RAD), farPlan(20.0f), nearPlan(5.0f), aspectRatio(0.7f)
 {
     i = Vector3(1.0f, 0.0f, 0.0f);
     j = Vector3(0.0f, 1.0f, 0.0f);
     k = Vector3(0.0f, 0.0f, 1.0f);
 
-    m_Position = Vector3(0.0f, 0.0f, 0.0f);
-    m_Orientation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+    m_Position = Vector3(0.0f, -6.0f, -20.0f);
+    m_Orientation = Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
 
     buildProjectionMatrix();
     buildViewMatrix();
@@ -46,28 +46,30 @@ void Camera::rotate(float angle, float ax, float ay, float az)
 {
     Quaternion rotation;
     rotation.setFromAxisAngle(angle, ax, ay, az);
-    m_Orientation = rotation * m_Orientation * rotation.inverseNew();
+    rotation.normalize();
+
+    m_Orientation *= rotation.inverseNew();
+    m_Orientation.normalize();
+    m_Orientation = rotation * m_Orientation;
+    m_Orientation.normalize();
+
+    // m_Position = Quaternion::image(rotation, m_Position);
 }
 
 void Camera::rotateX(float angle)
 {
-    Quaternion rotation;
-    rotation.setFromAxisAngle(angle, i);
-    m_Orientation = rotation * m_Orientation * rotation.inverseNew();
+    rotate(angle, i.getX(), i.getY(), i.getZ());
 }
 
 void Camera::rotateY(float angle)
 {
-    Quaternion rotation;
-    rotation.setFromAxisAngle(angle, j);
-    m_Orientation = rotation * m_Orientation * rotation.inverseNew();
+    rotate(angle, j.getX(), j.getY(), j.getZ());
+
 }
 
 void Camera::rotateZ(float angle)
 {
-    Quaternion rotation;
-    rotation.setFromAxisAngle(angle, k);
-    m_Orientation = rotation * m_Orientation * rotation.inverseNew();
+    rotate(angle, k.getX(), k.getY(), k.getZ());
 }
 
 /***/
@@ -100,7 +102,7 @@ Matrix44 Camera::getProjectionMatrix() const
     return m_ProjectionMatrix;
 }
 
-GLMatrix Camera::getViewGLMatrix() const
+GLMatrix Camera::getViewGLMatrix()
 {
     Matrix44 view;
     view = getViewMatrix();
@@ -113,6 +115,27 @@ GLMatrix Camera::getViewGLMatrix() const
 
     view.transpose();
     return glView;
+
+    /***/
+
+//    m_Orientation.normalize();
+
+//    Matrix33 R = m_Orientation.getRotationMatrix();
+
+//    GLfloat RPx = R.get(0) * m_Position.getX() + R.get(1) * m_Position.getY() + R.get(2) * m_Position.getZ();
+//    GLfloat RPy = R.get(3) * m_Position.getX() + R.get(4) * m_Position.getY() + R.get(5) * m_Position.getZ();
+//    GLfloat RPz = R.get(6) * m_Position.getX() + R.get(7) * m_Position.getY() + R.get(8) * m_Position.getZ();
+
+//    GLMatrix viewMatrix;
+
+//    float tmp[16] =    {R.get(0),R.get(1),R.get(2),-RPx,
+//                        R.get(3),R.get(4),R.get(5),-RPy,
+//                        R.get(6),R.get(7),R.get(8),-RPz,
+//                        0.0f,    0.0f,    0.0f,    1.0f};
+
+//    viewMatrix.set(tmp);
+
+//    return viewMatrix;
 }
 
 GLMatrix Camera::getProjectionGLMatrix() const
@@ -142,6 +165,9 @@ void Camera::buildViewMatrix()
                                  ni.getY(), nj.getY(), nk.getY(), m_Position.getY(),
                                  ni.getZ(), nj.getZ(), nk.getZ(), m_Position.getZ(),
                                  0.0f,      0.0f,      0.0f,      1.0f};
+    //    i = ni;
+    //    j = nj;
+    //    k = nk;
 
     m_ViewMatrix = Matrix44(view);
 
@@ -157,7 +183,6 @@ void Camera::buildProjectionMatrix()
     float l = -r;
     float t = n*aspectRatio/e;
     float b = -t;
-
 
     float proj[MATRIX44_SIZE] = {2*n/(r-l), 0.0f,       (r+l)/(r-l),    0.0f,
                                  0.0f,      2*n/(t-b),  (t+b)/(t-b),    0.0f,

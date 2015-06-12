@@ -17,6 +17,12 @@ struct GLMatrix
     };
 
     void setIdentity();
+
+    void set(GLfloat _data[])
+    {
+        for (int i = 0; i < 16; ++i)
+            data[i] = _data[i];
+    }
 };
 
 GLMatrix operator*(const GLMatrix &, const GLMatrix &);
