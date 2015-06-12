@@ -100,6 +100,36 @@ Matrix44 Camera::getProjectionMatrix() const
     return m_ProjectionMatrix;
 }
 
+GLMatrix Camera::getViewGLMatrix() const
+{
+    Matrix44 view;
+    view = getViewMatrix();
+    view.transpose();
+
+    GLMatrix glView;
+    for (int i = 0; i < MS44; ++i)
+        for (int j = 0; j < MS44; ++j)
+            glView.data[i+MS44*j] = view.get(i, j);
+
+    view.transpose();
+    return glView;
+}
+
+GLMatrix Camera::getProjectionGLMatrix() const
+{
+    Matrix44 proj;
+    proj = getProjectionMatrix();
+    proj.transpose();
+
+    GLMatrix glProj;
+    for (int i = 0; i < MS44; ++i)
+        for (int j = 0; j < MS44; ++j)
+            glProj.data[i+MS44*j] = proj.get(i, j);
+
+    proj.transpose();
+    return glProj;
+}
+
 /***/
 
 void Camera::buildViewMatrix()

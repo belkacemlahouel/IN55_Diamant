@@ -33,7 +33,12 @@ HEADERS += \
     src/BasicObjects/rondiste.h \
     src/BasicObjects/crown.h \
     src/Tools/matrix.h \
-    src/BasicObjects/table.h
+    src/BasicObjects/table.h \
+    src/Camera.h \
+    src/Matrix33.h \
+    src/Matrix44.h \
+    src/Quaternion.h \
+    src/Vector3.h
 
 SOURCES += \
     src/BasicObjects/Cube.cpp \
@@ -50,4 +55,9 @@ SOURCES += \
     src/BasicObjects/rondiste.cpp \
     src/BasicObjects/crown.cpp \
     src/Tools/matrix.cpp \
-    src/BasicObjects/table.cpp
+    src/BasicObjects/table.cpp \
+    src/Camera.cpp \
+    src/Matrix33.cpp \
+    src/Matrix44.cpp \
+    src/Quaternion.cpp \
+    src/Vector3.cpp

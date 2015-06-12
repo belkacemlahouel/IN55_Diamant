@@ -9,6 +9,7 @@
 #include "Matrix33.h"
 #include <math.h>
 #include <iostream>
+#include <GlFramework.h>
 
 #define DEG2RAD 0.01745329251
 #define RAD2DEG 57.2957795131
@@ -48,7 +49,9 @@ public:
     Matrix44 getViewMatrix() const;
     Matrix44 getProjectionMatrix() const;
 
-protected:
+    GLMatrix getViewGLMatrix() const;
+    GLMatrix getProjectionGLMatrix() const;
+
     void buildViewMatrix();
     void buildProjectionMatrix();
 };

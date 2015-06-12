@@ -8,6 +8,10 @@
 
 #include <iostream>
 
+#include <QPixmap>
+#include "Camera.h"
+#include <GlFramework.h>
+
 using namespace std;
 
 /* Camera variables */
@@ -15,12 +19,17 @@ GLfloat angle1 = 0;
 GLfloat angle2 = 0;
 
 const GLfloat g_AngleSpeed = 15.0f;
+const GLfloat g_MoveSpeed = 10.0f;
 
 /* Camera variables */
 /*Pavillon* g_Pavillon;
 Rondiste* g_Rondiste;*/
 Diamond* g_diamond;
 
+Camera* g_camera;
+bool m_keyRight, m_keyLeft, m_keyDown, m_keyUp; // Translate
+bool m_IPlus, m_IMinus, m_KPlus, m_KMinus;      // Rotation
+bool m_keySpace;                                // Re-center
 
 TP01::TP01()
 {
@@ -38,6 +47,15 @@ TP01::TP01()
     float32 lvlCrown = 1.0;
 
     g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, COLOR_SPRINGGREEN, alpha, lvlPavillon, lvlCrown);
+
+    g_camera = new Camera();
+
+    m_keyDown = false;
+    m_keyLeft = false;
+    m_keyRight = false;
+    m_keyUp = false;
+
+    cout << endl << "coco1" << endl;
 }
 TP01::~TP01()
 {
@@ -46,30 +64,61 @@ TP01::~TP01()
 
 bool TP01::initializeObjects()
 {
+    cout << "coco2" << endl;
+
     /* Grey background */
 	glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
 	glEnable( GL_DEPTH_TEST );
+
+    cout << "coco3" << endl;
 
     /* Shaders settings */
     createShader("release/Shaders/defaultDiffuseShader");
     createShader("release/Shaders/defaultDiffuseRandomGradientShader");
 
+    cout << "coco4" << endl;
+
     useShader("defaultDiffuseRandomGradientShader");
+
+    cout << "coco5" << endl;
 
 	return true;
 }
 void TP01::render()
 {
-    /* Initialisation de la caméra */
-    lookAt(-20, 10, 0, 20, 0, 0);
+//    // Utilisation de la caméra "classique"
+//    // Initialisation de la caméra
+//    lookAt(-20, 10, 0, 20, 0, 0);
 
-    /* Rendu des objets */
-	pushMatrix();
-        rotate(angle1, 0, 1, 0);
-        rotate(angle2, 1, 0, 0);
+//    // Rendu des objets
+//    pushMatrix();
+//        rotate(angle1, 0, 1, 0);
+//        rotate(angle2, 1, 0, 0);
 
-        g_diamond->draw();
-	popMatrix();
+//        g_diamond->draw();
+//    popMatrix();
+
+
+    // Implémentation de la caméra libre
+    cout << "cocoX" << endl;
+
+    if(m_keyUp)     g_camera->translateY(g_MoveSpeed);
+    if(m_keyDown)   g_camera->translateY(-g_MoveSpeed);
+    if(m_keyRight)  g_camera->translateX(g_MoveSpeed);
+    if(m_keyLeft)   g_camera->translateX(-g_MoveSpeed);
+
+    g_camera->buildViewMatrix();
+    g_camera->buildProjectionMatrix();
+
+    g_camera->getViewMatrix().print();
+
+    GLMatrix matView = g_camera->getViewGLMatrix();
+    GLMatrix matProj = g_camera->getProjectionGLMatrix();
+
+    setViewMatrix(matView);
+    setProjMatrix(matProj);
+
+    g_diamond->draw();
 }
 
 void TP01::keyPressEvent(QKeyEvent* event)
@@ -80,21 +129,21 @@ void TP01::keyPressEvent(QKeyEvent* event)
 			close();
 			break;
 
-		case Qt::Key_Left:
-			angle1 -= g_AngleSpeed;
-			break;
+        case Qt::Key_Left:
+            m_keyLeft = true;
+            break;
 
-		case Qt::Key_Right:
-			angle1 += g_AngleSpeed;
-			break;
+        case Qt::Key_Right:
+            m_keyRight = true;
+            break;
 
-		case Qt::Key_Up:
-			angle2 -= g_AngleSpeed;
-			break;
+        case Qt::Key_Up:
+            m_keyUp = true;
+            break;
 
-		case Qt::Key_Down:
-			angle2 += g_AngleSpeed;
-			break;
+        case Qt::Key_Down:
+            m_keyDown = true;
+            break;
 
 		case Qt::Key_R:
 			angle1 = angle2 = 0.0f;
