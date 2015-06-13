@@ -36,17 +36,17 @@ void Camera::translate(float dx, float dy, float dz)
 
 void Camera::translateX(float dx)
 {
-    m_Position += Quaternion::image(m_Orientation, i) * dx;
+    m_Position += /*Quaternion::image(m_Orientation, i) **/ dx*i;
 }
 
 void Camera::translateY(float dy)
 {
-    m_Position += Quaternion::image(m_Orientation, j) * dy;
+    m_Position += /*Quaternion::image(m_Orientation, j) **/ dy*j;
 }
 
 void Camera::translateZ(float dz)
 {
-    m_Position += Quaternion::image(m_Orientation, k) * dz;
+    m_Position += /*Quaternion::image(m_Orientation, k) **/ dz*k;
 }
 
 /***/

@@ -145,6 +145,8 @@ Makefile: Template.pro C:/Qt/5.4/mingw491_32/mkspecs/win32-g++/qmake.conf C:/Qt/
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_webkitwidgets_private.pri \
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_websockets.pri \
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_websockets_private.pri \
+		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_webview.pri \
+		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_webview_private.pri \
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_widgets.pri \
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_widgets_private.pri \
 		C:/Qt/5.4/mingw491_32/mkspecs/modules/qt_lib_winextras.pri \
@@ -269,6 +271,8 @@ C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_websockets_private.pri:
+C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview.pri:
+C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_webview_private.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_widgets_private.pri:
 C:\Qt\5.4\mingw491_32\mkspecs\modules\qt_lib_winextras.pri:
