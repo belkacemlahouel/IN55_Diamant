@@ -149,7 +149,7 @@ void TP01::keyPressEvent(QKeyEvent* event)
 	{
 		case Qt::Key_Escape:
 			close();
-			break;
+            break;
 
         case Qt::Key_Space:
             m_keySpace = true;
@@ -187,8 +187,8 @@ void TP01::keyPressEvent(QKeyEvent* event)
             m_KMinus = true;
             break;
 
-		case Qt::Key_R:
-			angle1 = angle2 = 0.0f;
-			break;
+//		case Qt::Key_R:
+//			angle1 = angle2 = 0.0f;
+//			break;
 	}
 }

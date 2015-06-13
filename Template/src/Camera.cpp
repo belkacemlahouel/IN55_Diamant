@@ -29,6 +29,7 @@ void Camera::reset()
     buildProjectionMatrix();
     buildViewMatrix();
 }
+
 /***/
 
 void Camera::translate(float dx, float dy, float dz)
@@ -69,8 +70,10 @@ void Camera::rotate(float angle, float ax, float ay, float az)
 
     // m_Orientation *= rotation.inverseNew();
     m_Orientation.normalize();
+    m_Orientation.print2(); cout << "-->";
     m_Orientation = rotation * m_Orientation;
     m_Orientation.normalize();
+    m_Orientation.print2(); cout << endl;
 
     i = Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f));
     j = Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f));
