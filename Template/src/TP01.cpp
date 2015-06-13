@@ -18,7 +18,7 @@ using namespace std;
 GLfloat angle1 = 0;
 GLfloat angle2 = 0;
 
-const GLfloat g_AngleSpeed = 1.0f*DEG2RAD;
+const GLfloat g_AngleSpeed = 2.0f*DEG2RAD;
 const GLfloat g_MoveSpeed = 1.0f;
 
 /* Camera variables */
@@ -100,8 +100,6 @@ void TP01::render()
 
 
     // Utilisation de la caméra libre
-    cout << "cocoX" << endl;
-
     if (m_keySpace) g_camera->reset();
 
     if (m_keyUp)    g_camera->translateZ(g_MoveSpeed);
@@ -126,6 +124,13 @@ void TP01::render()
     setProjMatrix(matProj);
 
     g_diamond->draw();
+
+    pushMatrix();
+        translate(0.0f, 7.0f, 1.0f);
+        float color[] = {1.0f, 1.0f, 0.0f};
+        Cube cu = Cube(7.0f, color);
+        cu.draw();
+    popMatrix();
 
     m_keyUp = false;
     m_keyDown = false;
@@ -159,19 +164,19 @@ void TP01::keyPressEvent(QKeyEvent* event)
             break;
 
         case Qt::Key_Up:
-            m_keyUp = true;
-            break;
-
-        case Qt::Key_Down:
             m_keyDown = true;
             break;
 
+        case Qt::Key_Down:
+            m_keyUp = true;
+            break;
+
         case Qt::Key_Z:
-            m_IPlus = true;
+            m_IMinus = true;
             break;
 
         case Qt::Key_S:
-            m_IMinus = true;
+            m_IPlus = true;
             break;
 
         case Qt::Key_D:
