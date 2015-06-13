@@ -13,6 +13,18 @@ Camera::Camera() : fieldOfView(70.0f*DEG2RAD), farPlan(20.0f), nearPlan(5.0f), a
     buildViewMatrix();
 }
 
+void Camera::reset()
+{
+//    fieldOfView = 70.0f*DEG2RAD;
+//    farPlan = 20.0f;
+//    nearPlan = 5.0f;
+//    aspectRatio = 0.7f;
+    m_Position = Vector3(0.0f, -6.0f, -20.0f);
+    m_Orientation = Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+
+    buildProjectionMatrix();
+    buildViewMatrix();
+}
 /***/
 
 void Camera::translate(float dx, float dy, float dz)
@@ -48,7 +60,7 @@ void Camera::rotate(float angle, float ax, float ay, float az)
     rotation.setFromAxisAngle(angle, ax, ay, az);
     rotation.normalize();
 
-    m_Orientation *= rotation.inverseNew();
+    // m_Orientation *= rotation.inverseNew();
     m_Orientation.normalize();
     m_Orientation = rotation * m_Orientation;
     m_Orientation.normalize();

@@ -30,6 +30,7 @@ private:
 
 public:
     Camera();
+    void reset();
 
     void translate(float dx, float dy, float dz);
     void translateX(float dx);

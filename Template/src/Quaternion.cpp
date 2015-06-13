@@ -301,5 +301,5 @@ Vector3 Quaternion::image(const Quaternion& q, const Vector3& p)
     Quaternion qp(p, 0.0f);
     Quaternion qr(q.normalized());
     Quaternion iqr(qr.inverseNew());
-    return (qr*qp*qr.inverseNew()).getV();
+    return (qr*qp*iqr).getV();
 }
