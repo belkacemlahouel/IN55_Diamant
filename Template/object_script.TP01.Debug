@@ -14,4 +14,9 @@ INPUT(
 ./obj\crown.o
 ./obj\matrix.o
 ./obj\table.o
+./obj\Camera.o
+./obj\Matrix33.o
+./obj\Matrix44.o
+./obj\Quaternion.o
+./obj\Vector3.o
 );

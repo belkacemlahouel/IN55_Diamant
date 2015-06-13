@@ -17,6 +17,12 @@ struct GLMatrix
     };
 
     void setIdentity();
+
+    void set(GLfloat _data[])
+    {
+        for (int i = 0; i < 16; ++i)
+            data[i] = _data[i];
+    }
 };
 
 GLMatrix operator*(const GLMatrix &, const GLMatrix &);
@@ -57,6 +63,15 @@ class GlFramework : public AbstractFramework
         */
         void lookAt(GLfloat eyeX, GLfloat eyeY, GLfloat eyeZ, GLfloat targetX, GLfloat targetY, GLfloat targetZ, GLfloat upX = 0.0f, GLfloat upY = 1.0f, GLfloat upZ = 0.0f);
 
+        void setViewMatrix(GLMatrix& matView)
+        {
+            pViewMatrix = matView;
+        }
+
+        void setProjMatrix(GLMatrix& matProj)
+        {
+            pProjMatrix = matProj;
+        }
 
     protected:
 		/*!
