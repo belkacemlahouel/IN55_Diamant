@@ -76,6 +76,7 @@ Rondiste::Rondiste(float32 radius, float32 pavillonHeight, float32 rondisteHeigh
     /* Correction of a wrong face. */
     indicesArraySize=indicesArraySize-3;
 
+    normalsArray = new GLfloat[verticesArraySize];
     computeNormals(normalsArray, verticesArray, verticesArraySize, indicesArray, indicesArraySize);
 }
 

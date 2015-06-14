@@ -1,6 +1,7 @@
-#version 140
+#version 330
 
 uniform float alpha;
+uniform mat4 V;
 uniform mat4 NP;
 uniform mat4 MV;
 uniform mat4 MVP;

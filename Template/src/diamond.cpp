@@ -76,16 +76,16 @@ Diamond::Diamond(float32 pavillon, float32 crown, float32 rondiste, float32 tabl
 
 
     this->pavillon = new Pavillon(radius, pavillon, lvlPavillon, complexity, rondiste, color);
-    this->rondiste = new Rondiste(radius, pavillon, rondiste, complexity, color);
+    /*this->rondiste = new Rondiste(radius, pavillon, rondiste, complexity, color);
     this->crown = new Crown(radius, table, crown, rondiste, pavillon, lvlCrown, complexity, color);
-    this->table = new Table(table, crown, pavillon, complexity, color);
+    this->table = new Table(table, crown, pavillon, complexity, color);*/
 }
 Diamond::~Diamond()
 {
     delete this->pavillon;
-    delete this->rondiste;
+    /*delete this->rondiste;
     delete this->crown;
-    delete this->table;
+    delete this->table;*/
 }
 
 /**
@@ -100,7 +100,7 @@ void Diamond::drawShape(const char *shader_name)
         this->hasSetAlpha = true;
 
     pavillon->draw();
-    rondiste->draw();
+    /*rondiste->draw();
     crown->draw();
-    table->draw();
+    table->draw();*/
 }

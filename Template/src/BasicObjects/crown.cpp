@@ -170,8 +170,13 @@ Crown::Crown(float32 radius, float32 table, float32 crownHeight, float32 rondist
     /* Create the little triangles down crown. */
     createDownTriangles(radius, table, crownHeight, rondisteHeight, pavillonHeight, lvlCrownHeight, complexity, color);
 
+    normalsPrincipalFacesUpArray = new GLfloat[verticesPrincipalArraySize];
     computeNormals(normalsPrincipalFacesUpArray, verticesPrincipalFacesUpArray, verticesPrincipalArraySize, indicesPrincipalArray, indicesPrincipalArraySize);
+
+    normalsLittleFacesUpArray = new GLfloat[verticesPrincipalArraySize];
     computeNormals(normalsLittleFacesUpArray, verticesLittleFacesUpArray, verticesPrincipalArraySize, indicesLittleFacesUpArray, indicesPrincipalArraySize);
+
+    normalsTrianglesDownArray = new GLfloat[verticesTrianglesDownArraySize];
     computeNormals(normalsTrianglesDownArray, verticesTrianglesDownArray, verticesTrianglesDownArraySize, indicesLittleFacesDownArray, indicesLittleFacesDownArraySize);
 }
 

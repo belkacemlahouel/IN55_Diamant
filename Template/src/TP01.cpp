@@ -82,12 +82,12 @@ void TP01::render()
         this->light->updateLight();
 
     /* Rendu des objets */
-	pushMatrix();
+    pushMatrix();
         rotate(angle1, 0, 1, 0);
         rotate(angle2, 1, 0, 0);
 
         g_diamond->draw();
-	popMatrix();
+    popMatrix();
 }
 
 void TP01::keyPressEvent(QKeyEvent* event)
@@ -126,7 +126,7 @@ void TP01::createMaterial()
     GLfloat ambient[] = {0.0215, 0.1745, 0.0215, 1.0};
     GLfloat diffuse[] = {0.07568, 0.61424, 0.07568, 1.0};
     GLfloat specular[] = {0.633, 0.727811, 0.633, 1.0};
-    GLfloat shininess = 0.6;
+    GLfloat shininess = 128*0.6;
 
     this->material = new Material(this, ambient, diffuse, specular, shininess);
 }
@@ -134,9 +134,9 @@ void TP01::createLight()
 {
     GLuint id = 0;
 
-    GLfloat posDir[4] = {30.0, 30.0, 30.0, 0.0};
+    GLfloat posDir[4] = {10, 10, -15, 0.0};
 
-    GLfloat ambient[4] = {0.0, 1.0, 1.0, 1.0};
+    GLfloat ambient[4] = {0.1, 0.1, 0.1, 1.0};
     GLfloat diffuse[4] = {1.0, 1.0, 1.0, 1.0};
     GLfloat specular[4] = {1.0, 1.0, 1.0, 1.0};
 

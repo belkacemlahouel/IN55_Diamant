@@ -53,6 +53,7 @@ Table::Table(float32 radiusTable, float32 heightCrown, float32 heightPavillon, i
         indicesArray[i] = i;
     }
 
+    normalsArray = new GLfloat[verticesArraySize];
     computeNormals(normalsArray, verticesArray, verticesArraySize, indicesArray, indicesArraySize);
 }
 

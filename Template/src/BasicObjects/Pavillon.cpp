@@ -65,8 +65,13 @@ Pavillon::Pavillon(float32 radius, float32 totalHeight, float32 firstLevelHeight
     float32 deltaHeight = rondiste/2;
     createSecondLvl(nbPtLvl1, radius, totalHeight, deltaHeight, color);
 
+    pavillonNormals = new GLfloat[verticesArraySize];
     computeNormals(pavillonNormals, pavillonVertices, verticesArraySize, pavillonIndices, indicesArraySize, true);
+
+    normalsQuadLastLvlVertices = new GLfloat[verticesQuadLastLvlArraySize];
     computeNormals(normalsQuadLastLvlVertices, pavillonQuadLastLvlVertices, verticesQuadLastLvlArraySize, indicesLastLvlQuadIndices, indicesQuadLastLvlArraySize);
+
+    normalsTrianglesLastLvlVertices = new GLfloat[verticesTrianglesLastLvlArraySize];
     computeNormals(normalsTrianglesLastLvlVertices, pavillonTrianglesLastLvlVertices, verticesTrianglesLastLvlArraySize, indicesLastLvlTrianglesIndices, indicesTrianglesLastLvlArraySize-6);
 }
 
@@ -363,7 +368,7 @@ void Pavillon::drawShape(const char* shader_name)
     glDrawElements(GL_TRIANGLES, indicesQuadLastLvlArraySize, GL_UNSIGNED_SHORT, 0);
 
     /* Draw the triangles of the "pavillon" */
-    glBindBuffer(GL_ARRAY_BUFFER, VertexTrianglesVBOID);
+    /*glBindBuffer(GL_ARRAY_BUFFER, VertexTrianglesVBOID);
     glVertexAttribPointer(positionLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, ColorTrianglesVBOID);
@@ -373,7 +378,7 @@ void Pavillon::drawShape(const char* shader_name)
     glVertexAttribPointer(normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndicesTrianglesVBOID);
-    glDrawElements(GL_TRIANGLES, indicesTrianglesLastLvlArraySize, GL_UNSIGNED_SHORT, 0);
+    glDrawElements(GL_TRIANGLES, indicesTrianglesLastLvlArraySize, GL_UNSIGNED_SHORT, 0);*/
 
     /* Disable attributes arrays */
     glDisableVertexAttribArray(positionLocation);

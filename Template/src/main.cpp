@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     cout << endl;
 
     /* Create application */
-	QApplication app(argc, argv);
+    QApplication app(argc, argv);
     TP01 win(shaderID, wireframeMode);
 
     win.adjustSize();

@@ -19,15 +19,13 @@ void Object3D::draw()
 {
     m_Framework->computeAncillaryMatrices();
 
-    GLint m_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "M");
     GLint v_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "V");
-    GLint p_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "P");
+    GLint nm_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "NM");
     GLint mv_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MV");
     GLint mvp_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MVP");
 
-    m_Framework->transmitM(m_id);
-    m_Framework->transmitV(v_id);
-    m_Framework->transmitP(p_id);
+    m_Framework->transmitNM(v_id);
+    m_Framework->transmitNM(nm_id);
     m_Framework->transmitMV(mv_id);
     m_Framework->transmitMVP(mvp_id);
 
@@ -40,10 +38,12 @@ void Object3D::draw(const char* shader_name)
     {
         m_Framework->computeAncillaryMatrices();
 
+        GLint v_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "V");
         GLint nm_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "NM");
         GLint mv_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MV");
         GLint mvp_id = glGetUniformLocation(m_Framework->getCurrentShaderId(), "MVP");
 
+        m_Framework->transmitNM(v_id);
         m_Framework->transmitNM(nm_id);
         m_Framework->transmitMV(mv_id);
         m_Framework->transmitMVP(mvp_id);
@@ -84,6 +84,7 @@ GLfloat* Object3D::ComputeSurfaceNormal (GLfloat p1[3], GLfloat p2[3], GLfloat p
     normal[1] = (U[3] * V[1]) - (U[1] * V[3]);
     normal[2] = (U[1] * V[2]) - (U[2] * V[1]);
 
+    cout.flush();
     return normal;
 }
 void Object3D::computeNormals(GLfloat *normals, GLfloat *vertices, GLushort nbVertices, GLushort *indices, GLushort nbIndices, bool isTriangleFan)
@@ -91,23 +92,22 @@ void Object3D::computeNormals(GLfloat *normals, GLfloat *vertices, GLushort nbVe
     GLfloat *tmpNormal;
     GLfloat p1[3], p2[3], p3[3];
     GLushort v1, v2, v3;
-    normals = new GLfloat[nbVertices];
 
     if(isTriangleFan)
     {
-        v1 = indices[0];
+        v1 = indices[0]*3;
         p1[0] = vertices[v1];
         p1[1] = vertices[v1+1];
         p1[2] = vertices[v1+2];
 
         for(GLushort i=1; i<nbIndices; i=i+1)
         {
-            v2 = indices[i];
+            v2 = indices[i]*3;
             p2[0] = vertices[v2];
             p2[1] = vertices[v2+1];
             p2[2] = vertices[v2+2];
 
-            v3 = indices[i+1];
+            v3 = indices[i+1]*3;
             p3[0] = vertices[v3];
             p3[1] = vertices[v3+1];
             p3[2] = vertices[v3+2];
@@ -131,17 +131,17 @@ void Object3D::computeNormals(GLfloat *normals, GLfloat *vertices, GLushort nbVe
     {
         for(GLushort i=0; i<nbIndices; i=i+3)
         {
-            v1 = indices[i];
+            v1 = indices[i]*3;
             p1[0] = vertices[v1];
             p1[1] = vertices[v1+1];
             p1[2] = vertices[v1+2];
 
-            v2 = indices[i+1];
+            v2 = indices[i+1]*3;
             p2[0] = vertices[v2];
             p2[1] = vertices[v2+1];
             p2[2] = vertices[v2+2];
 
-            v3 = indices[i+2];
+            v3 = indices[i+2]*3;
             p3[0] = vertices[v3];
             p3[1] = vertices[v3+1];
             p3[2] = vertices[v3+2];
