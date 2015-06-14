@@ -248,7 +248,7 @@ GlFramework::useShader( GLint shader_id )
     {
         if (m_CurrentShader != shader_id)
         {
-//            std::cout << "Use shader: " << shader_id << std::endl;
+            std::cout << "Use shader: " << shader_id << std::endl;
             m_CurrentShader = shader_id;
             glUseProgram( m_Shader[shader_id] );
         }
@@ -273,7 +273,6 @@ GlFramework::useShader( const char* shader_name )
         {
             if (m_CurrentShader != id)
             {
-//                std::cout << "Use shader: " << id << std::endl;
                 m_CurrentShader = id;
                 glUseProgram( m_Shader[id] );
             }

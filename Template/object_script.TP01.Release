@@ -15,4 +15,11 @@ INPUT(
 ./obj\material.o
 ./obj\table.o
 ./obj\matrix.o
+./obj\Cube.o
+./obj\Camera.o
+./obj\mainCam.o
+./obj\Matrix33.o
+./obj\Matrix44.o
+./obj\Quaternion.o
+./obj\Vector3.o
 );

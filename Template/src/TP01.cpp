@@ -7,17 +7,26 @@
 
 #include <iostream>
 
+#include <QPixmap>
+#include "Camera.h"
+#include <GlFramework.h>
+
 using namespace std;
 
 /* Camera variables */
 GLfloat angle1 = 0;
 GLfloat angle2 = 0;
 
-const GLfloat g_AngleSpeed = 15.0f;
+const GLfloat g_AngleSpeed = 2.0f*DEG2RAD;
+const GLfloat g_MoveSpeed = 1.0f;
 
 /* Camera variables */
 Diamond* g_diamond;
 
+Camera* g_camera;
+bool m_keyRight, m_keyLeft, m_keyDown, m_keyUp; // Translate
+bool m_IPlus, m_IMinus, m_KPlus, m_KMinus;      // Rotation
+bool m_keySpace;                                // Re-center
 
 TP01::TP01(int16 shaderID = 0, boolean wireframeMode = false)
 {    
@@ -39,6 +48,13 @@ TP01::TP01(int16 shaderID = 0, boolean wireframeMode = false)
 
     this->color = COLOR_SPRINGGREEN;
     g_diamond = new Diamond(pavillon, crown, rondiste, table, radius, complexity, this->color, alpha, lvlPavillon, lvlCrown);
+
+    g_camera = new Camera();
+
+    m_keyDown = false;
+    m_keyLeft = false;
+    m_keyRight = false;
+    m_keyUp = false;
 }
 TP01::~TP01()
 {
@@ -51,6 +67,8 @@ bool TP01::initializeObjects()
 	glClearColor( 0.2f, 0.2f, 0.2f, 1.0f );
     glEnable(GL_DEPTH_TEST);
 
+    bool find = false;
+
     /* Shaders settings */
     if(this->shaderID == 1){
         createShader("release/Shaders/defaultDiffuseRandomGradientShader");
@@ -58,36 +76,64 @@ bool TP01::initializeObjects()
     }
     else if(this->shaderID == 2){
         createShader("release/Shaders/defaultDiffuseLightningShader");
-        useShader("defaultDiffuseLightningShader");
+        find = useShader("defaultDiffuseLightningShader");
 
         createMaterial();
         createLight();
     }
     else {
         createShader("release/Shaders/defaultDiffuseShader");
-        useShader("defaultDiffuseShader");
+        find = useShader("defaultDiffuseShader");
     }
 
-    if(this->wireframeMode)
+    if(this->wireframeMode == true)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	return true;
 }
 void TP01::render()
 {
-    /* Initialisation de la caméra */
-    lookAt(-20, 10, 0, 20, 0, 0);
+    // Utilisation de la caméra libre
+    if (m_keySpace) g_camera->reset();
+    if (m_keyUp)    g_camera->translateZ(g_MoveSpeed);
+    if (m_keyDown)  g_camera->translateZ(-g_MoveSpeed);
+    if (m_keyRight) g_camera->translateX(g_MoveSpeed);
+    if (m_keyLeft)  g_camera->translateX(-g_MoveSpeed);
+
+    if (m_IPlus)    g_camera->rotateX(g_AngleSpeed);
+    if (m_IMinus)   g_camera->rotateX(-g_AngleSpeed);
+    if (m_KPlus)    g_camera->rotateY(g_AngleSpeed);
+    if (m_KMinus)   g_camera->rotateY(-g_AngleSpeed);
+
+    g_camera->buildViewMatrix();
+    g_camera->buildProjectionMatrix();
+
+    GLMatrix matView = g_camera->getViewGLMatrix();
+    GLMatrix matProj = g_camera->getProjectionGLMatrix();
+
+    setViewMatrix(matView);
+    setProjMatrix(matProj);
 
     if(this->shaderID == 2)
         this->light->updateLight();
+    g_diamond->draw();
 
-    /* Rendu des objets */
-    pushMatrix();
-        rotate(angle1, 0, 1, 0);
-        rotate(angle2, 1, 0, 0);
+    /*pushMatrix();
+        translate(0.0f, 7.0f, 1.0f);
+        float color[] = {1.0f, 1.0f, 0.0f};
+        Cube cu = Cube(7.0f, color);
+        cu.draw();
+    popMatrix();*/
 
-        g_diamond->draw();
-    popMatrix();
+    m_keyUp = false;
+    m_keyDown = false;
+    m_keyRight = false;
+    m_keyLeft = false;
+    m_IMinus = false;
+    m_IPlus = false;
+    m_KPlus = false;
+    m_KMinus = false;
+    m_keySpace = false;
 }
 
 void TP01::keyPressEvent(QKeyEvent* event)
@@ -96,27 +142,47 @@ void TP01::keyPressEvent(QKeyEvent* event)
 	{
 		case Qt::Key_Escape:
 			close();
-			break;
+            break;
 
-		case Qt::Key_Left:
-			angle1 -= g_AngleSpeed;
-			break;
+        case Qt::Key_Space:
+            m_keySpace = true;
+            break;
 
-		case Qt::Key_Right:
-			angle1 += g_AngleSpeed;
-			break;
+        case Qt::Key_Left:
+            m_keyLeft = true;
+            break;
 
-		case Qt::Key_Up:
-			angle2 -= g_AngleSpeed;
-			break;
+        case Qt::Key_Right:
+            m_keyRight = true;
+            break;
 
-		case Qt::Key_Down:
-			angle2 += g_AngleSpeed;
-			break;
+        case Qt::Key_Up:
+            m_keyDown = true;
+            break;
 
-		case Qt::Key_R:
-			angle1 = angle2 = 0.0f;
-			break;
+        case Qt::Key_Down:
+            m_keyUp = true;
+            break;
+
+        case Qt::Key_Z:
+            m_IMinus = true;
+            break;
+
+        case Qt::Key_S:
+            m_IPlus = true;
+            break;
+
+        case Qt::Key_D:
+            m_KPlus = true;
+            break;
+
+        case Qt::Key_Q:
+            m_KMinus = true;
+            break;
+
+//		case Qt::Key_R:
+//			angle1 = angle2 = 0.0f;
+//			break;
 	}
 }
 

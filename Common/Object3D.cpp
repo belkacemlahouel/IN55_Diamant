@@ -33,7 +33,6 @@ void Object3D::draw()
 }
 void Object3D::draw(const char* shader_name)
 {
-    std::cout << m_Framework->getCurrentShaderId() << std::endl;
     if (m_Framework->useShader(shader_name))
     {
         m_Framework->computeAncillaryMatrices();

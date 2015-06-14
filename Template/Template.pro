@@ -34,7 +34,13 @@ HEADERS += \
     src/lightsource.h \
     src/material.h \
     src/BasicObjects/table.h \
-    src/Tools/matrix.h
+    src/Tools/matrix.h \
+    src/BasicObjects/Cube.h \
+    src/Camera.h \
+    src/Matrix33.h \
+    src/Matrix44.h \
+    src/Quaternion.h \
+    src/Vector3.h
 
 SOURCES += \
     src/main.cpp \
@@ -52,6 +58,13 @@ SOURCES += \
     src/lightsource.cpp \
     src/material.cpp \
     src/BasicObjects/table.cpp \
-    src/Tools/matrix.cpp
+    src/Tools/matrix.cpp \
+    src/BasicObjects/Cube.cpp \
+    src/Camera.cpp \
+    src/mainCam.cpp \
+    src/Matrix33.cpp \
+    src/Matrix44.cpp \
+    src/Quaternion.cpp \
+    src/Vector3.cpp
 
 DISTFILES +=
