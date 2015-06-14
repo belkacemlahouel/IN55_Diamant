@@ -115,7 +115,7 @@ void TP01::render()
     g_camera->buildViewMatrix();
     g_camera->buildProjectionMatrix();
 
-    g_camera->getViewMatrix().print();
+    // g_camera->getViewMatrix().print();
 
     GLMatrix matView = g_camera->getViewGLMatrix();
     GLMatrix matProj = g_camera->getProjectionGLMatrix();

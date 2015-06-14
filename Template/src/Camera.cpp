@@ -6,8 +6,8 @@ Camera::Camera() : fieldOfView(70.0f*DEG2RAD), farPlan(20.0f), nearPlan(5.0f), a
     j = Vector3(0.0f, 1.0f, 0.0f);
     k = Vector3(0.0f, 0.0f, 1.0f);
 
-    m_Position = Vector3(0.0f, 6.0f, -20.0f);
-    m_Orientation = Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+    m_Position = Vector3(0.0f, 6.0f, 20.0f);
+    m_Orientation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 
     buildProjectionMatrix();
     buildViewMatrix();
@@ -19,8 +19,8 @@ void Camera::reset()
 //    farPlan = 20.0f;
 //    nearPlan = 5.0f;
 //    aspectRatio = 0.7f;
-    m_Position = Vector3(0.0f, 6.0f, -20.0f);
-    m_Orientation = Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+    m_Position = Vector3(0.0f, 6.0f, 10.0f);
+    m_Orientation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 
     i = Vector3(1.0f, 0.0f, 0.0f);
     j = Vector3(0.0f, 1.0f, 0.0f);
@@ -41,20 +41,23 @@ void Camera::translate(float dx, float dy, float dz)
 
 void Camera::translateX(float dx)
 {
-    m_Position += Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f)) * dx;
-//     m_Position += /*Quaternion::image(m_Orientation, i) **/ dx*i;
+//    m_Position += Quaternion::image(m_Orientation, i) * dx;
+//    m_Position += Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f)) * dx;
+     m_Position += dx*i;
 }
 
 void Camera::translateY(float dy)
 {
-    m_Position += Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f)) * dy;
-//     m_Position += /*Quaternion::image(m_Orientation, j) **/ dy*j;
+//    m_Position += Quaternion::image(m_Orientation, j) * dy;
+//    m_Position += Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f)) * dy;
+     m_Position += dy*j;
 }
 
 void Camera::translateZ(float dz)
 {
-    m_Position += Quaternion::image(m_Orientation, Vector3(0.0f, 0.0f, 1.0f)) * dz;
-//     m_Position += /*Quaternion::image(m_Orientation, k) **/ dz*k;
+//    m_Position += Quaternion::image(m_Orientation, k) * dz;
+//    m_Position += Quaternion::image(m_Orientation, Vector3(0.0f, 0.0f, 1.0f)) * dz;
+     m_Position += dz*k;
 }
 
 /***/
@@ -68,36 +71,38 @@ void Camera::rotate(float angle, float ax, float ay, float az)
     rotation.setFromAxisAngle(angle, ax, ay, az);
     rotation.normalize();
 
-    // m_Orientation *= rotation.inverseNew();
-    m_Orientation.normalize();
-    m_Orientation.print2(); cout << "-->";
-    m_Orientation = rotation * m_Orientation;
-    m_Orientation.normalize();
-    m_Orientation.print2(); cout << endl;
-
     i = Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f));
     j = Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f));
     k = Quaternion::image(m_Orientation, Vector3(0.0f, 0.0f, 1.0f));
+
+    // m_Orientation *= rotation.inverseNew();
+    m_Orientation.normalize();
+//    m_Orientation.print2(); cout << "-->";
+    m_Orientation = rotation * m_Orientation;
+    m_Orientation.normalize();
+//    m_Orientation.print2(); cout << endl;
+
+
 
     // m_Position = Quaternion::image(rotation, m_Position);
 }
 
 void Camera::rotateX(float angle)
 {
-    // rotate(angle, i.getX(), i.getY(), i.getZ());
-    rotate(angle, 1.0f, 0.0f, 0.0f);
+     rotate(angle, i.getX(), i.getY(), i.getZ());
+//    rotate(angle, 1.0f, 0.0f, 0.0f);
 }
 
 void Camera::rotateY(float angle)
 {
-    // rotate(angle, j.getX(), j.getY(), j.getZ());
-    rotate(angle, 0.0f, 1.0f, 0.0f);
+     rotate(angle, j.getX(), j.getY(), j.getZ());
+//    rotate(angle, 0.0f, 1.0f, 0.0f);
 }
 
 void Camera::rotateZ(float angle)
 {
-    // rotate(angle, k.getX(), k.getY(), k.getZ());
-    rotate(angle, 0.0f, 0.0f, 1.0f);
+     rotate(angle, k.getX(), k.getY(), k.getZ());
+//    rotate(angle, 0.0f, 0.0f, 1.0f);
 }
 
 /***/
@@ -185,9 +190,16 @@ GLMatrix Camera::getProjectionGLMatrix() const
 
 void Camera::buildViewMatrix()
 {
-    Vector3 ni(Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f)));
-    Vector3 nj(Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f)));
-    Vector3 nk(Quaternion::image(m_Orientation, Vector3(0.0f, 0.0f, 1.0f)));
+    Vector3 ni(Quaternion::image(m_Orientation, Vector3(1.0f, 0.0f, 0.0f))); ni.print(); cout << " ";
+    Vector3 nj(Quaternion::image(m_Orientation, Vector3(0.0f, 1.0f, 0.0f))); nj.print(); cout << " ";
+    Vector3 nk(Quaternion::image(m_Orientation, Vector3(0.0f, 0.0f, 1.0f))); nk.print(); cout << " ";
+
+    cout << "***" << endl;
+
+//    Vector3 ni(Quaternion::image(m_Orientation, i));
+//    Vector3 nj(Quaternion::image(m_Orientation, j));
+//    Vector3 nk(Quaternion::image(m_Orientation, k));
+
     Vector3 imgPosition(Quaternion::image(m_Orientation, m_Position));
 
     float view[MATRIX44_SIZE] = {ni.getX(), nj.getX(), nk.getX(), -imgPosition.getX(), // + m_Position.getX(),
