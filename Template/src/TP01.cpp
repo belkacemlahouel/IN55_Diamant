@@ -128,8 +128,8 @@ void TP01::render()
     pushMatrix();
         translate(0.0f, 7.0f, 1.0f);
         float color[] = {1.0f, 1.0f, 0.0f};
-        Cube cu = Cube(7.0f, color);
-        cu.draw();
+        //Cube cu = Cube(7.0f, color);
+        //cu.draw();
     popMatrix();
 
     m_keyUp = false;
