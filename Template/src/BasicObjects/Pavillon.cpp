@@ -32,7 +32,8 @@ Pavillon::Pavillon(float32 radius, float32 totalHeight, float32 firstLevelHeight
 
     pavillonIndices[0] = 0;
 
-    float32 halfRadius = radius*0.5f;
+    //float32 halfRadius = radius*0.5f;
+    float32 halfRadius = radius*(firstLevelHeight/totalHeight);
     float32 angle = 2*M_PI/nbPtLvl1;
 
     //cout << endl << angle << endl << endl;
